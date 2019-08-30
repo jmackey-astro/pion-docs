@@ -1,0 +1,311 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>README &#8212; PION  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="PION License" href="license.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="readme">
+<h1>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><strong>Author</strong>:</th><td class="field-body">Jonathan Mackey</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><strong>Version</strong>:</th><td class="field-body">1.0</td>
+</tr>
+<tr class="field-odd field"><th class="field-name"><strong>Date</strong>:</th><td class="field-body">2017.09.14</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IMPORTANT INFORMATION</strong></p>
+<p>Please read the licence file.  Using this code implies acceptance of
+the terms of the licence for pion.  Sharing and/or publishing the
+source code can also only be done according to the licence
+conditions.</p>
+<p>For more detailed information about using the code, see the Users Guide in
+pion/docs/.</p>
+<p><strong>COMPILING CODE</strong></p>
+<p>Stages:</p>
+<ol class="arabic simple">
+<li>compile external libraries.</li>
+<li>run serial code compilation script, and/or</li>
+<li>run parallel code compilation script.</li>
+<li>copy the executables to wherever you want to run the code.</li>
+</ol>
+<p>First you need to compile extra libraries.
+On debian/Ubuntu Linux distributions you should be able to install the
+packages:</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">libsundials-serial-dev</span> <span class="pre">libsundials-serial</span>
+<span class="pre">libsiloh5-0</span> <span class="pre">libsilo-bin</span> <span class="pre">libsilo-dev</span>
+<span class="pre">libcfitsio-dev</span> <span class="pre">libcfitsio-bin</span></code></div></blockquote>
+<p>On other systems you may have to compile Silo, Sundials, and Cfitsio
+from source.  Here is how:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">to</span> <span class="s2">&quot;./extra_libraries&quot;</span>
+</pre></div>
+</div>
+<p>From the command line, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">install_all_libs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>to install. The script needs internet access to download the source code for the libraries.
+It also needs cmake, c, c++, fortran compilers to be installed on the system.</p>
+<p>Then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">./</span><span class="n">bin_serial</span>
+</pre></div>
+</div>
+<p>and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">compile_code</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>if you are lucky it will detect that you are using a standard
+workstation and will just compile.  If you are running Microsoft
+Windows it almost certainly won’t compile, and I have no expertise
+to help you get it working, so “good luck”.  On a UNIX/Linux
+workstation or OS X (with x-code installed) it should compile ok.</p>
+<p>If there are linking errors to silo (references to PDB and/or H5) or
+fits (references to ff**** functions) or cvode/nvector then the
+libraries didn’t link and may have failed to compile.</p>
+<p>If all went well, there should be no error messages and there should
+be two executable files in ../ (i.e. the PION root directory):</p>
+<ul class="simple">
+<li>“icgen_serial” for generating initial conditions, and</li>
+<li>“pion_serial” for running the code.</li>
+</ul>
+<p>Most code options are decided at run-time not compile-time, so you
+shouldn’t have to change any #define statements in the code.</p>
+<p>If there are errors before linking, then there must be a problem with
+the source code, maybe due to some c++ header files not being
+installed.</p>
+<p>Either way, probably email me at <a class="reference external" href="mailto:jmackey&#37;&#52;&#48;cp&#46;dias&#46;ie">jmackey<span>&#64;</span>cp<span>&#46;</span>dias<span>&#46;</span>ie</a> and I’ll
+see what I can do to help.  Quote the exact error message in the
+email.  Or open an “issue” on the bitbucket PION pages:
+<a class="reference external" href="https://bitbucket.org/jmackey/pion/issues">https://bitbucket.org/jmackey/pion/issues</a></p>
+<p>If you are not using Linux/UNIX then the Makefile and/or
+compile_code.sh script may need editing.</p>
+<p>(3) ** compile PARALLEL version of the code **
+cd to ../bin_parallel/ and run “bash compile_code.sh”.
+Again, if you are lucky it will just compile.
+If compilation is successful then the files ../pion_parallel and
+../icgen_parallel will exist.</p>
+<p>In the event that it doesn’t compile follow the same procedure as for
+the serial version of the code.</p>
+<p><strong>RUNNING CODE</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">TESTS:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>First you want to make sure the code tests run ok.  I’m still working
+on this, but there is a subdirectory called “test_problems”.  Here you
+can run some test problems with known solutions.</p>
+<p>The Double-Mach-Reflection is a good test, and should run fine with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_double_Mach_reflection_test</span><span class="o">.</span><span class="n">sh</span> <span class="o">&lt;</span><span class="n">RES</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">DIR</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li>&lt;RES&gt; is 130, 260, or 520, for the spatial resolution of the
+grid that you want to use,</li>
+<li>&lt;DIR&gt; is the path to the directory to save the data.  If &lt;DIR&gt; is
+left blank then it saves in data_YYYYMMDD/ in the current directory.</li>
+</ul>
+<p>The script runs the test with the given grid resolution for a number
+of different Riemann solvers, saving a few snapshots in &lt;DIR&gt;.</p>
+<p>The script will generate jpeg figures that you can compare with
+<a class="reference external" href="https://homepages.dias.ie/jmackey/jmac/node10.html">https://homepages.dias.ie/jmackey/jmac/node10.html</a> figures.
+Note that you need to install VisIt for this script to work.  We are
+working on a python script to do the plotting instead.
+The figs should look indistinguishable to the naked eye.  If not
+something is probably wrong.</p>
+<p><em>[There are currently a lot of test problems in the</em>
+<em>test_problems/untested directory; these used to work, but need some</em>
+<em>work to get them working again.]</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">MORE COMPLICATED SIMULATIONS:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>cd to the pion root directory.
+Here there are the two executables: <cite>icgen_serial</cite> and <cite>pion_serial</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">icgen_serial:</th><td class="field-body">will read a parameter file and based on the values read
+in, it will set up a grid with the appropriate geometry and size and
+populate it with the requested data, also setting the correct boundary
+conditions for the problem.  It then writes this to a initial
+conditions file, which is identical to a restart/checkpointing file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">pion_serial:</th><td class="field-body">will read an initial conditions file, or a
+restart/checkpoint/output file (they are all the same) and
+start/restart the simulation and run until it gets to “finishtime”, at
+which point it will output data and stop.  You can get a list of
+command-line options by typing <code class="docutils literal notranslate"><span class="pre">./pion_serial</span></code> with no arguments.</td>
+</tr>
+</tbody>
+</table>
+<p>A typical simulation run is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./icgen_serial params_test_winds.txt silo
+$ ./pion_serial wind_test1.00000000.silo op_criterion=1 \
+opfreq_time=1.58e10 cooling=0 redirect=test1 \
+outfile=/path/to/results/wind_test1 cfl=0.1
+</pre></div>
+</div>
+<p>In icgen_serial, the first argument is the parameter-file, and the second
+tells it to write a silo file (rather than fits).</p>
+<p>For main serial, the arguments refer to:</p>
+<p><strong>REQUIRED ARGUMENTS</strong></p>
+<ol class="arabic simple">
+<li>wind_test1.00000000.silo   initial conditions filename (set by user!).</li>
+</ol>
+<p><strong>OPTIONAL ARGUMENTS</strong></p>
+<ol class="arabic simple">
+<li>op_criterion=1              output every n-time units (not n-steps)</li>
+<li>opfreq_time=1.58e10         output frequency (in code seconds)</li>
+<li>cooling=0                   no cooling</li>
+<li>redirect=test1              redirect stdout to file ./test1info.txt</li>
+<li>outfile=/path/to/results/wind_test1                         output file name with path (will be appended with step number)</li>
+<li>cfl=0.1                     Courant number (&lt;1 in 1D, &lt;0.5 2D, &lt;0.35 in 3D) and less with cooling etc.</li>
+</ol>
+<p><strong>Parameter files</strong></p>
+<p>Have a look in <code class="docutils literal notranslate"><span class="pre">source/ics/pfiles</span></code> for some parameter
+files.  Some of these are out of date, but if you look at the more
+recent ones they should work ok.</p>
+<p>You need to edit a parameter file for the problem you want to run.
+Probably copy the template file from <code class="docutils literal notranslate"><span class="pre">ics/pfiles/</span></code> to <code class="docutils literal notranslate"><span class="pre">bin/</span></code> since
+the templates are under version control and should only be updated if
+they become obselete because of new code features.  a ‘#’ at the start
+of a line means it is ignored.  Alternatively you can get parameter
+files from the test_problems directory.</p>
+<p>The most important parameter is “ics” which determines the correct
+grid-setup routine to call.  Then down at the bottom there is a
+section for “Parameters specific to a given problem”; these are the
+physical properties of what you want to put into the simulation:
+ambient medium density, dense clumps with some radius, shocks, etc.</p>
+<dl class="docutils">
+<dt>“solver”(important)  this is the solver to use for the flux calculation.</dt>
+<dd>For the Euler equations (no magnetic fields) you can use
+any of 1-6.  I recommend 3, 4 or 6. (1 is bad, 2 is slow, 6 is pretty
+good).
+1 = approximate linear Riemann solver
+2 = exact Riemann solver (slow!) (HD only)
+3 = hybrid approximate/exact Riemann solver (HD only)
+4 = Roe conserved variable Riemann solver
+5 = Roe primitive variable Riemann solver (may have problems!)
+6 = van Leer’s flux vector splitting (HD only)
+7 = HLLD (MHD only)</dd>
+</dl>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PION</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">PION License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html#disclaimer">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html#conditions-of-use-and-redistribution">CONDITIONS OF USE AND REDISTRIBUTION</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">README</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="license.html" title="previous chapter">PION License</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Jonathan Mackey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/usage/readme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
