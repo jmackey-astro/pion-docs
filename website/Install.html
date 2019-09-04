@@ -1,0 +1,39 @@
+PION can be compiled from source on a number of systems, and depends on a few libraries.  This page describes how to get PION installed on a Debian-based linux system such as <a href="https://www.debian.org/" target="_blank" rel="noopener noreferrer">Debian</a> or <a href="https://ubuntu.com/" target="_blank" rel="noopener noreferrer">Ubuntu</a>, and on OS X with macports for support programmes.
+<h3>Getting Source code</h3>
+PION will soon be available from <a href="https://git.dias.ie/compastro/pion" target="_blank" rel="noopener noreferrer">https://git.dias.ie/compastro/pion</a>, but currently this is a private repo; if you want access send a request to <a href="mailto:info@pion.ie" target="_blank" rel="noopener noreferrer">info@pion.ie</a>.
+<h3>System requirements and support libraries</h3>
+On all systems you will need a C++ compiler such as <a href="https://gcc.gnu.org/" target="_blank" rel="noopener noreferrer">g++</a>, an <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface" target="_blank" rel="noopener noreferrer">MPI</a> implementation such as <a href="https://www.mpich.org/" target="_blank" rel="noopener noreferrer">MPICH</a> or <a href="https://www.open-mpi.org" target="_blank" rel="noopener noreferrer">OpenMPI</a> for parallel compilation and execution.  If you are downloading from the git repo, you will also need <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">git</a>.
+
+A few libraries are needed to run PION:
+<ul>
+ 	<li>Microphysics is handled by the <a href="https://computing.llnl.gov/projects/sundials/cvode" target="_blank" rel="noopener noreferrer">CVODE</a> solver, part of the <a href="https://computing.llnl.gov/projects/sundials" target="_blank" rel="noopener noreferrer">SUNDIALS</a> suite of solvers.  At present PION works with the version of SUNDIALS in debian 9, version 2.5, and other 2.X releases.  This is significantly behind the release cycle of SUNDIALS.  It will be updated to version 3.X once development is moved to debian 10 systems.</li>
+ 	<li>Data I/O can use ASCII text, <a href="https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" target="_blank" rel="noopener noreferrer">FITS</a>, and <a href="https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" target="_blank" rel="noopener noreferrer">SILO</a>, which are appropriate for different situations.  Parallel execution on HPC systems should use SILO because it is built on the HDF library and has good performance on supercomputers.  SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.</li>
+ 	<li>Interpolation routines use the <a href="https://www.gnu.org/software/gsl/doc/html/interp.html" target="_blank" rel="noopener noreferrer">spline functions</a> of the <a href="https://www.gnu.org/software/gsl/" target="_blank" rel="noopener noreferrer">GNU Scientific Library</a> (GSL).</li>
+</ul>
+FITS, SILO and CVODE can either use system libraries or self-compiled libraries.  The GSL must be present as a system library.
+<h3>Debian/Ubuntu</h3>
+Ubuntu 18.04 and Debian 9 haver the same package names.  Newer versions are currently not yet working with PION.
+<ul>
+ 	<li>First install the required packages:
+<pre> $ apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
+   libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev</pre>
+In principle mpich could also be used as the MPI C++ compiler, but one of the silo libraries depends explicitly on the openmpi version of the HDF5 libraries, so the mpich compiler doesn't work with the silo library.</li>
+ 	<li>If you have SILO, FITS, GSL and SUNDIALS installed as .deb packages, then you don't need to compile any extra libraries.</li>
+ 	<li>Download PION (see above) into a directory <code>&lt;pion&gt;</code></li>
+ 	<li>Change directory from the PION root directory <code>&lt;pion&gt;</code> to <code>bin_serial/</code> and run <code>./compile_code.sh</code>.</li>
+ 	<li>This should generate executables in directory <code>&lt;pion&gt;</code> for initial condition generation <code>icgen_serial</code>, <code>icgen_NG_serial</code>, and simulation <code>pion_serial</code> and <code>pion_NG_serial</code>. If there were errors and the executables were not generated then some troubleshooting is needed.</li>
+ 	<li>Change directory from the PION root directory <code>&lt;pion&gt;</code> to <code>bin_parallel/</code> and run <code>./compile_code.sh</code>.</li>
+ 	<li>Similary to the serial version, this should generate MPI-parallelised executables in directory <code>&lt;pion&gt;</code> for initial condition generation, namely <code>icgen_pllel</code> and <code>icgen_NG_pllel</code>, and simulation, <code>pion_parallel</code> and <code>pion_NG_parallel</code>.</li>
+</ul>
+<h3>OS X</h3>
+PION has been tested on OS X Mojave (10.14.6) with software installed via the <a href="https://www.macports.org/" target="_blank" rel="noopener noreferrer">macports</a> framework.  The MPI compiler used is mpich.  It is compiled with statically linked libraries.
+<ul>
+ 	<li>Download PION (see above) into a directory <code>&lt;pion&gt;</code></li>
+ 	<li>Change directory from PION root directory <code>&lt;pion&gt;</code> to <code>extra_libraries/</code>.</li>
+ 	<li>Run <code>bash install_all_libs.sh</code> to download and generate libraries for compatible versions of SILO, SUNDIALS and FITS.</li>
+ 	<li>Check that the headers exist for all three packages in <code>extra_libraries/include/</code> and the libraries in <code>extra_libraries/lib</code>. If not, then some troubleshooting is needed.</li>
+ 	<li>Change directory from the PION root directory <code>&lt;pion&gt;</code> to <code>bin_serial/</code> and run <code>./compile_code.sh</code>.</li>
+ 	<li>This should generate executables in directory <code>&lt;pion&gt;</code> for initial condition generation <code>icgen_serial</code>, <code>icgen_NG_serial</code>, and simulation <code>pion_serial</code> and <code>pion_NG_serial</code>. If there were errors and the executables were not generated then some troubleshooting is needed.</li>
+ 	<li>Change directory from the PION root directory <code>&lt;pion&gt;</code> to <code>bin_parallel/</code> and run <code>./compile_code.sh</code>.</li>
+ 	<li>Similary to the serial version, this should generate MPI-parallelised executables in directory <code>&lt;pion&gt;</code> for initial condition generation, namely <code>icgen_pllel</code> and <code>icgen_NG_pllel</code>, and simulation, <code>pion_parallel</code> and <code>pion_NG_parallel</code>.</li>
+</ul>
