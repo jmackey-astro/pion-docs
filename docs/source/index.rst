@@ -1,6 +1,9 @@
 PION: simulations of nebulae around stars
 ================================
 
+Documentation is in process of being developed...
+
+
 Here's some text explaining some veery complicated stuff.::
 
     print 'hello'
