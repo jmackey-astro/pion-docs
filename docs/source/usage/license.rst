@@ -1,3 +1,6 @@
+
+.. _pion-license:
+
 PION LICENSE
 ==============
 

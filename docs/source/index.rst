@@ -19,9 +19,11 @@ PION was written to model the evolution of HII regions, photoionized bubbles tha
 Guide
 ^^^^^
 .. toctree::
-  :maxdepth: 2
+  :numbered:
+  :maxdepth: 3
 
   getting_started.rst
+  example_sim.rst
   usage/license.rst
   usage/readme.rst 
   stellar_winds.rst

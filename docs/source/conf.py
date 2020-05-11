@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'PION'
-copyright = u'2019, Jonathan Mackey'
+copyright = u'2020, Jonathan Mackey'
 author = u'Jonathan Mackey'
 
 # The short X.Y version

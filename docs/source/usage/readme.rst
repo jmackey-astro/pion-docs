@@ -1,26 +1,26 @@
 
-PION
--------
+PION README
+===========
 
 PION is open source software primarily for simulation of nebulae around stars, but also for other astrophysical applications.  It has an open development model, where anyone can download and use the software, change it to suit their needs, and contribute changes back to the user community.
 
 
 
 Information
-=============
+----------------
 
- * The PION homepage is at [https://www.pion.ie](https://www.pion.ie)
+ * The PION homepage is at `https://www.pion.ie <https://www.pion.ie>`_.
 
- * The git repository to obtain the latest version of PION is at [https://git.dias.ie/compastro/pion](https://git.dias.ie/compastro/pion)
+ * The git repository to obtain the latest version of PION is at `https://git.dias.ie/compastro/pion <https://git.dias.ie/compastro/pion>`_.
 
- * Python routines and libraries for visualising results are at [https://git.dias.ie/compastro/pion_python](https://git.dias.ie/compastro/pion_python)
+ * Python routines and libraries for visualising results are at `https://git.dias.ie/compastro/pion_python <https://git.dias.ie/compastro/pion_python>`_.
 
- *  Contact [info@pion.ie](mailto:info@pion.ie) for help and information
+ *  Contact `info@pion.ie <mailto:info@pion.ie>`_ for help and information.
 
 
 
 Developers
-==============
+----------------
 
 The following people have contributed to the development of PION:
 
@@ -28,13 +28,13 @@ The following people have contributed to the development of PION:
   * Margueritta Goulden   
   * Samuel Green
   * Andrew Lim
-  * Jonathan Mackey       <jmackey@cp.dias.ie>
+  * Jonathan Mackey       `jmackey@cp.dias.ie <mailto:jmackey@cp.dias.ie>`_
   * Maria Moutzouri    
 
 
-Licence
-===========
+License
+----------------
 
-PION is distributed under a BSD3 License.  Downloading, using, modifying and/or re-distributing the software implies acceptance of the License.  See LICENCE.rst.
+PION is distributed under a BSD3 License.  Downloading, using, modifying and/or re-distributing the software implies acceptance of the License.  See :ref:`pion-license`
 
 
