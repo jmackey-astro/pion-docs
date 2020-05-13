@@ -24,6 +24,8 @@ Guide
 
   getting_started.rst
   example_sim.rst
+  nested_grid.rst
+  parameter-file.rst
   stellar_winds.rst
   usage/license.rst
   usage/readme.rst 
