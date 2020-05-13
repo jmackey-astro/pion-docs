@@ -24,9 +24,9 @@ Guide
 
   getting_started.rst
   example_sim.rst
+  stellar_winds.rst
   usage/license.rst
   usage/readme.rst 
-  stellar_winds.rst
 
 
 Indices and tables
