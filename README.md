@@ -2,7 +2,9 @@ This is for PION documentation.
 
 The `website/` directory is approximately a clone of the wordpress site at [www.pion.ie](https://www.pion.ie/)
 
-The `docs/` directory is where the Sphinx documentation is hosted.
+The `docs/` directory is where the Sphinx documentation is hosted, which can be manually synced with [https://www.pion.ie/docs/](https://www.pion.ie/docs/).
+Only Jonathan Mackey can update the online version of the PION docs at [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via the DIAS webpage updating interface.
+This repo is for keeping a master copy of the documentation.
 
 From the `docs/` directory you can generate and view html in `build/html/` by running the command:
 
@@ -13,8 +15,6 @@ From the `docs/` directory you can generate and view html in `build/html/` by ru
 
 The source text is using [reStructuredText](https://www.sphinx-doc.org/en/stable/usage/restructuredtext/index.html) format, and is in `docs/source/`
 
-Only Jonathan Mackey can update the online version of the PION docs at [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via the DIAS webpage updating interface.
-This repo is for keeping a master copy of the source code for the documentation.
 
 Please don't add anything in `/docs/build` to the repository, only your changes to the source code.
 A good way to not add in new files is with the `-a` flag:
