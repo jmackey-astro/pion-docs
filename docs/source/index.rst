@@ -6,15 +6,6 @@ PION: simulations of nebulae around stars
 PION was written to model the evolution of HII regions, photoionized bubbles that form around hot stars, and developed to include stellar wind sources so that both wind bubbles and photoionized bubbles can be simulated at the same time. It is versatile enough to be extended to other applications.
 
 
-+ :ref:`introduction`.
-+ :ref:`getting-pion`.
-+ :ref:`system-reqs`.
-+ :ref:`compilation`.
-+ :ref:`example-sim`.
-
-
-
-
 
 Guide
 ^^^^^
