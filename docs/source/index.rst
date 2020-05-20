@@ -15,6 +15,7 @@ Guide
 
   getting_started.rst
   example_sim.rst
+  python.rst
   nested_grid.rst
   parameter-file.rst
   stellar_winds.rst
