@@ -30,7 +30,7 @@ First things first: PION is free software; you can download it and redistribute 
 In particular, this software is provided by the author "as is", in the hope that it will be useful, but any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed.
 
 
-The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/compastro/pion <https://git.dias.ie/compastro/pion>`_.  You can clone a copy of the source into a new directory called pion with the following command:
+The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/compastro/pion <https://git.dias.ie/compastro/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command:
 
 .. code-block:: bash 
 
@@ -38,7 +38,7 @@ The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab 
 
 Alternatively you can download a zip-file with the source code from `https://git.dias.ie/compastro/pion/-/archive/master/pion-master.zip <https://git.dias.ie/compastro/pion/-/archive/master/pion-master.zip>`_ if you prefer.
 
-If these commands don't work and/or you are asked to sign-in to the DIAS "Gitlab Enterprise Edition", then you are reading this documentation before the code goes public.
+**If these commands don't work and/or you are asked to sign-in to the DIAS "Gitlab Enterprise Edition", then you are reading this documentation before the code goes public.**
 
 
 
