@@ -159,6 +159,7 @@ FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
   
     + Run your linux distro to set it up and then install PION as if you were properly using Linux :ref:`system-reqs`.
 
+
 .. _compilation:
 
 Compiling PION
@@ -168,8 +169,8 @@ There are two options for compiling PION, the serial version which runs on a sin
 
 Once you have installed the required support libraries, you can compile PION with standard options via:
 
-  + Parallel version: :code:`$ bash pion/bin_parallel/compile_code.sh`
-  + Serial version: :code:`$ bash pion/bin_serial/compile_code.sh`
+  + Parallel version: :code:`$ cd pion/bin_parallel/; bash compile_code.sh`
+  + Serial version: :code:`$ cd pion/bin_serial/; bash compile_code.sh`
 
 
 This should create some executable files in the directory ``pion/``, for the parallel version these are:
