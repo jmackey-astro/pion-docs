@@ -1,12 +1,13 @@
 .. _getting-started:
 
+******************************
 Getting Started
-===========================
+******************************
 
 .. _introduction:
 
 Introduction to PION
-----------------------------------
+-------------------------------
 
 PION is written in object-oriented C++ with the following modules:
 
@@ -52,112 +53,128 @@ PION has been compiled and run on a number of linux and UNIX-based operating sys
 For all Operating Systems you need access to a C++ compiler such as gcc and, for multi-core calculations, an implementation of the MPI wrappers around the compiler.
 A few extra libraries are needed to run PION:
 
-+    Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
-+    PION works with SUNDIALS version 2, 3, 4, and 5, depending on the operating system and availabe system libraries.
-+    Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
-+    Interpolation routines use the `spline functions <https://www.gnu.org/software/gsl/doc/html/interp.html>`_ of the `GNU Scientific Library <https://www.gnu.org/software/gsl/>`_ (GSL).
++ Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
++ PION works with SUNDIALS version 2, 3, 4, and 5, depending on the operating system and availabe system libraries.
++ Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
++ Interpolation routines use the `spline functions <https://www.gnu.org/software/gsl/doc/html/interp.html>`_ of the `GNU Scientific Library <https://www.gnu.org/software/gsl/>`_ (GSL).
 
 FITS, SILO and CVODE can either use system libraries or self-compiled libraries. The GSL must be present as a system library.  Here are instructions for how to install the required libraries for a number of different operating systems:
 
-+ **Debian 9:** All of the required support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, as follows. 
- 
+
+Debian 9
+^^^^^^^^^^
+
+All of the required support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, as follows. 
+
+.. code-block:: bash 
+
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
+    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev
+
+
+Debian 10
+^^^^^^^^^^^^^^^^^^^
+
+As Debian 9, but a couple of packages have changed name:
+
+.. code-block:: bash 
+
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin \
+  python-silo libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev
+
+
+Ubuntu 18
+^^^^^^^^^^^^^^^^^^^
+
+The libsilo-dev library has a bug and doesn't work, so no need to install here, but otherwise it is as for debian 9.
+
+1. Install system libraries for fits, sundials, gsl:
+  
   .. code-block:: bash 
 
-    $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-      libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev
+    $ sudo apt install libcfitsio-bin libcfitsio-dev  libsundials-dev 
+      openmpi-bin openmpi-common curl git libgsl-dev
+   
 
-
-+ **Debian 10:** As Debian 9, but a couple of packages have changed name:
-
+2. Install local version of silo:
+      
   .. code-block:: bash 
 
-    $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin \
-    python-silo libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev
+    $ cd pion/extra_libraries
+    $ bash ./install_all_libs.sh
 
-
-+ **Ubuntu 18:**  The libsilo-dev library has a bug and doesn't work, so no need to install here, but otherwise it is as for debian 9.
-
-  1. Install system libraries for fits, sundials, gsl:
-    
-    .. code-block:: bash 
-
-      $ sudo apt install libcfitsio-bin libcfitsio-dev  libsundials-dev 
-        openmpi-bin openmpi-common curl git libgsl-dev
-     
-
-  2. Install local version of silo:
-        
-    .. code-block:: bash 
-
-      $ cd pion/extra_libraries
-      $ bash ./install_all_libs.sh
-
-    This should detect that the OS is Ubuntu and will only install the SILO library.
+  This should detect that the OS is Ubuntu and will only install the SILO library.
       
 
-+ **OS X:** There are two main options on OSX for installing extra open-source software, `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_. PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
+OS X
+^^^^^^^^^^^^^^^^^^^
 
-  1. Install the support packages:
-    
-    * Macports: ``$ sudo port install mpich-default gsl sundials cfitsio``
-    * Brew: ``$ brew install sundials gsl mpich``
+There are two main options on OSX for installing extra open-source software, `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_. PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
 
-  2. Install locally-compiled libraries (only with Homebrew -- with MacPorts the system packages should work):
-        
-    .. code-block:: bash 
-
-      $ cd pion/extra_libraries
-      $ bash ./install_all_libs.sh
-
-    This should compile and install libraries for silo, sundials and fits.
-
-
-+ **Windows10:** To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 (WSL 2) installed. This is architecture that allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's how to install WSL 2:
-   
-  1. Turn on Windows linux subsystem feature: 
-
-    + Use the search bar to search for 'Turn Windows features on or off' and click the top result.
-    + Check the Windows Subsystem for Linux option and click the OK button.
-    + Restart your computer.
-   
-  2. Install WSL:
-
-    + Run PowerShell as an administrator.
-    + Type the following command to enable the Virtual Machine Platform feature and press Enter:
-
-     .. code-block:: bash 
-
-      $ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
-     
-    + Restart your computer.
-   
-  3. Update WSL to WSL 2:
-
-    + Download this WSL 2 kernel update `HERE <https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi>`_
-    + Double-click the ``wsl_update_x64.msi`` file and apply the update.
-    + Run PowerShell as an administrator.
-    + Type the following command to make Windows Subsystem for Linux 2 your default architecture for new distros that you install and press Enter:
-
-    .. code-block:: bash 
-
-     $ wsl --set-default-version 2
-
-   
-  4. Install Linux version:
-
-    + Now head to the Windows Store and pick your version of Linux to install (e.g. Ubuntu18).
-    + Once it installs, type the following command into the PowerShell to verify the version of the distro you installed is set to 2.
-    + If it says 1 then run the folling command:
-
-     .. code-block:: bash 
-
-      $ wsl --set-version linux-name 2
-   
-      where linux-name is the name of your linux distro (use: 'wsl -l -v' to find its name).
-   
-  5. Done
+1. Install the support packages:
   
-    + Run your linux distro to set it up and then install PION as if you were properly using Linux: :ref:`system-reqs`.
+  * Macports: ``$ sudo port install mpich-default silo gsl sundials cfitsio``
+  * Brew: ``$ brew install sundials gsl mpich cfitsio``
+
+2. Install locally-compiled libraries (only with Homebrew -- with MacPorts the system packages should work):
+      
+  .. code-block:: bash 
+
+    $ cd pion/extra_libraries
+    $ bash ./install_all_libs.sh
+
+  This should compile and install libraries for silo, sundials and fits.
+
+
+Windows10
+^^^^^^^^^^^^^^^^^^^
+
+To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 (WSL 2) installed. This is architecture that allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's how to install WSL 2:
+   
+1. Turn on Windows linux subsystem feature: 
+
+  + Use the search bar to search for 'Turn Windows features on or off' and click the top result.
+  + Check the Windows Subsystem for Linux option and click the OK button.
+  + Restart your computer.
+ 
+2. Install WSL:
+
+  + Run PowerShell as an administrator.
+  + Type the following command to enable the Virtual Machine Platform feature and press Enter:
+
+   .. code-block:: bash 
+
+    $ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+   
+  + Restart your computer.
+ 
+3. Update WSL to WSL 2:
+
+  + Download this WSL 2 kernel update `HERE <https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi>`_
+  + Double-click the ``wsl_update_x64.msi`` file and apply the update.
+  + Run PowerShell as an administrator.
+  + Type the following command to make Windows Subsystem for Linux 2 your default architecture for new distros that you install and press Enter:
+
+  .. code-block:: bash 
+
+   $ wsl --set-default-version 2
+
+ 
+4. Install Linux version:
+
+  + Now head to the Windows Store and pick your version of Linux to install (e.g. Ubuntu18).
+  + Once it installs, type the following command into the PowerShell to verify the version of the distro you installed is set to 2.
+  + If it says 1 then run the folling command:
+
+   .. code-block:: bash 
+
+    $ wsl --set-version linux-name 2
+ 
+    where linux-name is the name of your linux distro (use: 'wsl -l -v' to find its name).
+ 
+5. Done
+
+  + Run your linux distro to set it up and then install PION as if you were properly using Linux: :ref:`system-reqs`.
 
 
 .. _compilation:
