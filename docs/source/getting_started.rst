@@ -112,7 +112,7 @@ FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
     This should compile and install libraries for silo, sundials and fits.
 
 
-+ **Windows10:** To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 (WSL 2) installed. This is architecture that allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's hot to install WSL 2:
++ **Windows10:** To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 (WSL 2) installed. This is architecture that allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's how to install WSL 2:
    
   1. Turn on Windows linux subsystem feature: 
 
@@ -122,20 +122,20 @@ FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
    
   2. Install WSL:
 
-    + Run PowerShell as an administartor.
+    + Run PowerShell as an administrator.
     + Type the following command to enable the Virtual Machine Platform feature and press Enter:
 
-    .. code-block:: bash 
+     .. code-block:: bash 
 
-     $ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+      $ Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
      
     + Restart your computer.
    
   3. Update WSL to WSL 2:
 
-    + Download this WSL 2 kernel update `HERE <https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi>`
-    + Double-click the wsl_update_x64.msi file and apply the update.
-    + Run PowerShell as an administartor.
+    + Download this WSL 2 kernel update `HERE <https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi>`_
+    + Double-click the ``wsl_update_x64.msi`` file and apply the update.
+    + Run PowerShell as an administrator.
     + Type the following command to make Windows Subsystem for Linux 2 your default architecture for new distros that you install and press Enter:
 
     .. code-block:: bash 
@@ -145,19 +145,19 @@ FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
    
   4. Install Linux version:
 
-    + Now head to the Windows Store and pick your version of Linux to install (i.e. Ubuntu18).
+    + Now head to the Windows Store and pick your version of Linux to install (e.g. Ubuntu18).
     + Once it installs, type the following command into the PowerShell to verify the version of the distro you installed is set to 2.
     + If it says 1 then run the folling command:
 
-    .. code-block:: bash 
+     .. code-block:: bash 
 
-     $ wsl --set-version linux-name 2
+      $ wsl --set-version linux-name 2
    
       where linux-name is the name of your linux distro (use: 'wsl -l -v' to find its name).
    
   5. Done
   
-    + Run your linux distro to set it up and then install PION as if you were properly using Linux :ref:`system-reqs`.
+    + Run your linux distro to set it up and then install PION as if you were properly using Linux: :ref:`system-reqs`.
 
 
 .. _compilation:
