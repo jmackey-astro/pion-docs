@@ -12,7 +12,7 @@ For the moment this library only works with Python 2, work is being done to upda
 Installing Requirements
 ----------------------------------
 To be able to use all the features of this library you will need to have the following python
-modules installed on your system. Obviously you don't need all of these if you only need parts of this library.
+modules installed on your system. Obviously you don't need all of these if you only need parts of this library.  Here are instructions for debian/Ubuntu installation:
 
 + Silo: :code:`$ sudo apt install python-silo`
 + Numpy: :code:`$ sudo apt install python-numpy`
@@ -22,7 +22,7 @@ modules installed on your system. Obviously you don't need all of these if you o
 
 All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'python-module'`
 
-And of course you need to have the lastest version of the PION_Python repoitory oulled to your desktop!
+And of course you need to have the lastest version of the PION_Python repository pulled to your desktop!
 
 
 .. _use_python:
@@ -41,23 +41,23 @@ For the following example of how to plot PION data we are using the data created
 
 1. Import modules:
 
-First you will want to import the PION)Python library, all you need to import is ReadData.py since it inherits all information from SiloHeader_data.py.
+  First you will want to import the PION)Python library, all you need to import is ReadData.py since it inherits all information from SiloHeader_data.py.
 
-.. code-block:: python 
+    .. code-block:: python 
 
       from ReadData import ReadData
 
 
-Next import numpy and astropy to help with the data analysis.
+  Next import numpy and astropy to help with the data analysis.
 
-.. code-block:: python 
+    .. code-block:: python 
       
       import numpy as np
       from astropy import units as u
 
-And finally you will need to import matplotlib libraries to plot the data. 
+  And finally you will need to import matplotlib libraries to plot the data. 
 
-.. code-block:: python
+    .. code-block:: python
 
       import matplotlib
       from matplotlib.colorbar import Colorbar
@@ -70,16 +70,16 @@ And finally you will need to import matplotlib libraries to plot the data.
 
 2. Bring in the data:
 
-We're going to plot all the levels from 1 timestep here, so create an array with the location and name of these 3 files. Then pass this array into the ReadData class.
+  We're going to plot all the levels from 1 timestep here, so create an array with the location and name of these 3 files. Then pass this array into the ReadData class.
 
-.. code-block:: python 
+    .. code-block:: python 
 
       arr = ('Wind2D_HD_l3n0128_level00_0000.00009216.silo', 'Wind2D_HD_l3n0128_level01_0000.00009216.silo', 'Wind2D_HD_l3n0128_level02_0000.00009216.silo')
       read_data = ReadData(arr)
 
-We're also going to be plotting the density parameter here. So lets save the density data into an array called 'data' and also save the size of the grid and the simulation time into their own respective arrays.
+  We're also going to be plotting the density parameter here. So lets save the density data into an array called 'data' and also save the size of the grid and the simulation time into their own respective arrays.
 
-.. code-block:: python
+    .. code-block:: python
       
       param = 'Density'
       data = read_data.get_2Darray(param)['data']
@@ -88,15 +88,15 @@ We're also going to be plotting the density parameter here. So lets save the den
       sim_time = read_data.get_2Darray(param)['sim_time'].to(u.Myr)
 
 
-Now that we have all the data we need, we can start to plot it. First lets create an empty figure instance.
+  Now that we have all the data we need, we can start to plot it. First let's create an empty figure instance.
 
-.. code-block:: python
+    .. code-block:: python
 
       fig = plt.figure()
       
-To plot the data from all the levels onto the same figure we need to loop over each level's data to plot iut to the figure.
+  To plot the data from all the levels onto the same figure we need to loop over each level's data to plot it to the figure.
 
-.. code-block:: python
+    .. code-block:: python
 
       for i in range(len(data)):
 
@@ -114,7 +114,7 @@ To plot the data from all the levels onto the same figure we need to loop over e
        plt.show()
 
 
-This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axi then see the Plotting_Classes.py script in the PION_Python [add link] repository.
+  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PION_Python [add link] repository.
 
 
 .. _issues_python:
@@ -126,14 +126,14 @@ There are a couple known issues with the python library.
 
 + If you want to run this library over ssh and don't have an x-server then you will need to add this piece of code after you import matlotlib:
 
-.. code-block:: python
+  .. code-block:: python
 
       matplotlib.use('Agg')
       
       
-+ To stop ppython from printing deprecation warnigns to the screen then add hte following when importing modules:
++ To stop python from printing deprecation warnings to the screen then add the following when importing modules:
 
-.. code-block:: python
+  .. code-block:: python
 
       import warnings
       warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)

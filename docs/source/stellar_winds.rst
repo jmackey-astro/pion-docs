@@ -3,16 +3,12 @@ Stellar Winds
 -------------
 
 Stellar winds in PION are implemented in 3 modules: a constant wind, an evolving wind, and a latitude-dependent wind.
-
-Units
-=====
-
-The parameter file for a constant wind has a number of parameters that should be set.  They are quoted below with the expected units.  They are stored in these units in the SWP struct of type stellarwind_params.
+The parameter file for a constant wind has a number of parameters that should be set, quoted below with the expected units.  They are stored in these units in the `SWP` struct of type `stellarwind_params`.
 
 +---------------------+--------------------------------------------+-------------------------------------+
 | Parameter           |   Description                              |   Units/values                      |
 +=====================+============================================+=====================================+
-| WIND_[i]_pos[n]     | Star's :math:`n\in[x,y,z]`                 | cm                                  |
+| WIND_[i]_pos[n]     | Star position :math:`n\in[0,1,2]`          | cm                                  |
 +---------------------+--------------------------------------------+-------------------------------------+
 | WIND_[i]_radius     | Radius of wind injection region            | cm                                  |
 +---------------------+--------------------------------------------+-------------------------------------+
