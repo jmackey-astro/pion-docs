@@ -15,6 +15,7 @@ Guide
 
   getting_started.rst
   example_sim.rst
+  example_cwb.rst
   python.rst
   parameter-file.rst
   usage/license.rst
