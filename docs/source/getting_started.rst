@@ -53,7 +53,7 @@ A few extra libraries are needed to run PION:
 
 + Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
 + PION works with SUNDIALS version 2, 3, 4, and 5, depending on the operating system and availabe system libraries.
-+ Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
++ Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF5 library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
 + Interpolation routines use the `spline functions <https://www.gnu.org/software/gsl/doc/html/interp.html>`_ of the `GNU Scientific Library <https://www.gnu.org/software/gsl/>`_ (GSL).
 
 FITS, SILO and CVODE can either use system libraries or self-compiled libraries. The GSL must be present as a system library.  Here are instructions for how to install the required libraries for a number of different operating systems:
