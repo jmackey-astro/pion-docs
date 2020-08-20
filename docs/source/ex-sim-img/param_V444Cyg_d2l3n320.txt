@@ -11,10 +11,10 @@ GAMMA 1.6666666666666667
 ########################
 
 ########################
-solver 4
+solver 3
 OrderOfAccSpace 2
 OrderOfAccTime  2
-CFL 0.3
+CFL 0.2
 ArtificialViscosity 4
 EtaViscosity 0.1
 
@@ -79,7 +79,7 @@ OutputPath ./
 OutputFile V444Cyg_d2l3n320
 OutputFileType silo
 OutputCriterion 0
-OutputFrequency 256
+OutputFrequency 512
 OPfreqTime 1.578e99
 ########################
 
