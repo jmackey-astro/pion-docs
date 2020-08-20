@@ -65,7 +65,7 @@ Here are instructions for debian/Ubuntu installation:
 
 All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'python-module'`
 
-And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: https://git.dias.ie/massive-stars-software/pypion/-/wikis/home
+And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: https://git.dias.ie/massive-stars-software/pypion/
 
 
 .. _use_python:
@@ -157,7 +157,7 @@ For the following example of how to plot PION data we are using the data created
        plt.show()
 
 
-  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PyPion [add link] repository.
+  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PyPion https://git.dias.ie/massive-stars-software/pypion/ repository.
 
 
 .. _issues_python:
