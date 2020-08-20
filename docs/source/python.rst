@@ -52,8 +52,10 @@ installed. This image also contains the latest python3 silo module and at the ti
 
 Installing Requirements
 ----------------------------------
-To be able to use all the features of this library you will need to have the following python
-modules installed on your system. Obviously you don't need all of these if you only need parts of this library.  Here are instructions for debian/Ubuntu installation:
+To be able to use all the features of this library you will need to have the following python modules installed on your system. At the time of writing, installing the python-silo module yourself 
+means you can only use this library with python2.7. 
+
+Here are instructions for debian/Ubuntu installation:
 
 + Silo: :code:`$ sudo apt install python-silo`
 + Numpy: :code:`$ sudo apt install python-numpy`
@@ -63,12 +65,12 @@ modules installed on your system. Obviously you don't need all of these if you o
 
 All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'python-module'`
 
-And of course you need to have the lastest version of the PION_Python repository pulled to your desktop!
+And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: https://git.dias.ie/massive-stars-software/pypion/-/wikis/home
 
 
 .. _use_python:
 
-Using PION_Python to look at simulation data
+Using PyPion to look at simulation data
 -----------------------------------------------
 
 The main scripts in the library are:
@@ -82,7 +84,7 @@ For the following example of how to plot PION data we are using the data created
 
 1. Import modules:
 
-  First you will want to import the PION)Python library, all you need to import is ReadData.py since it inherits all information from SiloHeader_data.py.
+  First you will want to import the PyPion library, all you need to import is ReadData.py since it inherits all information from SiloHeader_data.py.
 
     .. code-block:: python 
 
@@ -155,7 +157,7 @@ For the following example of how to plot PION data we are using the data created
        plt.show()
 
 
-  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PION_Python [add link] repository.
+  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PyPion [add link] repository.
 
 
 .. _issues_python:
