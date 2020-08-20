@@ -6,6 +6,10 @@ Using Python to plot simulation
 PyPion is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
 For the moment this library only works with Python 2, work is being done to update to Python 3. 
 
+`SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_ is both a scientific database format and a data I/O library, producing machine-independent data files that can be easily shared between different computing architectures.  It is often built using `HDF5 <https://www.hdfgroup.org/HDF5/>`_ as the low-level I/O driver, and has excellent performance on HPC systems.
+The SILO library comes with a python interface, but these routines require an extra layer of customisation to read PION snapshots simply.
+This is what PyPion provides -- a set of routines that call functions from the SILO python library to read PION snapshots into numpy arrays and plot them easily and efficiently.
+
 .. _install_python:
 
 Installing PyPion
