@@ -6,52 +6,24 @@ Using Python to plot simulation
 PyPion is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
 For the moment this library only works with Python 2, work is being done to update to Python 3. 
 
+.. _install_python:
+
+Installing PyPion
+----------------------------------
+
+We have provided two ways to set up PyPion, using a `docker container <https://www.docker.com/>`_ and using your system python installation.
 
 .. _docker_usage:
 
 Using the PyPion docker image
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A docker image has been created to make it easier to run the python library. This way you don't need to have all the necessary libraries installed, all you need is docker 
-installed. This image also contains the latest python3 silo module and at the time of writing this module isn't publicly available. So for now this is the only way to use this library with python3.
-
-1. Install docker:
-
- + For Linux - :code:`$ curl -sSL https://get.docker.com | sh` .
-   To give your user default sudo access - :code:`$ sudo usermod -aG docker username`.
- 
- + For Windows - https://hub.docker.com/editions/community/docker-ce-desktop-windows
- 
- + For Mac - Mac users assemble!
- 
-2. Download the PyPion image:
-
- + Grab the latest image here - :code:`$ docker push greensh/pypion:latest`.
-
-3. How to run:
-
- + To start running a container - :code:`$ docker run -i -d -v /yourdatalocation:/mnt/data --name pypion greensh/pypion:latest`. 
- 
- This starts a container with the PyPion image running in the background. -i starts an interactive session, this allows us to connect to it later. -d detaches the session from your terminal so that it's always running
- until you stop it. -v allows you to connect a local directory which contains your data, you can use most locations. On linux: /user/home/yourdata/, on Windows: C:\Users\username\Desktop\, 
- on Mac: Mac users assemble! (probably similar to linux). --name allows you to name your directory, call it whatever you want.
- 
- + To enter the container - :code:`$ docker exec -it -w /home/pion_python/Library pypion bash`.
- 
- This allows you to enter your running container and start a bash session. 
- 
-4. Run the python library:
-
- When you start your interactive bash session you should be in the /home/pion_python/Library directory. From here you just have to run :code:`$ silopython3 script.py` to run the
- python library using the silo module. 
- 
- See :ref:`use_python` for how to use the library.
+A docker image has been created to make it easier to run the python library.  Coming soon...
 
 
-.. _install_python:
+Using the system python installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Installing Requirements
-----------------------------------
 To be able to use all the features of this library you will need to have the following python modules installed on your system. At the time of writing, installing the python-silo module yourself 
 means you can only use this library with python2.7. 
 
