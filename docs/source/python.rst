@@ -3,8 +3,35 @@
 Using Python to plot simulation
 =========================================
 
-PION_Python is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
+PyPion is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
 For the moment this library only works with Python 2, work is being done to update to Python 3. 
+
+
+.. _docker_usage:
+
+Using the PyPion docker image
+=========================================
+A docker image has been created to make it easier to run the python library. This way you don't need to have all the necessary libraries installed, all you need is docker 
+installed. This image also contains the latest python3 silo module and at the time of writing this module isn't publicly available. So for now this is the only way to use this library with python3.
+
+1. Install docker:
+
+ + For Linux - :code:`$ curl -sSL https://get.docker.com | sh` .
+   To give your user default sudo access - :code:`$ sudo usermod -aG docker username`.
+ 
+ + For Windows - https://hub.docker.com/editions/community/docker-ce-desktop-windows
+ 
+ + For Mac - Mac users assemble!
+ 
+2. Download the PyPion image:
+
+ + Grab the latest image here - :code:`$ docker push greensh/pypion:latest`.
+
+3. How to run and use:
+
+ + To start running a container - :code:`$ docker run -i -d -v C:\Users\green\Desktop\0802\:/mnt/data --name pypion pypion`. 
+ 
+ 
 
 
 .. _install_python:
