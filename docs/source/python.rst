@@ -27,9 +27,11 @@ installed. This image also contains the latest python3 silo module and at the ti
 
  + Grab the latest image here - :code:`$ docker push greensh/pypion:latest`.
 
-3. How to run and use:
+3. How to run:
 
  + To start running a container - :code:`$ docker run -i -d -v C:\Users\green\Desktop\0802\:/mnt/data --name pypion pypion`. 
+ 
+ Thus
  
  
 
