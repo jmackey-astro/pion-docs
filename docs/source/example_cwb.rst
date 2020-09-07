@@ -9,21 +9,22 @@ Introduction
 -------------------------------------------------
 
 
-This example is taken from `Stevens et al. (1992) <https://ui.adsabs.harvard.edu/abs/1992ApJ...386..265S/abstract>`_, section 4.1, modelling the colliding winds of the binary system `V444 Cyg <http://simbad.u-strasbg.fr/simbad/sim-id?Ident=V444+Cyg>`_.  This eclipsing binary system contains a Wolf-Rayet star (WN5) with a an O6 companion.
+This example is taken from `Stevens et al. (1992) <https://ui.adsabs.harvard.edu/abs/1992ApJ...386..265S/abstract>`_, section 4.1, modelling the colliding winds of the binary system `V444 Cyg <http://simbad.u-strasbg.fr/simbad/sim-id?Ident=V444+Cyg>`_.  This eclipsing binary system contains a Wolf-Rayet (WR) star (of spectral type WN5) with a an O6 companion.
+We assume that the WR star is the primary because it is more evolved than the O6 star.
 
-The properties of the stars (taken from Stevens et al.) are as follows for the primary:
-
- + mass-loss rate :math:`\dot{M} = 10^{-6} \,\mathrm{M}_\odot \, \mathrm{yr}^{-1}`
- + wind speed :math:`v_\infty = 2000 \,\mathrm{km\,s}^{-1}`
- + radius :math:`R_\star = 10 \,\mathrm{R}_\odot`
- + temperature :math:`T_\mathrm{eff}=40` kK
-
-and for the secondary (WR):
+The properties of the stars (taken from Stevens et al.) are as follows for the primary (WR):
 
  + mass-loss rate :math:`\dot{M} = 1.4\times10^{-5} \,\mathrm{M}_\odot \, \mathrm{yr}^{-1}`
  + wind speed :math:`v_\infty = 2000 \,\mathrm{km\,s}^{-1}`
  + radius :math:`R_\star = 2.9 \,\mathrm{R}_\odot`
  + temperature :math:`T_\mathrm{eff}=35` kK
+
+and for the secondary (O6):
+
+ + mass-loss rate :math:`\dot{M} = 10^{-6} \,\mathrm{M}_\odot \, \mathrm{yr}^{-1}`
+ + wind speed :math:`v_\infty = 2000 \,\mathrm{km\,s}^{-1}`
+ + radius :math:`R_\star = 10 \,\mathrm{R}_\odot`
+ + temperature :math:`T_\mathrm{eff}=40` kK
 
 The system has an orbital period of 4.2 days, although in this 2D simulation we ignore the orbital motion and treat the wind-wind interaction as though the stars were at rest in an inertial frame with cylindrical symmetry along the line connecting the stars.  The separation of the stars is taken as :math:`2.8\times10^{12}` cm.
 
