@@ -15,7 +15,7 @@ PION is written in object-oriented C++ with the following modules:
 + Coordinate systems: Cartesian coordinates in 1D, 2D, and 3D, Cylindrical coordinates in 2D :math:`(R,z)`, and spherical coordinates in 1D :math:`(r)`.
 + Hydro/MHD solvers: Roe and HLL Riemanns solvers are implemented for HD and MHD, flux-vector-splitting for HD, and HLLD for MHD.
 + Parallel code communication: using the Message Passing Interface (MPI).
-+ Computational grid: The grid is a multiply-linked list of finite-volume cells (or zones). Most commonly-used boundary conditions are implemented. When run in parallel each process has a subdomain of the full grid, and inter-process communication is used to share boundary data.  A uniform grid or a static nested grid can be selected
++ Computational grid: The grid is a multiply-linked list of finite-volume cells (or zones). Most commonly-used boundary conditions are implemented. When run in parallel each process has a subdomain of the full grid, and inter-process communication is used to share boundary data.  A uniform grid or static mesh-refinement can be selected.
 + Microphysics: chemistry and heating/cooling processes. A number of different classes have been written for different approximations.
 + Raytracing, on serial and parallel grids, from point sources or sources at infinity. This uses the short-characteristics raytracer.
 + Data input and output (I/O), including ASCII, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `Silo <https://wci.llnl.gov/simulation/computer-codes/silo>`_ formats.
@@ -28,8 +28,7 @@ Getting the PION source code
 ----------------------------------
 
 First things first: PION is free software; you can download it and redistribute it and/or modify it under the terms of The BSD 3-Clause License.  Read the :ref:`pion-license` here -- usage of PION implies acceptance of this license.
-In particular, this software is provided by the author "as is", in the hope that it will be useful, but any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed.
-
+In particular, this software is provided by the authors "as is", in the hope that it will be useful, but any express or implied warranties are disclaimed, including but not limited to, the implied warranties of merchantability and fitness for a particular purpose.
 
 The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/massive-stars-software/pion <https://git.dias.ie/massive-stars-software/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command:
 
@@ -40,6 +39,19 @@ The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab 
 Alternatively you can download a zip-file with the source code from `https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip <https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip>`_ if you prefer.
 
 The PION git repository is also mirrored on `github <https://www.github.com/>`_ at `https://github.com/jmackey-astro/PION <https://github.com/jmackey-astro/PION>`_.
+
+
+.. _getting-help:
+
+Getting help
+----------------------------------
+
+There are a few ways to get more information about PION and help with compiling, setting up and running your own simulations:
+
++ Look through the documentation at `https://www.pion.ie/ <https://www.pion.ie/>`_.
++ Read the `reference papers <https://www.pion.ie/publications/>`_.
++ Subscribe to the PION mailing list and ask questions at `groups.io <https://groups.io/g/pion>`_.
++ Contact `info@pion.ie <mailto:info@pion.ie>`_ with general queries.
 
 
 .. _system-reqs:
@@ -108,11 +120,12 @@ OS X
 ^^^^^^^^^^^^^^^^^^^
 
 There are two main options on OSX for installing extra open-source software, `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_. PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
+As of January 2021, there is no working MPI compiler provided by MacPorts for OSX 11 (Big Sur), and so Homebrew is the only option.
 
 1. Install the support packages:
   
   * Macports: ``$ sudo port install mpich-default silo gsl sundials cfitsio``
-  * Brew: ``$ brew install sundials gsl mpich cfitsio``
+  * Brew: ``$ brew install sundials gsl cfitsio open-mpi``
 
 2. Install locally-compiled libraries (only with Homebrew -- with MacPorts the system packages should work):
       
@@ -121,7 +134,7 @@ There are two main options on OSX for installing extra open-source software, `Ho
     $ cd pion/extra_libraries
     $ bash ./install_all_libs.sh
 
-  This should compile and install libraries for silo, sundials and fits.
+  This should compile and install libraries for SILO.
 
 
 Windows10
@@ -216,8 +229,8 @@ An example error related to a SUNDIALS library mismatch is:
 This indicates either the wrong library version for SUNDIALS, or that the library is not installed correctly.
 
 If you are an experienced programmer and comfortable interpreting compiler error messages, then you should be able to figure out what went wrong.
-If not, then your best bet is to contact the developers at `info@pion.ie <mailto:info@pion.ie>`_.
-Please include all of the screen output from the compilation.
+If not, then your best bet is to contact the developers at `info@pion.ie <mailto:info@pion.ie>`_, or post a message on the forum `https://groups.io/g/pion <https://groups.io/g/pion>`_.
+Please include all of the screen output from the compilation (machine-readable, not a screenshot).
 
 
 
