@@ -11,6 +11,8 @@ cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_COMPILER=mpicxx \
     -DPION_USE_SILO=ON \
+    -DPION_UNIFORM_GRID=ON \
+    -DPION_NESTED_GRID=ON \
     "${script_dir}"
 
 make -j 4
