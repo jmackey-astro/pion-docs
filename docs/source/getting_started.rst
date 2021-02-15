@@ -175,7 +175,7 @@ To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 
 
   + Now head to the Windows Store and pick your version of Linux to install (e.g. Ubuntu18).
   + Once it installs, type the following command into the PowerShell to verify the version of the distro you installed is set to 2.
-  + If it says 1 then run the folling command:
+  + If it says 1 then run the following command:
 
    .. code-block:: bash 
 
