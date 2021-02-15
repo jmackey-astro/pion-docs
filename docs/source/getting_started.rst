@@ -109,7 +109,7 @@ The ``libsilo-dev`` library has a bug and doesn't work, so no need to install he
   .. code-block:: bash 
 
     $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
-      openmpi-bin openmpi-common curl git libgsl-dev g++
+      openmpi-bin openmpi-common curl git libgsl-dev g++ cmake
    
 
 2. Install local version of silo:
@@ -208,8 +208,8 @@ PION uses `cmake <https://cmake.org/>`_ for compilation to make the process as a
 Some flags and settings need to be chosen at compile-time, and these can be specified in a build script.
 Some example build sripts can be downloaded here and modified as needed:
 
- + Ubuntu 20: `build_ubuntu20.sh <build_scripts/build_ubuntu20.sh>`
- + Debian 10: 
+ + Debian 10: :download:`build_debian.sh <build_scripts/build_debian.sh>`
+ + Ubuntu 20: :download:`build_debian.sh <build_scripts/build_debian.sh>`
 
 This should create some executable files in the directory ``build/``, for the parallel version these are:
 
@@ -239,14 +239,15 @@ MPI Error
 If the MPI library is not found, then the following error can occur:
 
   .. code-block:: bash
-        In file included from /home/jm/code/pion/source/comms/comm_mpi.cpp:44:
-        /home/jm/code/pion/source/comms/comm_mpi.h:24:10: fatal error: mpi.h: No such file or directory
-           24 | #include <mpi.h>
-                 |          ^~~~~~~
-                 compilation terminated.
-                 make[2]: *** [source/comms/CMakeFiles/comms.dir/build.make:76: source/comms/CMakeFiles/comms.dir/comm_mpi.cpp.o] Error 1
-                 make[1]: *** [CMakeFiles/Makefile2:528: source/comms/CMakeFiles/comms.dir/all] Error 2
-                 make[1]: *** Waiting for unfinished jobs....
+
+    In file included from /home/jm/code/pion/source/comms/comm_mpi.cpp:44:
+    /home/jm/code/pion/source/comms/comm_mpi.h:24:10: fatal error: mpi.h: No such file or directory
+       24 | #include <mpi.h>
+             |          ^~~~~~~
+             compilation terminated.
+             make[2]: *** [source/comms/CMakeFiles/comms.dir/build.make:76: source/comms/CMakeFiles/comms.dir/comm_mpi.cpp.o] Error 1
+             make[1]: *** [CMakeFiles/Makefile2:528: source/comms/CMakeFiles/comms.dir/all] Error 2
+             make[1]: *** Waiting for unfinished jobs....
 
 This usually means that you need to specify the C++ compiler manually by adding the statement `-DCMAKE_CXX_COMPILER=mpicxx` to your cmake command.
 
@@ -268,18 +269,19 @@ Runtime Error: silo
 
 If you get this error on running the PION initial-conditions generator:
   .. code-block:: bash
-        IC file-type is silo
-        IO class initialisation:         error code: silo ...exiting.
+
+    IC file-type is silo
+    IO class initialisation:         error code: silo ...exiting.
 
 
-        --------------------------------------------------------------------------
-        MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
-        with errorcode 999.
+    --------------------------------------------------------------------------
+    MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+    with errorcode 999.
 
-        NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
-        You may or may not see output from other processes, depending on
-        exactly when Open MPI kills them.
-        --------------------------------------------------------------------------
+    NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+    You may or may not see output from other processes, depending on
+    exactly when Open MPI kills them.
+    --------------------------------------------------------------------------
 
 then it probably means that SILO was not included by cmake, and you need to add the option `-DPION_USE_SILO=ON` to the cmake command.
 The same applies to FITS if you choose to write snapshots in FITS format.
