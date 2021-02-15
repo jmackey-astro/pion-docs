@@ -79,7 +79,7 @@ All of the required support libraries can be installed in Debian 9 via the packa
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev
+    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev g++
 
 
 Debian 10
@@ -89,7 +89,7 @@ As Debian 9, but a couple of packages have changed name:
 
 .. code-block:: bash 
 
-  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin \
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
   python-silo libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev
 
 
@@ -102,8 +102,8 @@ The ``libsilo-dev`` library has a bug and doesn't work, so no need to install he
   
   .. code-block:: bash 
 
-    $ sudo apt install libcfitsio-bin libcfitsio-dev  libsundials-dev 
-      openmpi-bin openmpi-common curl git libgsl-dev
+    $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
+      openmpi-bin openmpi-common curl git libgsl-dev g++
    
 
 2. Install local version of silo:
