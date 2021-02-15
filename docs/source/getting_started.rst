@@ -60,7 +60,7 @@ System Requirements for compiling and running PION
 ------------------------------------------------------
 
 PION has been compiled and run on a number of linux and UNIX-based operating systems and OS X.
-For all Operating Systems you need access to a C++ compiler such as gcc and, for multi-core calculations, an implementation of the MPI wrappers around the compiler.
+For all Operating Systems you need access to a C++ compiler such as gcc and, for multi-core calculations, an implementation of the MPI wrappers around the compiler, and cmake.
 A few extra libraries are needed to run PION:
 
 + Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
@@ -79,7 +79,7 @@ All of the required support libraries can be installed in Debian 9 via the packa
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev g++
+    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev g++ cmake
 
 
 Debian 10
@@ -90,7 +90,13 @@ As Debian 9, but a couple of packages have changed name:
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
-  python-silo libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev
+  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev cmake
+
+
+Ubuntu 20
+^^^^^^^^^^^^^^^^^^^
+
+Follow the instructions for debian 10.
 
 
 Ubuntu 18
@@ -195,13 +201,17 @@ Compiling PION
 
 There are two options for compiling PION, the serial version which runs on a single core with one thread, and the parallel version which uses MPI to run many processes on many cores.  For scientific applications you almost certainly want the parallel version, but the serial version is very useful for developing new algorithms and debugging.
 
-Once you have installed the required support libraries, you can compile PION with standard options via:
+PION can be run in uniform-grid mode or nested-grid mode (with static mesh-refinement).
+You can specify at compile-time which executables to compile.
 
-  + Parallel version: :code:`$ cd pion/bin_parallel/; bash compile_code.sh`
-  + Serial version: :code:`$ cd pion/bin_serial/; bash compile_code.sh`
+PION uses `cmake <https://cmake.org/>`_ for compilation to make the process as automatic as possible.
+Some flags and settings need to be chosen at compile-time, and these can be specified in a build script.
+Some example build sripts can be downloaded here and modified as needed:
 
+ + Ubuntu 20: `build_ubuntu20.sh <build_scripts/build_ubuntu20.sh>`
+ + Debian 10: 
 
-This should create some executable files in the directory ``pion/``, for the parallel version these are:
+This should create some executable files in the directory ``build/``, for the parallel version these are:
 
   + ``icgen-ug`` : initial-conditions generator for uniform-grid simulations
   + ``icgen-ng`` : initial-conditions generator for nested-grid simulations
@@ -210,16 +220,40 @@ This should create some executable files in the directory ``pion/``, for the par
 
 For the serial version the letter 's' is appended to these filenames, e.g. ``pion-ngs``.
 
-If you do not see these files, then probably the compilation script threw a lot of errors at you, and you can try to resolve these by looking at :ref:`compilation-issues`.
+If you do not see these files, then probably the compilation process threw a lot of errors at you, and you can try to resolve these by looking at :ref:`compilation-issues`.
 
 
 .. _compilation-issues:
 
-Trouble Compiling?
+Trouble Compiling or Running PION?
 ----------------------------------
 
 The most common problems in compilation are related to the support libraries.
 The best way to figure out what went wrong is to look in at the text on-screen and find the first error message of the compilation (note that warnings are usually not a problem; only "error: ..." messages are critical problems).
+
+If the compilation failed, then be sure to delete the build directory with `rm -rf build/` before you try again; otherwise some settings from the previous compilation effort may be retained.
+
+MPI Error
+^^^^^^^^^^^^^^^^^^^
+
+If the MPI library is not found, then the following error can occur:
+
+  .. code-block:: bash
+        In file included from /home/jm/code/pion/source/comms/comm_mpi.cpp:44:
+        /home/jm/code/pion/source/comms/comm_mpi.h:24:10: fatal error: mpi.h: No such file or directory
+           24 | #include <mpi.h>
+                 |          ^~~~~~~
+                 compilation terminated.
+                 make[2]: *** [source/comms/CMakeFiles/comms.dir/build.make:76: source/comms/CMakeFiles/comms.dir/comm_mpi.cpp.o] Error 1
+                 make[1]: *** [CMakeFiles/Makefile2:528: source/comms/CMakeFiles/comms.dir/all] Error 2
+                 make[1]: *** Waiting for unfinished jobs....
+
+This usually means that you need to specify the C++ compiler manually by adding the statement `-DCMAKE_CXX_COMPILER=mpicxx` to your cmake command.
+
+
+SUNDIALS Error
+^^^^^^^^^^^^^^^^^^^
+
 An example error related to a SUNDIALS library mismatch is:
         
   .. code-block:: bash
@@ -228,8 +262,34 @@ An example error related to a SUNDIALS library mismatch is:
 
 This indicates either the wrong library version for SUNDIALS, or that the library is not installed correctly.
 
-If you are an experienced programmer and comfortable interpreting compiler error messages, then you should be able to figure out what went wrong.
-If not, then your best bet is to contact the developers at `info@pion.ie <mailto:info@pion.ie>`_, or post a message on the forum `https://groups.io/g/pion <https://groups.io/g/pion>`_.
+
+Runtime Error: silo
+^^^^^^^^^^^^^^^^^^^
+
+If you get this error on running the PION initial-conditions generator:
+  .. code-block:: bash
+        IC file-type is silo
+        IO class initialisation:         error code: silo ...exiting.
+
+
+        --------------------------------------------------------------------------
+        MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+        with errorcode 999.
+
+        NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+        You may or may not see output from other processes, depending on
+        exactly when Open MPI kills them.
+        --------------------------------------------------------------------------
+
+then it probably means that SILO was not included by cmake, and you need to add the option `-DPION_USE_SILO=ON` to the cmake command.
+The same applies to FITS if you choose to write snapshots in FITS format.
+
+Getting Help
+^^^^^^^^^^^^^^^^
+
+If you are an experienced programmer and comfortable interpreting compiler error messages, then you may be able to figure out what went wrong.
+In this case please do report your findings so they can be added to this documentation to help other new users.
+To get help please contact the developers at `info@pion.ie <mailto:info@pion.ie>`_, or post a message on the forum `https://groups.io/g/pion <https://groups.io/g/pion>`_.
 Please include all of the screen output from the compilation (machine-readable, not a screenshot).
 
 
