@@ -146,7 +146,7 @@ As of January 2021, there is no working MPI compiler provided by MacPorts for OS
 Windows10
 ^^^^^^^^^^^^^^^^^^^
 
-To compile PION on Windows10 you need to have the Windows Subsystem for Linux 2 (WSL 2) installed. This is architecture that allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's how to install WSL 2:
+These instructions are to compile PION on Windows 10 using the Windows Subsystem for Linux 2 (WSL 2). This allows the running of a Linux environment on top of Windows 10 natively (uses a lightweight virtual machine). Once you have WSL 2 installed and a version of Linux (i.e Ubuntu18) set-up, compiling PION is just like you would on a normal linux system (i.e Ubuntu18). Here's how to install WSL 2:
    
 1. Turn on Windows linux subsystem feature: 
 
