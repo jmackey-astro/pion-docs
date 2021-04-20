@@ -60,26 +60,32 @@ System Requirements for compiling and running PION
 ------------------------------------------------------
 
 PION has been compiled and run on a number of linux and UNIX-based operating systems and OS X.
-For all Operating Systems you need access to a C++ compiler such as gcc and, for multi-core calculations, an implementation of the MPI wrappers around the compiler, and cmake.
+For all Operating Systems you need access to a C++ compiler such as gcc and, for multi-core calculations, an implementation of the MPI wrappers around the compiler, and `cmake`.
 A few extra libraries are needed to run PION:
 
 + Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
 + PION works with SUNDIALS version 2, 3, 4, and 5, depending on the operating system and availabe system libraries.
 + Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF5 library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
-+ Interpolation routines use the `spline functions <https://www.gnu.org/software/gsl/doc/html/interp.html>`_ of the `GNU Scientific Library <https://www.gnu.org/software/gsl/>`_ (GSL).
++ Interpolation routines use the `modified Akima interpolation method <https://www.boost.org/doc/libs/master/libs/math/doc/html/math_toolkit/makima.html>`_ of the `Boost C++ libraries <https://www.boost.org/>`_.
 
-FITS, SILO and CVODE can either use system libraries or self-compiled libraries. The GSL must be present as a system library.  Here are instructions for how to install the required libraries for a number of different operating systems:
+FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
+Boost needs to be version 1.75.0 or newer, and this typically means it needs to be self-compiled.
+Here are instructions for how to install the required libraries for a number of different operating systems:
 
 
 Debian 9
 ^^^^^^^^^^
 
-All of the required support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, as follows. 
+Support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, as follows.
+Then a script is run to install boost in `pion/extra_libraries/boost`.
 
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git libgsl-dev g++ cmake
+    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git g++ cmake
+  $ cd pion/extra_libraries
+  $ bash ./install_boost.sh
+  $ cd -
 
 
 Debian 10
@@ -90,7 +96,10 @@ As Debian 9, but a couple of packages have changed name:
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
-  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git libgsl-dev cmake
+  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git cmake
+  $ cd pion/extra_libraries
+  $ bash ./install_boost.sh
+  $ cd -
 
 
 Ubuntu 20
@@ -104,22 +113,22 @@ Ubuntu 18
 
 The ``libsilo-dev`` library has a bug and doesn't work, so no need to install here, but otherwise it is as for debian 9.
 
-1. Install system libraries for fits, sundials, gsl:
+1. Install system libraries for fits, sundials:
   
   .. code-block:: bash 
 
     $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
-      openmpi-bin openmpi-common curl git libgsl-dev g++ cmake
-   
+      openmpi-bin openmpi-common curl git g++ cmake
 
-2. Install local version of silo:
+
+2. Install local version of silo and boost:
       
   .. code-block:: bash 
 
     $ cd pion/extra_libraries
     $ bash ./install_all_libs.sh
 
-  This should detect that the OS is Ubuntu and will only install the SILO library.
+  This should detect that the OS is Ubuntu and will only install the SILO and Boost libraries.
       
 
 OS X
@@ -127,20 +136,21 @@ OS X
 
 There are two main options on OSX for installing extra open-source software, `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_. PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
 As of January 2021, there is no working MPI compiler provided by MacPorts for OSX 11 (Big Sur), and so Homebrew is the only option.
+Homebrew has Boost 1.75 as a package.
 
 1. Install the support packages:
   
-  * Macports: ``$ sudo port install mpich-default silo gsl sundials cfitsio``
-  * Brew: ``$ brew install sundials gsl cfitsio open-mpi``
+  * Macports: ``$ sudo port install mpich-default silo sundials cfitsio``
+  * Brew: ``$ brew install sundials cfitsio open-mpi boost``
 
-2. Install locally-compiled libraries (only with Homebrew -- with MacPorts the system packages should work):
+2. Install locally-compiled libraries:
       
   .. code-block:: bash 
 
     $ cd pion/extra_libraries
     $ bash ./install_all_libs.sh
 
-  This should compile and install libraries for SILO.
+  This should compile and install libraries for SILO and/or Boost.
 
 
 Windows10
@@ -210,6 +220,7 @@ Some example build sripts can be downloaded here and modified as needed:
 
  + Debian 10: :download:`build_debian.sh <build_scripts/build_debian.sh>`
  + Ubuntu 20: :download:`build_debian.sh <build_scripts/build_debian.sh>`
+ + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_: :download:`build_kay.ichec.ie.sh <build_scripts/build_kay.ichec.ie.sh>`
 
 This should create some executable files in the directory ``build/``, for the parallel version these are:
 
