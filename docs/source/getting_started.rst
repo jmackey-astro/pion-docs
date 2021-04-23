@@ -220,6 +220,7 @@ Some example build sripts can be downloaded here and modified as needed:
 
  + Debian 10: :download:`build_debian.sh <build_scripts/build_debian.sh>`
  + Ubuntu 20: :download:`build_debian.sh <build_scripts/build_debian.sh>`
+ + OS X: :download:`build_osx.sh <build_scripts/build_osx.sh>`
  + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_: :download:`build_kay.ichec.ie.sh <build_scripts/build_kay.ichec.ie.sh>`
 
 This should create some executable files in the directory ``build/``, for the parallel version these are:
