@@ -65,7 +65,7 @@ A few extra libraries are needed to run PION:
 
 + Microphysics is handled by the `CVODE <https://computing.llnl.gov/projects/sundials/cvode>`_ solver, part of the `SUNDIALS <https://computing.llnl.gov/projects/sundials>`_ suite of solvers.
 + PION works with SUNDIALS version 2, 3, 4, and 5, depending on the operating system and availabe system libraries.
-+ Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF5 library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.
++ Data I/O can use ASCII text files, `FITS <https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html>`_, and `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_, which are appropriate for different situations. Parallel execution on HPC systems should use SILO because it is built on the HDF5 library and has good performance on supercomputers. SILO uses version 4.10.2, FITS uses version 3.390 but should work with all 3.x versions.  The implementation of parallel I/O using FITS in PION should not be considered ready for use on HPC systems - it is not efficient.
 + Interpolation routines use the `modified Akima interpolation method <https://www.boost.org/doc/libs/master/libs/math/doc/html/math_toolkit/makima.html>`_ of the `Boost C++ libraries <https://www.boost.org/>`_.
 
 FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
@@ -82,7 +82,7 @@ Then a script is run to install boost in `pion/extra_libraries/boost`.
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git g++ cmake
+    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git g++ cmake libbz2-dev
   $ cd pion/extra_libraries
   $ bash ./install_boost.sh
   $ cd -
@@ -96,7 +96,7 @@ As Debian 9, but a couple of packages have changed name:
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
-  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git cmake
+  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git cmake libbz2-dev
   $ cd pion/extra_libraries
   $ bash ./install_boost.sh
   $ cd -
@@ -118,7 +118,7 @@ The ``libsilo-dev`` library has a bug and doesn't work, so no need to install he
   .. code-block:: bash 
 
     $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
-      openmpi-bin openmpi-common curl git g++ cmake
+      openmpi-bin openmpi-common curl git g++ cmake libbz2-dev
 
 
 2. Install local version of silo and boost:
