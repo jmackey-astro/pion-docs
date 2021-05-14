@@ -16,8 +16,10 @@ cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_COMPILER=mpicxx \
     -DPION_USE_SILO=ON \
+    -DPION_USE_FITS=ON \
     -DPION_UNIFORM_GRID=ON \
     -DPION_NESTED_GRID=ON \
+    -DPION_TOOLS=ON \
     -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}" \
     "${script_dir}"
 
@@ -35,3 +37,5 @@ make -j 4
 #make -j 4
 
 popd # build_dir
+
+
