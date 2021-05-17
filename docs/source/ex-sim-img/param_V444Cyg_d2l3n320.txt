@@ -11,7 +11,7 @@ GAMMA 1.6666666666666667
 ########################
 
 ########################
-solver 3
+solver 4
 OrderOfAccSpace 2
 OrderOfAccTime  2
 CFL 0.2
