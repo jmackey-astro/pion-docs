@@ -32,3 +32,11 @@ If you want to add a new file, you can do this via:
     $ git push
 ```
 
+
+Development docs
+===================
+
+There is a `devel` branch which applies to the `devel` branch of PION.
+The `master` branch of the docs only applies to the latest publicly released version of PION, and it should only be updated if there are errors.
+If you are adding documentation that applies only to the development version, then put your changes into `devel` by creating an *issue*, then an associated *merge request*, putting modifications in the new branch, and *merging* this branch back into `devel`.
+
