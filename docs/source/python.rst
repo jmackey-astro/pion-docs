@@ -15,6 +15,7 @@ The SILO library comes with a python interface, but these routines require an ex
 This is what PyPion provides -- a set of routines that call functions from the SILO python library to read PION snapshots into numpy arrays and plot them easily and efficiently.
 
 
+
 .. _install_python:
 
 Installing PyPion
@@ -51,6 +52,20 @@ All of these modules can also be installed through pip if you prefer: :code:`$ p
       $ cd pypion/silo
       $ bash install_silo.sh
 
+And of course you need to have the lastest version of the PyPion repository pulled to your desktop! The ``master`` branch is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_, but you want the ``develop`` branch which is only hosted on the private repo at `https://git.dias.ie/compastro/pion_python.git <https://git.dias.ie/compastro/pion_python.git>`_.
+You can get a copy (with a username and password for git.dias.ie) and install the python-silo library as follows:
+
+  .. code-block:: bash
+  
+    $ git clone https://git.dias.ie/compastro/pion_python.git ./pypion
+    $ cd pypion
+    $ git checkout develop
+    $ cd silo
+    $ bash install_silo.sh
+    
+
+Note that this has only been tested on debian 10 / Ubuntu 20 systems, and may not work directly for you on other systems.
+
 
 
 .. _use_python:
@@ -65,7 +80,10 @@ The main scripts in the library are:
 + :code:`ReadData.py` - Opens the directory in the silo (or vtk, or fits) file and saves the requested variable data (eg. density, temp, etc.).
 + :code:`Plotting_Classes.py` - Sets up the plotting function and the figure.
 
-For the following example of how to plot PION data we are using the data created from the simulation in :ref:`example-sim`. You can also download the python script for the following example here [Add link!].
+For the following example of how to plot PION data we are using the data created from the simulation in :ref:`example-sim`.
+Make sure you run python3 from the directory containing the data files (or include the path in the filename strings).
+You can also download the python script for the following example here: :download:`plot_pypion_ex.py <build_scripts/plot_pypion_ex.py>`.
+Make sure to edit the ``base_path`` variable on line 9 appropriately before trying to run this script.
 
 1. Import modules:
 
@@ -87,64 +105,54 @@ For the following example of how to plot PION data we are using the data created
       
       import numpy as np
       from astropy import units as u
-
-  And finally you will need to import matplotlib libraries to plot the data. 
-
-    .. code-block:: python
-
-      import matplotlib
-      from matplotlib.colorbar import Colorbar
       import matplotlib.pyplot as plt
-      import matplotlib as mpl
-      from mpl_toolkits.axes_grid1 import make_axes_locatable
-      from matplotlib.ticker import MultipleLocator
-      import matplotlib.gridspec as gridspec
+
+  
+  Next we import the PyPion library, using ``Plotting_Classes.py`` since this inherits all information from ``ReadData.py`` and ``SiloHeader_data.py``.
+  You may need to add the path to the ``Silo.a`` and PyPion libraries, for example see below (although you will need to modify the paths):
+
+
+    .. code-block:: python 
+
+      import sys
+      sys.path.insert(0,"/home/username/code/pypion/silo/lib")
+      import Silo
+      sys.path.insert(0,"/home/username/code/pypion/Library")
+      import Plotting_Classes as pypion
 
 
 2. Bring in the data:
 
-  We're going to plot all the levels from 1 timestep here, so create an array with the location and name of these 3 files. Then pass this array into the ReadData class.
+  We're going to plot all the levels from 1 timestep here, so create an array with the location and name of these 3 files.
+  Then pass this array into the Plotting_Classes, and choose to read the variable ``Density`` from the snapshots.
 
     .. code-block:: python 
 
       arr = ('Wind2D_HD_l3n0128_level00_0000.00009216.silo', 'Wind2D_HD_l3n0128_level01_0000.00009216.silo', 'Wind2D_HD_l3n0128_level02_0000.00009216.silo')
-      read_data = ReadData(arr)
-
-  We're also going to be plotting the density parameter here. So lets save the density data into an array called 'data' and also save the size of the grid and the simulation time into their own respective arrays.
-
-    .. code-block:: python
-      
+      read_data = pypion.Plotting2d(arr)
       param = 'Density'
-      data = read_data.get_2Darray(param)['data']
-      lim_max = (read_data.get_2Darray(param)['max_extents'] * u.cm)
-      lim_min = (read_data.get_2Darray(param)['min_extents'] * u.cm)
-      sim_time = read_data.get_2Darray(param)['sim_time'].to(u.Myr)
+      data = read_data.get_2Darray(param)
+      density = data['data']
+      lim_max = data['max_extents'] * u.cm
+      lim_min = data['min_extents'] * u.cm
+      sim_time = (data['sim_time']*u.s).to(u.Myr)
 
+3. Plot the data (here on a log scale, using imshow):
 
   Now that we have all the data we need, we can start to plot it. First let's create an empty figure instance.
-
-    .. code-block:: python
-
-      fig = plt.figure()
-      
   To plot the data from all the levels onto the same figure we need to loop over each level's data to plot it to the figure.
 
     .. code-block:: python
 
-      for i in range(len(data)):
-
-            log_data = np.log10(data[i])
-
-            ax1.set_title('Time = %5.5f Myr' % sim_time.value)
-
-            ax1.set_xlim(lim_min[0][0].value, lim_max[0][0].value)
-            ax1.set_ylim(lim_min[0][1].value, lim_max[0][1].value)
-
-            im1 = ax1.imshow(log_data, interpolation='nearest', cmap="viridis",
-                            extent=[lim_min[i][0].value, lim_max[i][0].value, lim_min[i][1].value, lim_max[i][1].value],
-                            origin='lower', vmax=-22, vmin=-27)
-                            
-       plt.show()
+      fig = plt.figure()
+      for i in range(len(density)):
+        log_data = np.log10(density[i])
+        plt.xlim(lim_min[0][0].value, lim_max[0][0].value)
+        plt.ylim(lim_min[0][1].value, lim_max[0][1].value)
+        im1 = plt.imshow(log_data, interpolation='nearest', cmap="viridis", extent=[lim_min[i][0].value, lim_max[i][0].value, lim_min[i][1].value, lim_max[i][1].value], origin='lower', vmax=-22, vmin=-27)
+      
+      plt.title('Time = %5.5f Myr' % sim_time.value)
+      plt.show()
 
 
 These are the basics you'll need to plot the simulation data; if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the `PyPion repository  <https://git.dias.ie/massive-stars-software/pypion/>`_.

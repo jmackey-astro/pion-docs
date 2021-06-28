@@ -16,9 +16,9 @@ Preparation
   Screenshot: running PION.
 
 This simulation can be run on a workstation with only a few cores in less than an hour.
-Once you have obtained a copy of PION (we assume you installed into a directory called ``pion/``) and compiled it following the instructions in :ref:`getting-started`, so that you have the binary files ``pion/icgen-ng`` and ``pion/pion-ng`` on your system.
+Once you have obtained a copy of PION (we assume you installed into a directory called ``pion/``) and compiled it following the instructions in :ref:`getting-started`, so that you have the binary files ``build/icgen-ng`` and ``build/pion-ng`` on your system.
 
-Test that these files run without library/system problems by running, e.g., ``$ ./pion/pion-ng`` and see what is displayed on screen.  It should look like :numref:`run-pion-noargs`.
+Test that these files run without library/system problems by running, e.g., ``$ ./build/pion-ng`` and see what is displayed on screen.  It should look like :numref:`run-pion-noargs`.
 Once you have verified this, then you can run a test simulation and view the results.
 
 
@@ -29,7 +29,7 @@ Change directory to the 2D bow-shock test directory:
 
 .. code-block:: bash 
 
-  $ cd pion/test_problems/Wind2D/
+  $ cd pion/test/problems/Wind2D/
 
 The parameters for the test simulation that we will run are in the file ``params_Wind2D_HD_l3n0128.txt``.  You can download :download:`the file here <ex-sim-img/params_Wind2D_HD_l3n0128.txt>`.  Some of the key physical parameters are:
 
@@ -59,8 +59,8 @@ Execute the following commands to set the simulation running:
 
 .. code-block:: bash 
 
-  $ mpirun -np 2 ../../icgen-ng params_Wind2D_HD_l3n0128.txt
-  $ mpirun -np 4 ../../pion-ng Wind2D_HD_l3n0128_level00_0000.00000000.silo
+  $ mpirun -np 2 ../../../build/icgen-ng params_Wind2D_HD_l3n0128.txt
+  $ mpirun -np 4 ../../../build/pion-ng Wind2D_HD_l3n0128_level00_0000.00000000.silo
 
 
 .. _pion-icgen-stdout:

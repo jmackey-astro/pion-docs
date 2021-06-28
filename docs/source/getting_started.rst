@@ -30,7 +30,13 @@ Getting the PION source code
 First things first: PION is free software; you can download it and redistribute it and/or modify it under the terms of The BSD 3-Clause License.  Read the :ref:`pion-license` here -- usage of PION implies acceptance of this license.
 In particular, this software is provided by the authors "as is", in the hope that it will be useful, but any express or implied warranties are disclaimed, including but not limited to, the implied warranties of merchantability and fitness for a particular purpose.
 
-The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/massive-stars-software/pion <https://git.dias.ie/massive-stars-software/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command:
+There are two repositories for PION, the publicly released version and the private development version.  If you want to get involved in active development of new features, then you want to ask for access to the private repository.
+
+
+Public release of PION
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/massive-stars-software/pion <https://git.dias.ie/massive-stars-software/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command from within a terminal window:
 
 .. code-block:: bash 
 
@@ -39,6 +45,17 @@ The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab 
 Alternatively you can download a zip-file with the source code from `https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip <https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip>`_ if you prefer.
 
 The PION git repository is also mirrored on `github <https://www.github.com/>`_ at `https://github.com/jmackey-astro/PION <https://github.com/jmackey-astro/PION>`_.
+
+
+Development version of PION
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The source code for the development version of PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server in a private repository: `https://git.dias.ie/compastro/pion <https://git.dias.ie/compastro/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command from within a terminal window:
+
+.. code-block:: bash 
+
+    $ git clone https://git.dias.ie/compastro/pion.git
+
 
 
 .. _getting-help:
@@ -69,88 +86,173 @@ A few extra libraries are needed to run PION:
 + Interpolation routines use the `modified Akima interpolation method <https://www.boost.org/doc/libs/master/libs/math/doc/html/math_toolkit/makima.html>`_ of the `Boost C++ libraries <https://www.boost.org/>`_.
 
 FITS, SILO and CVODE can either use system libraries or self-compiled libraries.
-Boost needs to be version 1.75.0 or newer, and this typically means it needs to be self-compiled.
-Here are instructions for how to install the required libraries for a number of different operating systems:
+Boost needs to be version 1.73.0 or newer, and some operating systems do not fulfill this requirement.
+
+There are two options for compiling PION, the serial version which runs on a single core with one thread, and the parallel version which uses MPI to run many processes on many cores.  For scientific applications you almost certainly want the parallel version, but the serial version is very useful for developing new algorithms and debugging.
+
+PION can be run in uniform-grid mode or nested-grid mode (with static mesh-refinement).
+These two options have different executables and you can specify at compile-time which executables to compile.
+
+PION uses `cmake <https://cmake.org/>`_ for compilation.
 
 
-Debian 9
-^^^^^^^^^^
+.. _compilation:
 
-Support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, as follows.
-Then a script is run to install boost in `pion/extra_libraries/boost`.
+Compiling PION
+----------------------------------
 
-.. code-block:: bash 
-
-  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libhdf5-serial-dev git g++ cmake libbz2-dev
-  $ cd pion/extra_libraries
-  $ bash ./install_boost.sh
-  $ cd -
+Here are instructions for how to install the required libraries and compile PION for a number of different operating systems.
 
 
-Debian 10
+Debian 10 (Buster)
 ^^^^^^^^^^^^^^^^^^^
 
-As Debian 9, but a couple of packages have changed name:
++ Support libraries can be installed in Debian 10 via the package manager, e.g. apt or aptitude, except for boost (version 1.71 is too old).
++ Then a script is run to install boost in `pion/extra_libraries/boost`, or else you can install boost 1.74 via debian backports.
++ Download (or write) a script to compile PION using Cmake.
+
+Here is a recipe for compiling using the system boost library from debian backports.  First add the debian backports repository to your system following `these instructions <https://backports.debian.org/Instructions/>`_.
+Then run the commands below from a terminal window (installing packages requires root access; here it is assumed you can use the ``sudo`` command for this).
 
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
-  libsundials-dev openmpi-bin openmpi-common curl libhdf5-dev git cmake libbz2-dev
-  $ cd pion/extra_libraries
-  $ bash ./install_boost.sh
-  $ cd -
+    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev \
+    libhdf5-dev git cmake libbz2-dev
+  $ sudo apt install libboost1.74-all-dev/buster-backports
+  $ git clone https://git.dias.ie/compastro/pion.git
+  $ cd pion/
+  $ git checkout devel
+  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ rm -rf build
+  $ bash build_debian.sh
+
+If you have trouble with debian backports you can also install boost from source and compile PION as follows:
+
+.. code-block:: bash 
+
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
+    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev \
+    libhdf5-dev git cmake libbz2-dev
+  $ git clone https://git.dias.ie/compastro/pion.git
+  $ cd pion
+  $ git checkout devel
+  $ cd extra_libraries
+  $ bash install_boost.sh
+  $ cd ..
+  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ rm -rf build
+  $ bash build_debian.sh
+
 
 
 Ubuntu 20
 ^^^^^^^^^^^^^^^^^^^
 
-Follow the instructions for debian 10.
+Follow the instructions for debian 10, except that there is no "backports" package repository for Ubuntu that contains boost >1.73 and so you have to follow the instructions for self-compiled boost library:
+
+.. code-block:: bash 
+
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
+    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev \
+    libhdf5-dev git cmake libbz2-dev
+  $ git clone https://git.dias.ie/compastro/pion.git
+  $ cd pion
+  $ git checkout devel
+  $ cd extra_libraries
+  $ bash install_boost.sh
+  $ cd ..
+  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ rm -rf build
+  $ bash build_debian.sh
+
+
+OS X
+^^^^^^^^^^^^^^^^^^^
+
+There are two main options on OSX for installing extra open-source software, namely `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_.
+PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
+As of January 2021, there was no working MPI compiler provided by MacPorts for OSX 11 (Big Sur), and so Homebrew is the recommended option for the latest OSX distributions.
+PION has also been compiled using Homebrew on OS X Mojave and Big Sur.
+
+1. Instructions for Homebrew:
+   
+   * Install Apple's Xcode and command-line tools and then Homebrew following `the Homebrew instructions <https://docs.brew.sh/Installation>`_.
+   * Run the following commands:
+
+   .. code-block:: bash 
+
+    $ brew update
+    $ brew upgrade
+    $ brew install sundials cfitsio open-mpi boost
+    $ cd extra_libraries
+    $ bash install_silo.sh
+    $ cd ..
+    $ rm -rf build
+    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/a2e4d78ef837df6f3c6d71d22a8f69c1/build_osx.sh
+    $ bash build_osx.sh 
+
+2. Instructions for MacPorts (not clear if this is working anymore, please send feedback if it works for you!)
+  
+   * Install Apple's Xcode and command-line tools and then Macports (see macports installation instructions for this step).
+   * Run the following commands:
+
+   .. code-block:: bash 
+
+    $ sudo port update
+    $ sudo port install mpich-default silo sundials cfitsio
+    $ cd extra_libraries
+    $ bash install_silo.sh
+    $ cd ..
+    $ rm -rf build
+    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/a2e4d78ef837df6f3c6d71d22a8f69c1/build_osx.sh
+    $ bash build_osx.sh 
+
+
+Debian 9
+^^^^^^^^^^
+
++ Support libraries can be installed in Debian 9 via the package manager, e.g. apt or aptitude, except for boost (the version is too old).
++ Then a script is run to install boost in `pion/extra_libraries/boost`.
++ Finally cmake is used to compile PION.
+
+.. code-block:: bash 
+
+  $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
+    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev libhdf5-serial-dev git g++ cmake libbz2-dev
+  $ git clone https://git.dias.ie/compastro/pion.git
+  $ cd pion
+  $ git checkout devel
+  $ cd extra_libraries
+  $ bash install_boost.sh
+  $ cd ..
+  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ bash build_debian.sh
 
 
 Ubuntu 18
 ^^^^^^^^^^^^^^^^^^^
 
-The ``libsilo-dev`` library has a bug and doesn't work, so no need to install here, but otherwise it is as for debian 9.
+The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwise it is as for debian 9.
 
-1. Install system libraries for fits, sundials:
+1. Install system libraries for fits, sundials.
+2. Install local version of silo and boost.
+3. Finally cmake is used to compile PION.
+
   
   .. code-block:: bash 
 
     $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
-      openmpi-bin openmpi-common curl git g++ cmake libbz2-dev
-
-
-2. Install local version of silo and boost:
-      
-  .. code-block:: bash 
-
-    $ cd pion/extra_libraries
-    $ bash ./install_all_libs.sh
-
-  This should detect that the OS is Ubuntu and will only install the SILO and Boost libraries.
-      
-
-OS X
-^^^^^^^^^^^^^^^^^^^
-
-There are two main options on OSX for installing extra open-source software, `Homebrew <https://brew.sh/>`_ and `MacPorts <https://www.macports.org/>`_. PION has been tested on OS X Mojave (10.14.6) with software installed via the MacPorts framework. The MPI compiler used is mpich. It is compiled with statically linked libraries.
-As of January 2021, there is no working MPI compiler provided by MacPorts for OSX 11 (Big Sur), and so Homebrew is the only option.
-Homebrew has Boost 1.75 as a package.
-
-1. Install the support packages:
-  
-  * Macports: ``$ sudo port install mpich-default silo sundials cfitsio``
-  * Brew: ``$ brew install sundials cfitsio open-mpi boost``
-
-2. Install locally-compiled libraries:
-      
-  .. code-block:: bash 
-
-    $ cd pion/extra_libraries
-    $ bash ./install_all_libs.sh
-
-  This should compile and install libraries for SILO and/or Boost.
+      openmpi-bin openmpi-common curl libcurl4-openssl-dev git g++ cmake libbz2-dev
+    $ git clone https://git.dias.ie/compastro/pion.git
+    $ cd pion
+    $ git checkout devel
+    $ cd extra_libraries
+    $ bash install_boost.sh
+    $ bash install_silo.sh
+    $ cd ..
+    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+    $ bash build_debian.sh
 
 
 Windows10
@@ -204,17 +306,11 @@ These instructions are to compile PION on Windows 10 using the Windows Subsystem
   + Run your linux distro to set it up and then install PION as if you were properly using Linux: :ref:`system-reqs`.
 
 
-.. _compilation:
+.. _compile-scripts-outcomes:
 
-Compiling PION
-----------------------------------
+Compilation scripts and resulting executables
+-----------------------------------------------
 
-There are two options for compiling PION, the serial version which runs on a single core with one thread, and the parallel version which uses MPI to run many processes on many cores.  For scientific applications you almost certainly want the parallel version, but the serial version is very useful for developing new algorithms and debugging.
-
-PION can be run in uniform-grid mode or nested-grid mode (with static mesh-refinement).
-You can specify at compile-time which executables to compile.
-
-PION uses `cmake <https://cmake.org/>`_ for compilation to make the process as automatic as possible.
 Some flags and settings need to be chosen at compile-time, and these can be specified in a build script.
 Some example build sripts can be downloaded here and modified as needed:
 
@@ -223,14 +319,14 @@ Some example build sripts can be downloaded here and modified as needed:
  + OS X: :download:`build_osx.sh <build_scripts/build_osx.sh>`
  + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_: :download:`build_kay.ichec.ie.sh <build_scripts/build_kay.ichec.ie.sh>`
 
-This should create some executable files in the directory ``build/``, for the parallel version these are:
+Running the build script should create some executable files in the directory ``build/``, for the parallel version these are:
 
-  + ``icgen-ug`` : initial-conditions generator for uniform-grid simulations
-  + ``icgen-ng`` : initial-conditions generator for nested-grid simulations
-  + ``pion-ug``  : PION executable for uniform-grid simulations
-  + ``pion-ng``  : PION executable for nested-grid simulations
+  + ``build/icgen-ug`` : initial-conditions generator for uniform-grid simulations
+  + ``build/icgen-ng`` : initial-conditions generator for nested-grid simulations
+  + ``build/pion-ug``  : PION executable for uniform-grid simulations
+  + ``build/pion-ng``  : PION executable for nested-grid simulations
 
-For the serial version the letter 's' is appended to these filenames, e.g. ``pion-ngs``.
+For the serial version the letter 's' is appended to these filenames, e.g. ``build/pion-ngs``.
 
 If you do not see these files, then probably the compilation process threw a lot of errors at you, and you can try to resolve these by looking at :ref:`compilation-issues`.
 

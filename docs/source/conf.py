@@ -24,9 +24,9 @@ copyright = u'2020, Jonathan Mackey'
 author = u'Jonathan Mackey'
 
 # The short X.Y version
-version = u''
+version = u'2.5'
 # The full version, including alpha/beta/rc tags
-release = u''
+release = u'3.0alpha'
 
 
 # -- General configuration ---------------------------------------------------

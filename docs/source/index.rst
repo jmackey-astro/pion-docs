@@ -28,6 +28,7 @@ Guide
   python.rst
   parameter-file.rst
   modules.rst
+  developers_guide.rst
   usage/license.rst
   usage/readme.rst 
 
