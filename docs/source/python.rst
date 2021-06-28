@@ -31,8 +31,8 @@ Using the PyPion docker image
 A docker image has been created to make it easier to run the python library.  Coming soon...
 
 
-Using the system python installation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using the system python3 on Debian/Ubuntu
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To be able to use all the features of this library you will need to have some python modules installed on your system.
 And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_.
@@ -62,10 +62,32 @@ You can get a copy (with a username and password for git.dias.ie) and install th
     $ git checkout develop
     $ cd silo
     $ bash install_silo.sh
-    
+    $ cd ../..
+    $ DIR=`pwd`; echo "${DIR}/pypion/silo/lib"; echo "${DIR}/pypion/Library"
+
+Now the Silo library is in ``${DIR}/pypion/silo/lib`` and the PyPion library in ``${DIR}/pypion/Library``.
+These two paths should be added to your Python path (see below) so that you can use the PyPion library in python3.
 
 Note that this has only been tested on debian 10 / Ubuntu 20 systems, and may not work directly for you on other systems.
 
+
+Using the system python3 on OS X
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  .. code-block:: bash
+  
+    $ brew install python numpy git
+    $ pip3 install astropy matplotlib
+    $ git clone https://git.dias.ie/compastro/pion_python.git ./pypion
+    $ cd pypion
+    $ git checkout develop
+    $ cd silo
+    $ bash install_silo.sh
+    $ cd ../..
+    $ DIR=`pwd`; echo "${DIR}/pypion/silo/lib"; echo "${DIR}/pypion/Library"
+
+Now the Silo library is in ``${DIR}/pypion/silo/lib`` and the PyPion library in ``${DIR}/pypion/Library``.
+These two paths should be added to your Python path (see below) so that you can use the PyPion library in python3.
 
 
 .. _use_python:
@@ -109,15 +131,15 @@ Make sure to edit the ``base_path`` variable on line 9 appropriately before tryi
 
   
   Next we import the PyPion library, using ``Plotting_Classes.py`` since this inherits all information from ``ReadData.py`` and ``SiloHeader_data.py``.
-  You may need to add the path to the ``Silo.a`` and PyPion libraries, for example see below (although you will need to modify the paths):
+  You may need to add the path to the ``Silo.a`` and PyPion libraries, for example see below (although you will need to modify the paths, see above):
 
 
     .. code-block:: python 
 
       import sys
       sys.path.insert(0,"/home/username/code/pypion/silo/lib")
-      import Silo
       sys.path.insert(0,"/home/username/code/pypion/Library")
+      import Silo
       import Plotting_Classes as pypion
 
 

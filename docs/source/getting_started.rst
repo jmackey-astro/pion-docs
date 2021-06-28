@@ -184,7 +184,10 @@ PION has also been compiled using Homebrew on OS X Mojave and Big Sur.
 
     $ brew update
     $ brew upgrade
-    $ brew install sundials cfitsio open-mpi boost
+    $ brew install sundials cfitsio open-mpi boost git
+    $ git clone https://git.dias.ie/compastro/pion.git
+    $ cd pion/
+    $ git checkout devel
     $ cd extra_libraries
     $ bash install_silo.sh
     $ cd ..
