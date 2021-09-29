@@ -35,7 +35,8 @@ Using the system python3 on Debian/Ubuntu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To be able to use all the features of this library you will need to have some python modules installed on your system.
-And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_.
+And of course you need to have the lastest version of the PyPion repository pulled to your desktop!
+This is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_.
 
 Here are instructions for debian/Ubuntu installation:
 
@@ -52,8 +53,21 @@ All of these modules can also be installed through pip if you prefer: :code:`$ p
       $ cd pypion/silo
       $ bash install_silo.sh
 
-And of course you need to have the lastest version of the PyPion repository pulled to your desktop! The ``master`` branch is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_, but you want the ``develop`` branch which is only hosted on the private repo at `https://git.dias.ie/compastro/pion_python.git <https://git.dias.ie/compastro/pion_python.git>`_.
-You can get a copy (with a username and password for git.dias.ie) and install the python-silo library as follows:
+For most users you can use the public version of PyPion:
+
+  .. code-block:: bash
+  
+    $ git clone https://git.dias.ie/massive-stars-software/pypion ./pypion
+    $ cd pypion
+    $ git checkout master
+    $ cd silo
+    $ bash install_silo.sh
+    $ cd ../..
+    $ DIR=`pwd`; echo "${DIR}/pypion/silo/lib"; echo "${DIR}/pypion/Library"
+
+
+It could be possible that you need the ``develop`` branch which is only hosted on the private repo at `https://git.dias.ie/compastro/pion_python.git <https://git.dias.ie/compastro/pion_python.git>`_, if you need some non-yet-released features.
+You can get a copy (with a username and password for git.dias.ie, and by requesting access from the repo maintainer) and install the python-silo library as follows:
 
   .. code-block:: bash
   
@@ -109,19 +123,7 @@ Make sure to edit the ``base_path`` variable on line 9 appropriately before tryi
 
 1. Import modules:
 
-  First you will want to import the PyPion library, all you need to import is :code:`ReadData.py` since it inherits all information from :code:`SiloHeader_data.py`.
-  You need to import the Silo and PyPion functions/classes manually, by adding the path to these files to your python path, something like this:
-
-    .. code-block:: python 
-
-      import sys
-      sys.path.insert(0,"/home/username/code/pypion/silo/lib")
-      sys.path.insert(0,"/home/username/code/pypion/Library")
-      import Silo
-      from ReadData import ReadData
-
-
-  Next import numpy and astropy to help with the data analysis.
+  First we import some modules liks numpy and astropy to help with the data analysis:
 
     .. code-block:: python 
       
@@ -130,9 +132,8 @@ Make sure to edit the ``base_path`` variable on line 9 appropriately before tryi
       import matplotlib.pyplot as plt
 
   
-  Next we import the PyPion library, using ``Plotting_Classes.py`` since this inherits all information from ``ReadData.py`` and ``SiloHeader_data.py``.
-  You may need to add the path to the ``Silo.a`` and PyPion libraries, for example see below (although you will need to modify the paths, see above):
-
+  We import the PyPion library, using ``Plotting_Classes.py`` since this inherits all information from ``ReadData.py`` and ``SiloHeader_data.py``.
+  You may need to add the path to the ``Silo.a`` and PyPion libraries, for example see below (although you will need to modify the paths):
 
     .. code-block:: python 
 
