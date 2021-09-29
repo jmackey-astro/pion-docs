@@ -4,11 +4,16 @@ Using Python to plot simulation
 =========================================
 
 PyPion is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
-For the moment this library only works with Python 2, work is being done to update to Python 3. 
+This library should be compatible with all versions of Python 3. 
 
 `SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_ is both a scientific database format and a data I/O library, producing machine-independent data files that can be easily shared between different computing architectures.  It is often built using `HDF5 <https://www.hdfgroup.org/HDF5/>`_ as the low-level I/O driver, and has excellent performance on HPC systems.
+The latest release of SILO, `version 4.11 released in September 2021 <https://github.com/markcmiller86/silo-issues/wiki/4.11-Release-Notes-September,-2021>`_, has support for python 3 and can be `downloaded from github <https://github.com/markcmiller86/silo-issues/releases/tag/v4.11>`_.
+PyPion contains a script to download and install SILO 4.11, which should be used until this release gets packaged in operating system distributions.
+Note that e.g. `debian <https://www.debian.org>`_ has a package called `python3-silo <https://packages.debian.org/bullseye/python3-silo>`_ but this was missing some key functionality and will not work until the package is upgraded from SILO 4.10 to 4.11.
+
 The SILO library comes with a python interface, but these routines require an extra layer of customisation to read PION snapshots simply.
 This is what PyPion provides -- a set of routines that call functions from the SILO python library to read PION snapshots into numpy arrays and plot them easily and efficiently.
+
 
 .. _install_python:
 
@@ -28,20 +33,24 @@ A docker image has been created to make it easier to run the python library.  Co
 Using the system python installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To be able to use all the features of this library you will need to have the following python modules installed on your system. At the time of writing, installing the python-silo module yourself 
-means you can only use this library with python2.7. 
+To be able to use all the features of this library you will need to have some python modules installed on your system.
+And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_.
 
 Here are instructions for debian/Ubuntu installation:
 
-+ Silo: :code:`$ sudo apt install python-silo`
-+ Numpy: :code:`$ sudo apt install python-numpy`
-+ Astropy: :code:`$ sudo apt install python-astropy`
-+ Matplotlib: :code:`$ sudo apt install python-matplotlib`
-+ Tk: :code:`$ sudo apt install python-tk`
++ Numpy: :code:`$ sudo apt install python3-numpy`
++ Astropy: :code:`$ sudo apt install python3-astropy`
++ Matplotlib: :code:`$ sudo apt install python3-matplotlib`
++ Tk: :code:`$ sudo apt install python3-tk`
 
-All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'python-module'`
+All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'module-name'`
 
-And of course you need to have the lastest version of the PyPion repository pulled to your desktop! This is available here: https://git.dias.ie/massive-stars-software/pypion/
++ Silo:
+    .. code-block:: bash
+      
+      $ cd pypion/silo
+      $ bash install_silo.sh
+
 
 
 .. _use_python:
@@ -51,19 +60,24 @@ Using PyPion to look at simulation data
 
 The main scripts in the library are:
 
-+ argparse_command.py - Saves the options entered into the command line when the python script is run. 
-+ SiloHeader_data.py - Which opens the silo file and saves all of the important header variables (eg. sim_time, xmax, xmin, etc.).
-+ ReadData.py - Opens the directory in the silo (or vtk, or fits) file and saves the requested variable data (eg. density, temp, etc.).
-+ Plotting_Classes.py - Sets up the plotting function and the figure.
++ :code:`argparse_command.py` - Saves the options entered into the command line when the python script is run. 
++ :code:`SiloHeader_data.py` - Which opens the silo file and saves all of the important header variables (eg. sim_time, xmax, xmin, etc.).
++ :code:`ReadData.py` - Opens the directory in the silo (or vtk, or fits) file and saves the requested variable data (eg. density, temp, etc.).
++ :code:`Plotting_Classes.py` - Sets up the plotting function and the figure.
 
 For the following example of how to plot PION data we are using the data created from the simulation in :ref:`example-sim`. You can also download the python script for the following example here [Add link!].
 
 1. Import modules:
 
-  First you will want to import the PyPion library, all you need to import is ReadData.py since it inherits all information from SiloHeader_data.py.
+  First you will want to import the PyPion library, all you need to import is :code:`ReadData.py` since it inherits all information from :code:`SiloHeader_data.py`.
+  You need to import the Silo and PyPion functions/classes manually, by adding the path to these files to your python path, something like this:
 
     .. code-block:: python 
 
+      import sys
+      sys.path.insert(0,"/home/username/code/pypion/silo/lib")
+      sys.path.insert(0,"/home/username/code/pypion/Library")
+      import Silo
       from ReadData import ReadData
 
 
@@ -133,7 +147,7 @@ For the following example of how to plot PION data we are using the data created
        plt.show()
 
 
-  This is the basics you'll need to plot the simulation data, if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the PyPion https://git.dias.ie/massive-stars-software/pypion/ repository.
+These are the basics you'll need to plot the simulation data; if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the `PyPion repository  <https://git.dias.ie/massive-stars-software/pypion/>`_.
 
 
 .. _issues_python:

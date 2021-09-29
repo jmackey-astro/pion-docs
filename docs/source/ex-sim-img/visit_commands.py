@@ -1,9 +1,8 @@
 
-args = ("-np", "1")
-OpenComputeEngine("localhost", args)
-SetWindowArea(0,0,800,800)
-
-DeleteAllPlots()
+#args = ("-np", "1")
+#OpenComputeEngine("localhost", args)
+#SetWindowArea(0,0,800,800)
+#DeleteAllPlots()
 
 OpenDatabase("localhost:Wind2D_HD_l3n0128_level00_0000.*.silo database", 0)
 AddPlot("Pseudocolor", "Density", 1, 1)
@@ -30,9 +29,6 @@ PseudocolorAtts.legendFlag = 1
 PseudocolorAtts.lightingFlag = 1
 SetPlotOptions(PseudocolorAtts)
 TimeSliderNextState()
-TimeSliderNextState()
-TimeSliderNextState()
-TimeSliderNextState()
-TimeSliderNextState()
-TimeSliderNextState()
+#OpenGUI()
+
 
