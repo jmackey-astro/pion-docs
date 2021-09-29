@@ -14,7 +14,7 @@ There are two versions of PION, the released version and development version.  O
 + Documentation for the released version, 2.0.0: `https://pion.ie/docs/ <https://pion.ie/docs/>`_.
 + Documentation for the development version: `https://pion.ie/docs/dev/ <https://pion.ie/docs/dev/>`_.
 
-**This documentation is for the released version.**
+**This documentation is for the development version.**
 
 Guide
 ^^^^^
