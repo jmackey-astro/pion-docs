@@ -123,7 +123,7 @@ Then run the commands below from a terminal window (installing packages requires
   $ git clone https://git.dias.ie/compastro/pion.git
   $ cd pion/
   $ git checkout devel
-  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
   $ rm -rf build
   $ bash build_debian.sh
 
@@ -140,7 +140,7 @@ If you have trouble with debian backports you can also install boost from source
   $ cd extra_libraries
   $ bash install_boost.sh
   $ cd ..
-  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
   $ rm -rf build
   $ bash build_debian.sh
 
@@ -162,7 +162,7 @@ Follow the instructions for debian 10, except that there is no "backports" packa
   $ cd extra_libraries
   $ bash install_boost.sh
   $ cd ..
-  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
   $ rm -rf build
   $ bash build_debian.sh
 
@@ -192,7 +192,7 @@ PION has also been compiled using Homebrew on OS X Mojave and Big Sur.
     $ bash install_silo.sh
     $ cd ..
     $ rm -rf build
-    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/a2e4d78ef837df6f3c6d71d22a8f69c1/build_osx.sh
+    $ wget https://www.pion.ie/docs/dev/_downloads/6db5318dcd45eb3b308505c622e0b10b/build_osx.sh
     $ bash build_osx.sh 
 
 2. Instructions for MacPorts (not clear if this is working anymore, please send feedback if it works for you!)
@@ -208,7 +208,7 @@ PION has also been compiled using Homebrew on OS X Mojave and Big Sur.
     $ bash install_silo.sh
     $ cd ..
     $ rm -rf build
-    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/a2e4d78ef837df6f3c6d71d22a8f69c1/build_osx.sh
+    $ wget https://www.pion.ie/docs/dev/_downloads/6db5318dcd45eb3b308505c622e0b10b/build_osx.sh
     $ bash build_osx.sh 
 
 
@@ -229,7 +229,7 @@ Debian 9
   $ cd extra_libraries
   $ bash install_boost.sh
   $ cd ..
-  $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+  $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
   $ bash build_debian.sh
 
 
@@ -254,7 +254,7 @@ The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwi
     $ bash install_boost.sh
     $ bash install_silo.sh
     $ cd ..
-    $ wget https://homepages.dias.ie/jmackey/pion-dev-doc/_downloads/c09c3b85afae16c99963dfd1d25965d5/build_debian.sh
+    $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
     $ bash build_debian.sh
 
 
