@@ -32,12 +32,14 @@ The shocked wind in the wind-collision region should be quite strongly radiative
 In this example the simulation domain has dimensions :math:`z\in[-1.024,1.024]\times10^{13}` cm, :math:`R\in[0,1.024]\times10^{13}` cm, resolved by :math:`640\times320` grid cells, and 2 refined levels centred on the origin (i.e. 3 levels in total).
 The finest grid contains the two stars.
 
+*It is important to note that this simulation will crash eventually when cooling is switched on, regardless of the solver used.  This is not really a bug but a limitation of 2D simulations with PION (and probably also of other 2D codes).  Eventually the contrast between states in adjacent cells on the symmetry axis becomes too large and events such as cavitation can occur.*
+
 
 Running the simulation
 -------------------------------------------------
 
 + Follow the preparation steps in :ref:`example-sim`.
-+ Download the parameter file :download:`param_V444Cyg_d2l3n320.txt <ex-sim-img/param_V444Cyg_d2l3n320.txt>` to a local directory.
++ Download the parameter file :download:`param_V444Cyg_d2l3n320.txt <ex-sim-img/param_V444Cyg_d2l3n320.txt>` to a local directory.  Make sure it is present in the directory that you are running PION from.
 + Set up the initial conditions:
  
   .. _cwb-pion-icgen:
