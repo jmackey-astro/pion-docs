@@ -341,10 +341,11 @@ Some flags and settings need to be chosen at compile-time, and these can be spec
 Some example build sripts can be downloaded here and modified as needed.
 They are also available in the ``scripts/`` subdirectory of the PION source code.
 
- + Debian 10: :download:`build_debian.sh <build_scripts/build_debian.sh>`
- + Ubuntu 20: :download:`build_debian.sh <build_scripts/build_debian.sh>`
- + OS X: :download:`build_osx.sh <build_scripts/build_osx.sh>`
- + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_: :download:`build_kay.ichec.ie.sh <build_scripts/build_kay.ichec.ie.sh>`
+ + Debian 11 / Ubuntu 21: :download:`build-debian11.sh <build_scripts/build-debian11.sh>`
+ + Debian 10 / Ubuntu 20: :download:`build-debian.sh <build_scripts/build-debian.sh>`
+ + OS X: :download:`build-osx.sh <build_scripts/build-osx.sh>`
+ + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_ using GCC compiler: :download:`build-kay.ichec.ie-gcc.sh <build_scripts/build-kay.ichec.ie-gcc.sh>`
+ + `Kay.ichec.ie <https://www.ichec.ie/about/infrastructure/kay>`_ using Intel compiler: :download:`build-kay.ichec.ie-intel.sh <build_scripts/build-kay.ichec.ie-intel.sh>`
 
 Running the build script should create some executable files in the directory ``build/``, for the parallel version these are:
 
