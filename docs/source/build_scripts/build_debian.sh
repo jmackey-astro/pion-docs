@@ -10,32 +10,21 @@ pushd ${build_dir}
 
 CMAKE_PREFIX_PATH="${deps_dir};${CMAKE_PREFIX_PATH}"
 
-#    -DCMAKE_BUILD_TYPE=Release \
-#    -DCMAKE_BUILD_TYPE=Debug \
 cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_COMPILER=mpicxx \
     -DPION_USE_SILO=ON \
-    -DPION_USE_FITS=ON \
+    -DPION_USE_FITS=OFF \
     -DPION_UNIFORM_GRID=ON \
     -DPION_NESTED_GRID=ON \
     -DPION_TOOLS=ON \
+    -DPION_BUILD_TESTS=ON \
+    -DPION_OMP=OFF \
     -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}" \
     "${script_dir}"
 
-make -j 4
-
-#cmake \
-#    -DCMAKE_BUILD_TYPE=Release \
-#    -DCMAKE_CXX_COMPILER=g++ \
-#    -DPION_USE_SILO=ON \
-#    -DPION_UNIFORM_GRID=ON \
-#    -DPION_NESTED_GRID=ON \
-#    -DPION_PARALLEL=OFF \
-#    "${script_dir}"
-#
-#make -j 4
+#    -DPION_BUILD_TESTS=ON \
+#    -DPION_OMP=ON \
+make -j 12
 
 popd # build_dir
-
-
