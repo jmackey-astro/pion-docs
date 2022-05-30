@@ -46,10 +46,13 @@ Equations
 
 There are three different types of equations that can be set up:
 
-+ **Euler equations**
-+ **Ideal MHD equations**
-+ **GLM-MHD equations**
++ **Euler equations**: the inviscid equations of hydrodynamics.
++ **Ideal MHD equations**: magnetohydrodynamics, only usable in 1D because there is no scheme for dealing with DivB errors.
++ **GLM-MHD equations**: magnetohydrodynamics plus the Dedner et al. (2002) divergence cleaning mechanism for mitigating DivB errors.
 
+There are a number of different flux solvers that can be used, with different levels of robustness and accuracy:
+
++ List of solvers
 
 ===================  ==================  ================  =================================================================
 Parameter            Type                Units             Description
