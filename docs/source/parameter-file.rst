@@ -51,6 +51,23 @@ There are three different types of equations that can be set up:
 + **GLM-MHD equations**
 
 
+===================  ==================  ================  =================================================================
+Parameter            Type                Units             Description
+===================  ==================  ================  =================================================================
+eqn                  string              none              System of equations to solve: `euler`, `mhd`, `glm-mhd`
+GAMMA                double              none              adiabatic index of the gas (usually 5/3=1.66666666666667)
+solver               integer             none              Which flux solver to use (see above for options)
+OrderOfAccSpace      integer             none              spatial order of accuracy: 1 = piecewise constant; 2 =  piecewise
+                                                           linear
+OrderOfAccTime       integer             none              temporal order of accurasy: 1 = 1st order piecewise constant; 
+                                                           2 = 2nd order, piecewise linear
+CFL                  double              none              Courant-Friedrichs-Lewy number (<1 1D, <0.5 2D, <0.33 3D)
+ArtificialViscosity  integer             none              0=no AV, 1=Falle+(1998) AV, 3=Sanders+(1998) H-correction 
+                                                           H-correction only works with some solvers.
+EtaViscosity         double              none              Viscosity parameter for Falle+(1998) AV, in range [0,1], 
+                                                           default value is 0.15.
+===================  ==================  ================  =================================================================
+
 =====================================================
 Computational Grid
 =====================================================
@@ -63,9 +80,11 @@ The coarsest level is denoted `level 0`, and each refined level has a higher lev
 
 The parameters are:
 
-================  ==================  ================  ===========================================================
+================  ==================  ================  =================================================================
 Parameter         Type                Units             Description
-================  ==================  ================  ===========================================================
+================  ==================  ================  =================================================================
+ndim              integer             none              Number of spatial dimensions to simulate
+coordinates       string              none              Geometry. 1D: spherical, 2D: cylindrical/cartesian, 3D: cartesian
 NGridX            integer             none              Number of grid points in :math:`\hat{x}`-direction
 NGridY            integer             none              Number of grid points in :math:`\hat{y}`-direction
 NGridZ            integer             none              Number of grid points in :math:`\hat{z}`-direction
@@ -75,7 +94,7 @@ Zmin              double              cm                negative boundary in :ma
 Xmax              double              cm                positive boundary in :math:`\hat{x}`-direction (level 0)
 Ymax              double              cm                positive boundary in :math:`\hat{y}`-direction (level 0)
 Zmax              double              cm                positive boundary in :math:`\hat{z}`-direction (level 0)
-================  ==================  ================  ===========================================================
+================  ==================  ================  =================================================================
 
 
 =====================================================
