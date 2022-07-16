@@ -90,18 +90,17 @@ Using the system python3 on OS X
 
   .. code-block:: bash
   
-    $ brew install python numpy git
-    $ pip3 install astropy matplotlib
+    $ brew install python numpy git wget
     $ git clone https://git.dias.ie/compastro/pion_python.git ./pypion
     $ cd pypion
     $ git checkout develop
-    $ cd silo
+    $ cd src/silo
     $ bash install_silo.sh
     $ cd ../..
-    $ DIR=`pwd`; echo "${DIR}/pypion/silo/lib"; echo "${DIR}/pypion/Library"
+    $ DIR=`${HOME}/.local/`; echo "${DIR}/silo/lib"
+    $ python3 -m pip install astropy matplotlib pypion
 
-Now the Silo library is in ``${DIR}/pypion/silo/lib`` and the PyPion library in ``${DIR}/pypion/Library``.
-These two paths should be added to your Python path (see below) so that you can use the PyPion library in python3.
+Now the Silo library is in ``${HOME}/.local/silo/lib`` and the PyPion library should be installed via pip, and should be configured to find the Silo library in this path.
 
 
 .. _use_python:

@@ -205,7 +205,7 @@ Homebrew has no SILO package, so we have to build it ourselves.
 
     $ brew update
     $ brew upgrade
-    $ brew install sundials cfitsio open-mpi boost git spdlog fmt curl
+    $ brew install sundials cfitsio open-mpi boost git spdlog fmt curl cmake
     $ git clone https://git.dias.ie/compastro/pion.git
     $ cd pion/
     $ git checkout devel
