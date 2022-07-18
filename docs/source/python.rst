@@ -73,16 +73,17 @@ You can get a copy (with a username and password for git.dias.ie, and by request
   
     $ git clone https://git.dias.ie/compastro/pion_python.git ./pypion
     $ cd pypion
-    $ git checkout develop
-    $ cd silo
+    $ git checkout master
+    $ cd src/silo
     $ bash install_silo.sh
     $ cd ../..
-    $ DIR=`pwd`; echo "${DIR}/pypion/silo/lib"; echo "${DIR}/pypion/Library"
+    $ DIR=`${HOME}/.local/`; echo "${DIR}/silo/lib"
+    $ python3 -m pip install astropy matplotlib pypion
 
-Now the Silo library is in ``${DIR}/pypion/silo/lib`` and the PyPion library in ``${DIR}/pypion/Library``.
-These two paths should be added to your Python path (see below) so that you can use the PyPion library in python3.
+Now the Silo library is in ``${HOME}/.local/silo/lib`` and the PyPion library can be imported like any other python package.
+PyPion should be configured to find the Silo library.
 
-Note that this has only been tested on debian 10 / Ubuntu 20 systems, and may not work directly for you on other systems.
+Note that this has only been tested on debian 11 / Ubuntu 20 systems, and may not work directly for you on other systems.
 
 
 Using the system python3 on OS X
