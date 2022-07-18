@@ -138,7 +138,7 @@ Then run the commands below from a terminal window (installing packages requires
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin g++ \
     libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev \
-    libhdf5-dev git cmake libbz2-dev libspdlog-dev libfmt-dev
+    libhdf5-dev git cmake libbz2-dev libspdlog-dev libfmt-dev wget
   $ sudo apt install libboost1.74-all-dev/buster-backports
   $ git clone https://git.dias.ie/compastro/pion.git
   $ cd pion/
@@ -205,7 +205,7 @@ Homebrew has no SILO package, so we have to build it ourselves.
 
     $ brew update
     $ brew upgrade
-    $ brew install sundials cfitsio open-mpi boost git spdlog fmt curl cmake
+    $ brew install sundials cfitsio open-mpi boost git spdlog fmt curl cmake wget
     $ git clone https://git.dias.ie/compastro/pion.git
     $ cd pion/
     $ git checkout devel
@@ -224,7 +224,7 @@ Homebrew has no SILO package, so we have to build it ourselves.
    .. code-block:: bash 
 
     $ sudo port update
-    $ sudo port install mpich-default silo sundials cfitsio
+    $ sudo port install mpich-default silo sundials cfitsio boost git spdlog fmt cmake wget
     $ cd extra_libraries
     $ bash install_silo.sh
     $ cd ..
@@ -244,7 +244,7 @@ Debian 9
 .. code-block:: bash 
 
   $ sudo apt install libcfitsio-bin libcfitsio-dev libsilo-dev libsilo-bin python-silo \
-    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev libhdf5-serial-dev git g++ cmake libbz2-dev libspdlog-dev
+    libsundials-dev openmpi-bin openmpi-common curl libcurl4-openssl-dev libhdf5-serial-dev git g++ cmake libbz2-dev libspdlog-dev wget
   $ git clone https://git.dias.ie/compastro/pion.git
   $ cd pion
   $ git checkout devel
@@ -268,7 +268,7 @@ The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwi
 
   .. code-block:: bash 
 
-    $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev 
+    $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev wget
       openmpi-bin openmpi-common curl libcurl4-openssl-dev git g++ cmake libbz2-dev libspdlog-dev
     $ git clone https://git.dias.ie/compastro/pion.git
     $ cd pion
