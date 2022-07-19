@@ -47,6 +47,7 @@ Here are instructions for debian/Ubuntu installation:
 All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'module-name'`
 
 + Silo:  can be installed together with PyPion as follows:
+
   .. code-block:: bash
   
     $ git clone https://git.dias.ie/massive-stars-software/pypion ./pypion
@@ -57,6 +58,7 @@ All of these modules can also be installed through pip if you prefer: :code:`$ p
     $ cd ../..
     $ DIR=`${HOME}/.local/`; echo "${DIR}/silo/lib"
     $ python3 -m pip install astropy matplotlib pypion
+
 
 Now the Silo library is in ``${HOME}/.local/silo/lib`` and the PyPion library can be imported like any other python package.
 
