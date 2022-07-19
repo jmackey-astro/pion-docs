@@ -6,21 +6,16 @@ from astropy import units as u
 import matplotlib.pyplot as plt
 
 # edit this to the appropriate path
-base_path='/home/jm/code/'
-
 import sys
-sys.path.insert(0,base_path+"pypion/silo/lib")
-import Silo
-sys.path.insert(0,base_path+"pypion/Library")
-import Plotting_Classes as pypion
+sys.path.insert(0,"/Users/jm/.local/silo/lib")
+from pypion.ReadData import ReadData
 
+data_path='/Users/jm/Documents/CODE/pion-dev/test/problems/Wind2D/'
+files = ( data_path+'Wind2D_HD_l3n0128_level00_0000.00009216.silo',
+          data_path+'Wind2D_HD_l3n0128_level01_0000.00009216.silo',
+          data_path+'Wind2D_HD_l3n0128_level02_0000.00009216.silo')
 
-data_path=base_path+"pion/test/problems/Wind2D/"
-arr = ( data_path+'Wind2D_HD_l3n0128_level00_0000.00009216.silo',
-        data_path+'Wind2D_HD_l3n0128_level01_0000.00009216.silo',
-        data_path+'Wind2D_HD_l3n0128_level02_0000.00009216.silo')
-
-read_data = pypion.Plotting2d(arr)
+read_data = ReadData(files)
 param = 'Density'
 data = read_data.get_2Darray(param)
 density = data['data']
