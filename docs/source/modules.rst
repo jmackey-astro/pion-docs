@@ -463,7 +463,9 @@ suitable for testing code.
 
 For moving stars, a file "trajectory.txt" is created in the current working
 directory and the trajectory of the stars is saved there, with a line being
-written every 10 times the star's position is updated.
+written every 10 times the star's position is updated.  When a simulation is
+stopped and restarted, this file is appended to, and a blank line followed by
+the header line is inserted to indicate that the simulation was restarted.
 
 
 Example parameters for a wind source:
