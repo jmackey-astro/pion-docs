@@ -116,6 +116,8 @@ The parameter file for a constant wind has a number of parameters that should be
 +=====================+============================================+=====================================+
 | WIND_[i]_pos[n]     | Star position :math:`n\in[0,1,2]`          | cm                                  |
 +---------------------+--------------------------------------------+-------------------------------------+
+|WIND_[i]_velocity[n] | Star velocity :math:`n\in[0,1,2]`          | cm/s (if moving) default is 0       |
++---------------------+--------------------------------------------+-------------------------------------+
 | WIND_[i]_radius     | Radius of wind injection region            | cm                                  |
 +---------------------+--------------------------------------------+-------------------------------------+
 | WIND_[i]_type       | [Constant, evolving, latitude  dependent]  | [0,1,2]                             |
@@ -146,6 +148,11 @@ The parameter file for a constant wind has a number of parameters that should be
 +---------------------+--------------------------------------------+-------------------------------------+
 |WIND_[i]_enhance_mdot| ad-hoc flag to increase :math:`\dot{M}`    | Default is 0                        |
 +---------------------+--------------------------------------------+-------------------------------------+
+| WIND_[i]_moving     | is star moving? yes==1, no==0              | Default is 0                        |
++---------------------+--------------------------------------------+-------------------------------------+
+|WIND_[i]_acceleration| is wind accelerated? yes==1, no==0         | Default is 0 (inject at v_inf)      |
++---------------------+--------------------------------------------+-------------------------------------+
+
 
 For constant winds, these data are stored in the global struct ``SWP``, defined in
 ``pion/source/constants.h``, using these units.  In simulation snapshots they also have the

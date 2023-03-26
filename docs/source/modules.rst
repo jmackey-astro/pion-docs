@@ -457,12 +457,16 @@ mass, momentum, and energy source on the grid, and it works in 1D, 2D,
 and 3D. It is switched on by setting the parameter WIND_NSRC to an
 integer value greater than zero.
 
-Note, however, that it always assumes a 3D geometry so that the density
-falls of with an inverse square law to conserve mass. 2D simulations in
-Cartesian geometry will therefore not work correctly, because they
-assume a line source and not a point source.
+2D simulations in Cartesian geometry assume a line source and not a point
+source.  This means the density falls off as 1/r, so such a simulation is only
+suitable for testing code.
 
-Example:
+For moving stars, a file "trajectory.txt" is created in the current working
+directory and the trajectory of the stars is saved there, with a line being
+written every 10 times the star's position is updated.
+
+
+Example parameters for a wind source:
 
 ::
 
@@ -470,12 +474,18 @@ Example:
    WIND_0_pos0  0.0e18     # cm
    WIND_0_pos1  0.0e18     # cm
    WIND_0_pos2  0.0e18     # cm
-   WIND_0_radius 2.4688e17 # cm
+   WIND_0_velocity0          0.0 # cm/s
+   WIND_0_velocity1          0.0 # cm/s
+   WIND_0_velocity2          0.0 # cm/s
+   WIND_0_radius 2.4688e17 # Radius of wind boundary (cm)
    WIND_0_type   0         # type of wind (constant=0, evolving=1)
+   WIND_0_mass   10.0      # stellar mass in Msun
    WIND_0_mdot   1.73e-6   # Msun per year
    WIND_0_vinf   2500.0    # km/s
+   WIND_0_vrot   200.0     # equatorial surface rotation velocity km/s
    WIND_0_temp   1.0e4     # K
-   WIND_0_Rstr   2.4688e17 # cm
+   WIND_0_Rstr   2.0e12    # Radius of star (cm)
+   WIND_0_Bsrf   1.0       # surface magnetic field in Gauss
    WIND_0_TR0 1.0          # values of any tracer variables
    WIND_0_TR1 0.0
    WIND_0_TR2 0.0
@@ -485,6 +495,8 @@ Example:
    WIND_0_t_offset   0.0   # offset between evolutionary time and simulation time
    WIND_0_t_scalefac 1.0   # Accelerates evolution by this factor (for MS phase)
    WIND_0_updatefreq 1.0   # How often to update the wind quantities
+   WIND_0_moving_star  0   # 1=star moves on grid, 0=static
+   WIND_0_acceleration 0   # 0=inject wind at v_inf, 1=accelerate with beta law
 
 
 Special-purpose boundaries
