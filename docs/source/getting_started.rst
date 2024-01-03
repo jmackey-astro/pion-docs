@@ -261,7 +261,7 @@ Ubuntu 18
 The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwise it is as for debian 9.
 
 1. Install system libraries for fits, sundials.
-2. Install local version of silo and boost.
+2. Install local version of silo, spdlog/fmt and boost. (TODO: add instructions/script for spdlog)
 3. Finally cmake is used to compile PION.
 
 *Note that this configuration has not been tested for some time and may no longer work.*
@@ -276,6 +276,7 @@ The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwi
     $ cd extra_libraries
     $ bash install_boost.sh
     $ bash install_silo.sh
+    $ echo "here you need to install spdlog and fmt... need to add instructions"
     $ cd ..
     $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
     $ bash build_debian.sh
