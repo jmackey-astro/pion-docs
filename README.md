@@ -6,6 +6,8 @@ The `docs/` directory is where the Sphinx documentation is hosted, which can be 
 Only Jonathan Mackey can update the online version of the PION docs at [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via the DIAS webpage updating interface.
 This repo is for keeping a master copy of the documentation.
 
+Sphinx can be installed via `python3 -m pip install sphinx sphinx-rtd-theme` in your python virtual environment.
+
 From the `docs/` directory you can generate and view html in `build/html/` by running the command:
 
 ```
