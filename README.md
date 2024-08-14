@@ -7,6 +7,7 @@ Only Jonathan Mackey can update the online version of the PION docs at [https://
 This repo is for keeping a master copy of the documentation.
 
 Sphinx can be installed via `python3 -m pip install sphinx sphinx-rtd-theme` in your python virtual environment.
+You may be able to use system python on linux by installing `python3-sphinx python3-sphinx-rtd-theme` on debian/ubuntu.
 
 From the `docs/` directory you can generate and view html in `build/html/` by running the command:
 

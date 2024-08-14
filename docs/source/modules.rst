@@ -357,23 +357,23 @@ Reflection test problem).
 External Boundary Conditions (governing flow onto or off the grid
 boundary):
 
--  periodic
--  outflow or zero-gradient
--  one-way-outflow
--  inflow
--  reflecting
--  fixed
--  equator-reflect
--  DMR
--  SB1
+-  ``periodic``
+-  ``outflow or zero-gradient``
+-  ``one-way-outflow``
+-  ``inflow``
+-  ``reflecting``
+-  ``fixed``
+-  ``equator-reflect``
+-  ``DMR``
+-  ``SB1``
 
 Internal Boundary Conditions (governing sources or sinks of mass/energy)
 
--  stellar-wind
--  jet
--  DMR2
--  RadShock
--  RadShock2
+-  ``stellar-wind``
+-  ``jet``
+-  ``DMR2``
+-  ``RadShock``
+-  ``RadShock2``
 
 
 General-purpose boundary conditions
@@ -432,7 +432,7 @@ boundaries instead.
 Axisymmetric boundaries: “axisymmetric”
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-These only work for 2D cylindrically symmetric calculations in the :math:`R-z` plane.
+These only work for 2D cylindrically symmetric calculations in the :math:`z-R` plane.
 They are the same as reflecting boundaries except that the third :math:`\theta` component of the velocity and magnetic field change sign across :math:`R=0`, to account for the rotational symmetry.
 This has no effect on the flow dynamics for hydrodynamics because the flux across the symmetry axis is zero by definition, but is important for the calculation of :math:`\nabla \cdot\mathbf{B}` for divergence cleaning in MHD simulations.
 
