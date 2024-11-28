@@ -269,16 +269,19 @@ The ``libsilo-dev`` library has a bug and doesn't work on ubuntu 18, but otherwi
   .. code-block:: bash 
 
     $ sudo apt install libcfitsio-bin libcfitsio-dev libsundials-dev wget
-      openmpi-bin openmpi-common curl libcurl4-openssl-dev git g++ cmake libbz2-dev libspdlog-dev
+      openmpi-bin openmpi-common curl libcurl4-openssl-dev git g++ cmake libbz2-dev libspdlog-dev libhdf5-dev
+    $ git clone https://git.dias.ie/compastro/superpion.git
     $ git clone https://git.dias.ie/compastro/pion.git
-    $ cd pion
+    $ echo "here you need to install spdlog and fmt... need to add instructions"
+    $ cd superpion
+    $ bash ./src/build_packages.sh --only=spdlog --build-dependencies --prefix=../pion/extra_libraries/
+    $ cd ../pion
     $ git checkout devel
     $ cd extra_libraries
     $ bash install_boost.sh
-    $ bash install_silo.sh
-    $ echo "here you need to install spdlog and fmt... need to add instructions"
+    $ bash install_silo_hdf5.sh
     $ cd ..
-    $ wget https://www.pion.ie/docs/dev/_downloads/0824f5d980bf98a3bc9000462d98d7df/build_debian.sh
+    $ cp scripts/build_ubuntu18.sh ./
     $ bash build_debian.sh
 
 
