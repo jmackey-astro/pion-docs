@@ -1,0 +1,6 @@
+[build-system]
+
+[project]
+name = "pion"
+authors = [{name = "Jonathan Mackey et al.", email = "jmackey@cp.dias.ie"}]
+dynamic = ["version", "description"]
