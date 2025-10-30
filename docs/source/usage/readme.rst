@@ -28,18 +28,20 @@ Developers
 
 The following people have contributed to the development of PION:
 
--  Killian Brady
--  Robert Brose
 -  Harpreet Dhanoa
--  Margueritta Goulden
+-  Maggie Celeste
 -  Samuel Green
 -  Robert Kavanagh
 -  Andrew Lim
 -  Jonathan Mackey jmackey@cp.dias.ie
 -  Arun Mathew
 -  Maria Moutzouri
+-  Ciarán O'Rourke
+-  Killian Brady
+-  Robert Brose
 -  Anurag Ravi Nimonkar
 -  Davit Zargaryan
+
 
 Licence
 ----------------
