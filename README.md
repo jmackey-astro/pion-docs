@@ -46,3 +46,7 @@ If you want to add a new file, you can do this via:
 ```
 
 Please check that the documentation generation is successful via `make html` before pushing changes to the git repo!
+
++ Dashboard on readthedocs [https://app.readthedocs.org/projects/pion-docs-dev/](https://app.readthedocs.org/projects/pion-docs-dev/)
++ Documentation page for [latest dev version](https://pion-docs-dev.readthedocs.io/en/latest/)
+
