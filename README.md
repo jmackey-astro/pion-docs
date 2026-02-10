@@ -2,8 +2,7 @@ This is for PION documentation.
 
 The `website/` directory is approximately a clone of the wordpress site at [www.pion.ie](https://www.pion.ie/), but not kept up-to-date.
 
-The `docs/` directory is where the Sphinx documentation is hosted, which can be manually synced with [https://www.pion.ie/docs/](https://www.pion.ie/docs/).
-Only Jonathan Mackey can update the online version of the PION docs at [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via the DIAS webpage updating interface.
+The `docs/` directory is where the Sphinx documentation is hosted, which can be manually synced with [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via a DIAS updating interface (requires authentication).
 
 Documentation for the development version of PION, which will become the next release, is in the `dev` branch of this repo, and is published to [https://pion-docs-dev.readthedocs.io/en/latest/](https://pion-docs-dev.readthedocs.io/en/latest/).
 

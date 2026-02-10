@@ -362,6 +362,67 @@ For the serial version the letter 's' is appended to these filenames, e.g. ``bui
 
 If you do not see these files, then probably the compilation process threw a lot of errors at you, and you can try to resolve these by looking at :ref:`compilation-issues`.
 
+.. _compile-scripts-options:
+
+Compile-time options
+--------------------
+
+Enabling/Disabling Features of Pion
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that the NEMO multi-ion module is disabled by default, because of long compilation time and the size of the executable.
+You can enable compilation of NEMO with ``-DPION_MPV10=ON`` on the cmake command line.
+
+====================================  ===================================================================================
+ Option                               Effect                                                                            
+====================================  ===================================================================================
+``-DPION_NESTED_GRID=...``            Set to ``ON`` to build nested grid simulations (default ``ON``)
+``-DPION_UNIFORM_GRID=...``           Set to ``ON`` to build uniform grid simulations (default ``OFF``)
+``-DPION_PARALLEL_=...``              Set to ``ON`` to enable MPI for the Pion build , or ``OFF`` to disable MPI
+                                      (default ``ON``)
+``-DPION_OMP=...``                    Set to ``ON`` to enable OpenMP multithreading (default ``OFF``).
+``-DPION_USE_SILO=...``               Set to ``ON`` to use Silo for handling data I/O (default ``OFF``)
+``-DPION_MPV10=...``                  Set to ``ON`` to build the multi-ion module (NEMO) (default ``OFF``)
+``-DPION_USE_FITS=...``               Set to ``ON`` to use Fits for handling data I/O (default ``OFF``)
+``-DPION_TOOLS=...``                  Set to ``ON`` to also compile support programs in analysis subdir (default ``OFF``)
+``-DPION_SKIP_SOURCE=...``            Set to ``ON`` to skip compilation of the Pion source files (default ``OFF``)
+``-DPION_BUILD_DOCUMENTATION =...``   Set to ``ON`` to build Doxygen documentation (default ``OFF``)
+``-DPION_BUILD_TESTS=...``            Set to ``ON`` to build tests (default ``OFF``)
+``-DON_KAROLINA=...``                 Set to ``ON`` if building on karolina.it4i.cz (default ``OFF``)
+``-DINTEL=...``                       Set to ``ON`` only if using Intel compilers (default ``OFF``)
+                                      This flag switches PION to include the Intel math header and not math.h
+``-DLOG_ALL_PROCS=...``               Set to ``ON`` only for debugging to enable logging from all MPI processes
+                                      (default is ``OFF`` ==> only rank 0)
+====================================  ===================================================================================
+
+Dependency Helpers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+======================  ======================================================================
+Option                  Effect
+======================  ======================================================================
+``-DSUNDIALS_DIR=...``  Instruct CMake to search the provided path for the Sundials library.
+``-DSILO_DIR=...``      Instruct CMake to search the provided path for the Silo library.
+``-DFITS_DIR=...``      Instruct CMake to search the provided path for the Fits library.
+``-Dspdlog_DIR=...``    Instruct CMake to search the provided path for the Spdlog library.
+``-DREADLINE_DIR=...``  Instruct CMake to search the provided path for the Readline library.
+``-DBOOST_ROOT=...``    Instruct CMake to search the provided path for the Boost library.
+======================  ======================================================================
+
+Setting installation directories
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+====================================  ====================================================================================
+Option                                Effect
+====================================  ====================================================================================
+``-DCMAKE_INSTALL_PREFIX=...``          Set the root install directory for the compiled libraries and programs.
+``-DPION_INSTALL_BINDIR=...``           Set the install directory for Pion executables. Use a relative path to set 
+                                        the path relative to ``${CMAKE_INSTALL_PREFIX}`` (default ``bin``).
+====================================  ====================================================================================
+
+
+
+
 
 .. _compilation-issues:
 
