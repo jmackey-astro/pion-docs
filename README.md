@@ -4,7 +4,7 @@ The `website/` directory is approximately a clone of the wordpress site at [www.
 
 The `docs/` directory is where the Sphinx documentation is hosted, which can be manually synced with [https://www.pion.ie/docs/](https://www.pion.ie/docs/) via a DIAS updating interface (requires authentication).
 
-Documentation for the development version of PION, which will become the next release, is in the `dev` branch of this repo, and is published to [https://pion-docs-dev.readthedocs.io/en/latest/](https://pion-docs-dev.readthedocs.io/en/latest/).
+Documentation for the development version of PION, which will become the next release, is in the `dev` branch of this repo, and is published to [https://pion-docs-dev.readthedocs.io/](https://pion-docs-dev.readthedocs.io/).
 
 
 
