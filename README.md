@@ -18,17 +18,17 @@ If you are adding documentation that applies only to the development version, th
 Sphinx can be installed via `python3 -m pip install sphinx sphinx-rtd-theme` in your python virtual environment.
 You may be able to use system python on linux by installing `python3-sphinx python3-sphinx-rtd-theme` on debian/ubuntu.
 
-From the `docs/` directory you can generate and view html in `build/html/` by running the command:
+From the root directory you can generate and view html in `build/html/` by running the command:
 
 ```
     $ make html
     $ firefox build/html/index.html
 ```
 
-The source text is using [reStructuredText](https://www.sphinx-doc.org/en/stable/usage/restructuredtext/index.html) format, and is in `docs/source/`
+The source text is using [reStructuredText](https://www.sphinx-doc.org/en/stable/usage/restructuredtext/index.html) format, and is in `docs/`
 
 
-Please don't add anything in `/docs/build` to the repository, only your changes to the source code.
+Please don't add anything in `/build` to the repository, only your changes to the source code.
 A good way to not add in new files is with the `-a` flag:
 
 ```
