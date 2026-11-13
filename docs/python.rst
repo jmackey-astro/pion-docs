@@ -3,16 +3,12 @@
 Using Python to plot simulation
 =========================================
 
-PyPion is a Python library written to read in Silo data files from PION simulations and to plot the data. This library works for 1D, 2D, and 3D data files and for any amount of nested-grid levels. 
-This library should be compatible with all versions of Python 3. 
+`PyPion <https://github.com/greensh16/PyPion>`_ is a Python library that reads Silo data files from PION simulations and plots the data.
+It works for 1D, 2D, and 3D data files and for any number of nested-grid levels, with Python 3.
 
-`SILO <https://wci.llnl.gov/simulation/computer-codes/silo>`_ is both a scientific database format and a data I/O library, producing machine-independent data files that can be easily shared between different computing architectures.  It is often built using `HDF5 <https://www.hdfgroup.org/HDF5/>`_ as the low-level I/O driver, and has excellent performance on HPC systems.
-The latest release of SILO, `version 4.11 released in September 2021 <https://github.com/markcmiller86/silo-issues/wiki/4.11-Release-Notes-September,-2021>`_, has support for python 3 and can be `downloaded from github <https://github.com/LLNL/Silo/releases/tag/v4.11>`_.
-PyPion contains a script to download and install SILO 4.11, which should be used until SILO 4.11 gets packaged in operating system distributions.
-Note that e.g. `debian <https://www.debian.org>`_ has a package called `python3-silo <https://packages.debian.org/bullseye/python3-silo>`_ but this was missing some key functionality and will not work until the package is upgraded from SILO 4.10 to 4.11.
-
-The SILO library comes with a python interface, but these routines require an extra layer of customisation to read PION snapshots simply.
-This is what PyPion provides -- a set of routines that call functions from the SILO python library to read PION snapshots into numpy arrays and plot them easily and efficiently.
+`Silo <https://github.com/LLNL/Silo>`_ is both a scientific database format and a data I/O library, producing machine-independent data files that can be easily shared between different computing architectures.
+The Silo library comes with a python module (``Silo``), but reading PION snapshots with it needs an extra layer of customisation.
+This is what PyPion provides: a set of routines that call functions from the Silo python module to read PION snapshots into numpy arrays and plot them easily and efficiently.
 
 
 .. _install_python:
@@ -20,67 +16,71 @@ This is what PyPion provides -- a set of routines that call functions from the S
 Installing PyPion
 ----------------------------------
 
-We have provided two ways to set up PyPion, using a `docker container <https://www.docker.com/>`_ and using your system python installation.
+PyPion is installed from `PyPI <https://pypi.org/project/pypion/>`_ with ``pip``, but it also needs the Silo python module, which is not on PyPI and has to be compiled.
+The recommended way is:
 
-.. _docker_usage:
+1. Create a Python `virtual environment <https://docs.python.org/3/library/venv.html>`_ and install PyPion in it.  Recent Linux distributions and Homebrew do not allow ``pip install`` into the system Python, so a virtual environment is needed.
+2. With the virtual environment active, compile Silo and its python module with the script ``extra_libraries/install_silo.sh`` from the PION source code (see :ref:`getting-pion`).  The script builds the python module only if it finds the Python development headers (``Python.h``), and it builds it for the ``python3`` that is first in your ``PATH``, i.e. the one in the virtual environment.
+3. Tell the virtual environment where to find the Silo python module.
 
-Using the PyPion docker image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The python module must be compiled for the same Python version as the virtual environment.
+If you upgrade Python, or create the virtual environment with a different Python, then compile Silo again.
 
-A docker image has been created to make it easier to run the python library.  Coming soon...
-
-
-Using the system python3 on Debian/Ubuntu
+Debian and Ubuntu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To be able to use all the features of this library you will need to have some python modules installed on your system.
-And of course you need to have the lastest version of the PyPion repository pulled to your desktop!
-This is available here: `https://git.dias.ie/massive-stars-software/pypion/ <https://git.dias.ie/massive-stars-software/pypion/>`_.
+.. code-block:: bash
 
-Here are instructions for debian/Ubuntu installation:
+  $ sudo apt install build-essential cmake wget python3-dev python3-venv
+  $ python3 -m venv ~/pypion-venv
+  $ source ~/pypion-venv/bin/activate
+  $ python -m pip install --upgrade pip
+  $ python -m pip install pypion matplotlib
+  $ mkdir -p ~/.cache/silo-build && cd ~/.cache/silo-build
+  $ SILO_PREFIX=$HOME/.local/silo bash ~/pion/extra_libraries/install_silo.sh
+  $ python -c 'import pathlib, site; p = pathlib.Path(site.getsitepackages()[0]) / "silo_local.pth"; p.write_text(str(pathlib.Path.home() / ".local/silo/lib") + "\n"); print(p)'
 
-+ Numpy: :code:`$ sudo apt install python3-numpy`
-+ Astropy: :code:`$ sudo apt install python3-astropy`
-+ Matplotlib: :code:`$ sudo apt install python3-matplotlib`
-+ Tk: :code:`$ sudo apt install python3-tk`
+Change ``~/pion`` to the location of your copy of the PION source code.
+The script downloads and compiles Silo in the current directory (here ``~/.cache/silo-build``, which you can delete afterwards), and installs it in ``~/.local/silo``.
+Check that the output of the script contains the line ``*** Silo python module: ON``; if it says ``OFF`` then the Python development headers were not found.
 
-All of these modules can also be installed through pip if you prefer: :code:`$ pip install 'module-name'`
+The last command writes a file ``silo_local.pth`` into the virtual environment, so that Python finds ``Silo.so`` in ``~/.local/silo/lib`` without changing ``sys.path`` or ``PYTHONPATH``.
+If Python later cannot load ``libsilo.so``, add ``export LD_LIBRARY_PATH="$HOME/.local/silo/lib:$LD_LIBRARY_PATH"`` to your shell startup file.
 
-+ Silo:  can be installed together with PyPion as follows:
+Debian 12/13 and recent Ubuntu versions also have a system package ``python3-silo``.
+It works only with the system Python (or a virtual environment created with ``--system-site-packages``), and it has not been tested with PyPion; older versions of the package (Silo 4.10) do not work.
 
-  .. code-block:: bash
-  
-    $ git clone https://git.dias.ie/massive-stars-software/pypion ./pypion
-    $ cd pypion
-    $ git checkout master
-    $ cd src/silo
-    $ bash install_silo.sh
-    $ cd ../..
-    $ DIR=`${HOME}/.local/`; echo "${DIR}/silo/lib"
-    $ python3 -m pip install astropy matplotlib pypion
-
-
-Now the Silo library is in ``${HOME}/.local/silo/lib`` and the PyPion library can be imported like any other python package.
-
-Note that this has only been tested on debian 11 / Ubuntu 20 systems, and may not work directly for you on other systems.
-
-
-Using the system python3 on OS X
+macOS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  .. code-block:: bash
-  
-    $ brew install python numpy git wget gcc cmake
-    $ git clone https://git.dias.ie/compastro/pion_python.git ./pypion
-    $ cd pypion
-    $ git checkout master
-    $ cd src/silo
-    $ bash install_silo.sh
-    $ cd ../..
-    $ DIR=`${HOME}/.local/`; echo "${DIR}/silo/lib"
-    $ python3 -m pip install astropy matplotlib pypion
+Install Apple's command-line tools and `Homebrew <https://brew.sh/>`_ as described in :ref:`compile-macos`, and then:
 
-Now the Silo library is in ``${HOME}/.local/silo/lib`` and the PyPion library should be installed via pip.
+.. code-block:: bash
+
+  $ brew install python3 cmake wget
+  $ python3 -m venv ~/pypion-venv
+  $ source ~/pypion-venv/bin/activate
+  $ python -m pip install --upgrade pip
+  $ python -m pip install pypion matplotlib
+  $ mkdir -p ~/.cache/silo-build && cd ~/.cache/silo-build
+  $ bash ~/pion/extra_libraries/install_silo.sh
+  $ python -c 'import pathlib, site; p = pathlib.Path(site.getsitepackages()[0]) / "silo_local.pth"; p.write_text(str(pathlib.Path.home() / ".local/silo/lib") + "\n"); print(p)'
+
+On macOS the script installs Silo in ``~/.local/silo``, which is the same library that PION uses (see :ref:`compile-macos`), so you only need one copy.
+If you already compiled Silo for PION with the Homebrew ``python3``, and ``~/.local/silo/lib/Silo.so`` exists, then you can skip the ``install_silo.sh`` step.
+
+On Apple Silicon Macs, make sure that Homebrew, Python and the terminal are all native (``arm64``), not running under Rosetta: ``uname -m`` and ``python3 -c "import platform; print(platform.machine())"`` should both print ``arm64``.
+
+Check the installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With the virtual environment active, this should print the location of ``Silo.so`` without errors:
+
+.. code-block:: bash
+
+  $ python -c "import Silo; from pypion.ReadData import ReadData; print(Silo.__file__)"
+
+Activate the virtual environment (``source ~/pypion-venv/bin/activate``) every time you open a new terminal to use PyPion.
 
 
 .. _use_python:
@@ -112,12 +112,11 @@ Make sure to edit the ``base_path`` variable on line 9 appropriately before tryi
 
   
   We import the PyPion library, here using ``ReadData`` module which inherits from the ``SiloHeader_data`` module.  One could also import the ``Plotting_Classes`` module for some higher level functions.
-  You may need to add the path to the ``Silo.a`` library, for example see below (although you will need to modify the paths):
+  If you installed the Silo python module as described in :ref:`install_python`, Python finds it automatically.
+  Otherwise you need to add the directory containing ``Silo.so`` to the python path first, with e.g. ``sys.path.insert(0, "/path/to/silo/lib")``.
 
-    .. code-block:: python 
+    .. code-block:: python
 
-      import sys
-      sys.path.insert(0,"/Users/jm/.local/silo/lib")
       from pypion.ReadData import ReadData
 
 
@@ -163,7 +162,7 @@ Make sure to edit the ``base_path`` variable on line 9 appropriately before tryi
       plt.show()
 
 
-These are the basics you'll need to plot the simulation data; if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the `PyPion repository  <https://git.dias.ie/massive-stars-software/pypion/>`_.
+These are the basics you'll need to plot the simulation data; if you need to do other things like adding a colorbar or reflecting the data about the x-axis then see the Plotting_Classes.py script in the `PyPion repository <https://github.com/greensh16/PyPion>`_.
 Here is an example script that makes the same plot as above, but now using the Plotting_Classes.py routines: :download:`plot_pypion2.py <build_scripts/plot_pypion2.py>`.
 
 
@@ -174,22 +173,19 @@ Known issues with Python
 
 There are a couple known issues with the python library.
 
-+ If you want to run this library over ssh and don't have an x-server then you will need to add this piece of code after you import matlotlib:
++ If you run PyPion over ssh without an X server, or in a batch job, use a non-interactive matplotlib backend and save figures with ``plt.savefig()`` instead of ``plt.show()``.  Set the backend before importing ``matplotlib.pyplot``:
 
   .. code-block:: python
 
+      import matplotlib
       matplotlib.use('Agg')
-      
-      
-+ To stop python from printing deprecation warnings to the screen then add the following when importing modules:
+      import matplotlib.pyplot as plt
+
++ To stop python from printing matplotlib deprecation warnings to the screen, add the following after importing matplotlib:
 
   .. code-block:: python
 
       import warnings
-      warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
+      warnings.filterwarnings("ignore", category=matplotlib.MatplotlibDeprecationWarning)
 
-
-
-
-
-
++ ``ImportError: No module named Silo`` or ``ModuleNotFoundError: No module named 'Silo'`` means that Python cannot find ``Silo.so``: check that the virtual environment is active and that ``silo_local.pth`` points to the directory containing ``Silo.so`` (see :ref:`install_python`).  An error about an undefined symbol or a wrong architecture means that ``Silo.so`` was compiled for a different Python version or architecture, and needs to be compiled again.
