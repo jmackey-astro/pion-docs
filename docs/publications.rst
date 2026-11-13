@@ -56,7 +56,7 @@ Refereed journal articles using PION
 Conference proceedings
 ---------------------------------
 
-+ J. Mackey, T. A. K. Jones, R. Brose, et al., 2024, "Performance and Scaling of PION for Modelling Colliding-Wind Binary Systems", Procedia Computer Science, 240, 82 (Proceedings of the First EuroHPC User Day). (`DOI <https://doi.org/10.1016/j.procs.2024.07.011>`__)
++ J. Mackey, T. A. K. Jones, R. Brose, et al., 2024, "Performance and Scaling of PION for Modelling Colliding-Wind Binary Systems", Procedia Computer Science, 240, 82 (Proceedings of the First EuroHPC User Day). (`DOI <https://doi.org/10.1016/j.procs.2024.07.011>`__, `SciX <https://scixplorer.org/abs/2024PrCS..240...82M/abstract>`__)
 + J. Mackey, 2024, "Simulating Wind-Blown Nebulae from Single and Binary Massive Stars", J. Phys.: Conf. Ser., 2742, 012007. (`DOI <https://doi.org/10.1088/1742-6596/2742/1/012007>`__, `SciX <https://scixplorer.org/abs/2024JPhCS2742a2007M/abstract>`__)
 + J. Mackey, S. Green, M. Moutzouri, et al., 2024, "PION: Simulating bow shocks and circumstellar nebulae around massive stars", Proc. IAU Symposium 361, 510. (`DOI <https://doi.org/10.1017/S174392132200254X>`__, `SciX <https://scixplorer.org/abs/2024IAUS..361..510M/abstract>`__)
 + J. Mackey, 2023, "Interaction between massive star winds and the interstellar medium", Proc. IAU Symposium 370, 205. (`DOI <https://doi.org/10.1017/S1743921322004501>`__, `SciX <https://scixplorer.org/abs/2023IAUS..370..205M/abstract>`__)
