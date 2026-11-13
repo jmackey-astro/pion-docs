@@ -29,6 +29,7 @@ Guide
   parameter-file.rst
   modules.rst
   developers_guide.rst
+  publications.rst
   usage/license.rst
   usage/readme.rst 
 

@@ -9,7 +9,7 @@ Introduction
 -------------------------------------------------
 
 
-This example is taken from `Stevens et al. (1992) <https://ui.adsabs.harvard.edu/abs/1992ApJ...386..265S/abstract>`_, section 4.1, modelling the colliding winds of the binary system `V444 Cyg <http://simbad.u-strasbg.fr/simbad/sim-id?Ident=V444+Cyg>`_.  This eclipsing binary system contains a Wolf-Rayet (WR) star (of spectral type WN5) with a an O6 companion.
+This example is taken from `Stevens et al. (1992) <https://scixplorer.org/abs/1992ApJ...386..265S/abstract>`_, section 4.1, modelling the colliding winds of the binary system `V444 Cyg <http://simbad.u-strasbg.fr/simbad/sim-id?Ident=V444+Cyg>`_.  This eclipsing binary system contains a Wolf-Rayet (WR) star (of spectral type WN5) with a an O6 companion.
 We assume that the WR star is the primary because it is more evolved than the O6 star.
 
 The properties of the stars (taken from Stevens et al.) are as follows for the primary (WR):

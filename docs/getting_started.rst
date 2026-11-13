@@ -68,7 +68,7 @@ Getting help
 There are a few ways to get more information about PION and help with compiling, setting up and running your own simulations:
 
 + Look through the documentation at `https://www.pion.ie/ <https://www.pion.ie/>`_.
-+ Read the `reference papers <https://www.pion.ie/publications/>`_.
++ Read the :ref:`reference papers <reference-papers>`.
 + Subscribe to the PION mailing list and ask questions at `groups.io <https://groups.io/g/pion>`_.
 + Contact `info@pion.ie <mailto:info@pion.ie>`_ with general queries.
 
