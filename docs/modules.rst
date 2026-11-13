@@ -79,18 +79,18 @@ heating and cooling routines to use:
 
 -  **Case 1**: Non-equilibrium ionization (NEQ) tabulated cooling curve
    by `Sutherland & Dopita
-   (1993) <https://ui.adsabs.harvard.edu/#abs/1993ApJS...88..253S/abstract>`__,
+   (1993) <https://scixplorer.org/abs/1993ApJS...88..253S/abstract>`__,
    from file pk6ff75.neq.
 -  **Case 2**: Heating and cooling according to the analytic
    prescription by `Koyama & Inutsuka
-   (2002) <https://ui.adsabs.harvard.edu/#abs/2002ApJ...564L..97K/abstract>`__,
+   (2002) <https://scixplorer.org/abs/2002ApJ...564L..97K/abstract>`__,
    with typo corrections following `Vasquez-Semadeni et al.
-   (2007) <https://ui.adsabs.harvard.edu/#abs/2007ApJ...657..870V/abstract>`__.
+   (2007) <https://scixplorer.org/abs/2007ApJ...657..870V/abstract>`__.
 -  **Case 3**: Collisional ionization equilibrium (CIE) tabulated
    cooling curve by `Dalgarno & McCray
-   (1972) <https://ui.adsabs.harvard.edu/#abs/1972ARA%26A..10..375D/abstract>`__.
+   (1972) <https://scixplorer.org/abs/1972ARA%26A..10..375D/abstract>`__.
 -  **Case 4**: CIE tabulated cooling curve by `Sutherland & Dopita
-   (1993) <https://ui.adsabs.harvard.edu/#abs/1993ApJS...88..253S/abstract>`__,
+   (1993) <https://scixplorer.org/abs/1993ApJS...88..253S/abstract>`__,
    from file m-00.cie.
 -  **Case 5**: As case 4, but including photoionization heating assuming
    hydrogen is kept fully ionized, so that every recombination is
@@ -101,22 +101,22 @@ heating and cooling routines to use:
    assume H,C,N,O are photoionized.
 -  **Case 6**: Similar to case 5, except that it uses a newer CIE
    cooling function by `Wiersma et al.
-   (2009) <https://ui.adsabs.harvard.edu/#abs/2009MNRAS.393...99W/abstract>`__.
+   (2009) <https://scixplorer.org/abs/2009MNRAS.393...99W/abstract>`__.
    This has weaker cooling than SD93 by about a factor of 2 at the peak
    of the cooling curve, and has the same problems with consistency as
    case 5.
 -  **Case 7**: Similar to case 4, except that it uses a newer CIE
    cooling function by `Wiersma et al.
-   (2009) <https://ui.adsabs.harvard.edu/#abs/2009MNRAS.393...99W/abstract>`__.
+   (2009) <https://scixplorer.org/abs/2009MNRAS.393...99W/abstract>`__.
 -  **Case 8**: Same as case 6, but with additional cooling associated
    with a photoionized plasma at temperatures of about 5000-20,000 K,
    assuming that H and He are always ionized at any temperature. It uses
    the CIE cooling from metals only (subtracting out the H and He
    cooling) from `Wiersma et al.
-   (2009) <https://ui.adsabs.harvard.edu/#abs/2009MNRAS.393...99W/abstract>`__,
+   (2009) <https://scixplorer.org/abs/2009MNRAS.393...99W/abstract>`__,
    adds thermal bremsstahlung from H and He, and forbidden line cooling
    from photoionized C,N,O from `Henney et al.
-   (2009) <https://ui.adsabs.harvard.edu/#abs/2009MNRAS.398..157H/abstract>`__.
+   (2009) <https://scixplorer.org/abs/2009MNRAS.398..157H/abstract>`__.
    To avoid double counting, we take the maximum of the WSS09 metal-line
    cooling rate and the Henney et al. forbidden-line cooling rate.
 
@@ -125,8 +125,8 @@ better alternatives are available (cases 7 and 8).
 
 **Publications**
 
-- Cases 7 and 8 were used in `Mackey et al. (2012) <https://ui.adsabs.harvard.edu/#abs/2012ApJ...751L..10M/abstract>`__ to study bow shocks around Betelgeuse.
-- Case 8 was used by `Green et al. (2019) <https://ui.adsabs.harvard.edu/abs/2019A%26A...625A...4G/abstract>`__ for simulating the bow shock nebula `NGC 7635 <https://en.wikipedia.org/wiki/NGC_7635>`__.
+- Cases 7 and 8 were used in `Mackey et al. (2012) <https://scixplorer.org/abs/2012ApJ...751L..10M/abstract>`__ to study bow shocks around Betelgeuse.
+- Case 8 was used by `Green et al. (2019) <https://scixplorer.org/abs/2019A%26A...625A...4G/abstract>`__ for simulating the bow shock nebula `NGC 7635 <https://en.wikipedia.org/wiki/NGC_7635>`__.
 
 
 MPv3
@@ -199,9 +199,9 @@ It requires the following run-time parameters:
 This class was used:
 
 -  for studying HII regions in `Mackey et al.
-   (2013) <http://adsabs.harvard.edu/abs/2013MNRAS.436..859M>`__;
+   (2013) <https://scixplorer.org/abs/2013MNRAS.436..859M/abstract>`__;
 -  for studying shells around supergiants in `Szecsi et al.
-   (2018) <http://adsabs.harvard.edu/abs/2017arXiv171104007S>`__.
+   (2018) <https://scixplorer.org/abs/2017arXiv171104007S/abstract>`__.
 
 
 MPv5
@@ -226,20 +226,20 @@ This module was used for studying stellar wind bubbles within HII
 regions around massive stars in:
 
 -  `Mackey, Gvaramadze et al.
-   (2015) <http://adsabs.harvard.edu/abs/2015A%26A...573A..10M%7D>`__,
+   (2015) <https://scixplorer.org/abs/2015A%26A...573A..10M/abstract>`__,
 -  `Mackey, Castro et al.
-   (2015) <https://ui.adsabs.harvard.edu/#abs/2015A&A...582A..24M/abstract>`__,
+   (2015) <https://scixplorer.org/abs/2015A%26A...582A..24M/abstract>`__,
 -  `Mackey, Haworth et al.
-   (2016) <http://adsabs.harvard.edu/abs/2015arXiv151206857M>`__, and
+   (2016) <https://scixplorer.org/abs/2015arXiv151206857M/abstract>`__, and
 -  `Gvaramadze, Mackey et al.
-   (2017) <http://adsabs.harvard.edu/abs/2017MNRAS.466.1857G>`__.
+   (2017) <https://scixplorer.org/abs/2017MNRAS.466.1857G/abstract>`__.
 
 MPv6
 ^^^^^^^^^^^^^^^^^^
 
 This class is for running the cosmological radiative transfer test
-problems I `(Iliev et al.,2006,MNRAS,371,1057) <https://ui.adsabs.harvard.edu/#abs/2006MNRAS.371.1057I/abstract>`__
-and II `(Iliev et al.,2009,MNRAS,400,1283) <https://ui.adsabs.harvard.edu/#abs/2009MNRAS.400.1283I/abstract>`__.
+problems I `(Iliev et al.,2006,MNRAS,371,1057) <https://scixplorer.org/abs/2006MNRAS.371.1057I/abstract>`__
+and II `(Iliev et al.,2009,MNRAS,400,1283) <https://scixplorer.org/abs/2009MNRAS.400.1283I/abstract>`__.
 It has been used for testing the ionizing radiative transfer code
 modules of PION.
 
@@ -265,9 +265,9 @@ metal-rich gas, where thermal equilibrium is a good approximation.
 **Publications**
 
 -  This class was used in `Mackey, Mohamed et al.
-   (2014) <http://adsabs.harvard.edu/abs/2014Natur.512..282M>`__ for
+   (2014) <https://scixplorer.org/abs/2014Natur.512..282M/abstract>`__ for
    studying shells around red supergiants.
--  Also used for the `StarBench project (Bisbas et al., 2015) <https://ui.adsabs.harvard.edu/#abs/2015MNRAS.453.1324B/abstract>`__, and related work.
+-  Also used for the `StarBench project (Bisbas et al., 2015) <https://scixplorer.org/abs/2015MNRAS.453.1324B/abstract>`__, and related work.
 
 MPv9
 ^^^^^^^^^^^^^^^^^^
@@ -275,7 +275,7 @@ MPv9
 
 Microphysics class for low metallicity gas at high redshift, as
 described in `Dhanoa, Mackey & Yates
-(2014) <http://adsabs.harvard.edu/abs/2014MNRAS.444.2085D>`__. This was
+(2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__. This was
 used for studying the chemistry and thermodynamics of metal-free gas in
 the early universe, following the non-equilibrium chemistry of hydrogen,
 helium and deuterium.
@@ -283,7 +283,7 @@ helium and deuterium.
 **Publications**
 
 -  `Dhanoa, Mackey & Yates
-   (2014) <http://adsabs.harvard.edu/abs/2014MNRAS.444.2085D>`__
+   (2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__
 
 
 Legacy Modules
@@ -302,15 +302,15 @@ MPv1
 ^^^^^^^^^^^^^^^^^^
 
 This microphysics class was used in Mackey & Lim
-(`2010 <http://adsabs.harvard.edu/abs/2010MNRAS.403..714M>`__,
-`2011 <http://adsabs.harvard.edu/abs/2011MNRAS.412.2079M>`__) for
+(`2010 <https://scixplorer.org/abs/2010MNRAS.403..714M/abstract>`__,
+`2011 <https://scixplorer.org/abs/2011MNRAS.412.2079M/abstract>`__) for
 studying the expansion of HII regions and the formation of pillars,
 globules, elephant trunks at the borders of HII regions. It uses an
 implementation of the C2-ray algorithm developed by G.Mellema and
 collaborators (Mellema et al., 2006), but with significant
 modifications. It has since been superseded by updated algorithms that
 scale better on supercomputers (see `Mackey, 2012,
-A&A <http://adsabs.harvard.edu/abs/2012A&A...539A.147M>`__).
+A&A <https://scixplorer.org/abs/2012A%26A...539A.147M/abstract>`__).
 
 MPv2
 ^^^^^^^^^^^^^^^^^^
@@ -328,7 +328,7 @@ the cell is integrated with the rate and energy equations to obtain a
 time-averaged value. The main advantage here is that we can use
 multi-frequency photoionisation rates which depend on the optical depth.
 It was used in `Mackey, (2012,
-A&A) <http://adsabs.harvard.edu/abs/2012A&A...539A.147M>`__ but found to
+A&A) <https://scixplorer.org/abs/2012A%26A...539A.147M/abstract>`__ but found to
 be less efficient than MPv3.
 
 MPv8
