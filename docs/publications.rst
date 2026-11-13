@@ -5,7 +5,7 @@ Publications
 ******************************
 
 This page lists the reference papers that describe PION, and papers and conference proceedings that used PION.
-They are also collected in a public `ADS library <https://ui.adsabs.harvard.edu/public-libraries/7wdxXZV4T2G6z_iLKmSPmw>`_.
+They are also collected in a public `SciX library <https://scixplorer.org/public-libraries/7wdxXZV4T2G6z_iLKmSPmw>`_.
 
 If you use PION in a publication, please cite Mackey et al. (2021), and the papers describing the modules that you used (listed below).
 If you have a paper that used PION and is missing here, please let us know so that we can add it.
