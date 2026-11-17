@@ -19,24 +19,26 @@ Initial-conditions generator
 
 .. code-block:: bash
 
-  $ icgen-ng <parameter-file> [file-type] [options]
+  $ icgen-ng <parameter-file> [options]
 
-+ ``<parameter-file>`` (required): the text parameter file (see :ref:`parameter-file`).  The snapshot is written to the file named by the ``OutputFile`` parameter.
-+ ``[file-type]``: the format of the initial snapshot.  The default, and the only option for nested grids and for builds with Silo, is ``silo``.  Uniform-grid builds without Silo can write ``fits``.
+``<parameter-file>`` (required) is the text parameter file (see :ref:`parameter-file`).
+The snapshot is written to the file named by the ``OutputFile`` parameter.
+For example:
 
-  The second argument is always taken as the file type, so if you give any of the options below, you must give the file type first, e.g.
+.. code-block:: bash
 
-  .. code-block:: bash
-
-    $ mpirun -np 4 icgen-ng params.txt silo omp-nthreads=4 redirect=icgen_log
-
-  Without ``silo``, ``icgen`` would try to use ``omp-nthreads=4`` as the file type and stop with an error.
+  $ mpirun -np 4 icgen-ng params.txt omp-nthreads=4 redirect=icgen_log
 
 The options are:
 
 =========================  ==============================================================================
 Option                     Effect
 =========================  ==============================================================================
+``optype=TYPE``            File type of the initial snapshot: ``silo`` or ``fits``.  If not given,
+                           ``icgen`` writes ``fits`` if ``OutputFileType`` in the parameter file is
+                           ``fits`` or ``both``, and ``silo`` otherwise.  FITS needs a uniform grid and
+                           PION compiled with ``-DPION_USE_FITS=ON``; if it is not available and was not
+                           requested with ``optype``, ``icgen`` writes Silo instead, with a warning.
 ``omp-nthreads=N``         Number of OpenMP threads per MPI process (OpenMP builds only).  The default
                            is 1 thread, and N is limited to the number of cores.
 ``redirect=PATH``          Write the log to the file ``PATH.log`` instead of the screen
@@ -44,7 +46,12 @@ Option                     Effect
                            writes a log).
 =========================  ==============================================================================
 
-Any other ``name=value`` arguments are ignored by ``icgen``.
+``icgen`` warns about, and otherwise ignores, any other arguments.
+
+.. note::
+
+   Older versions of PION took the file type as an optional second argument, e.g. ``icgen-ng params.txt silo omp-nthreads=4``, and the options only worked after it.
+   This still works, with a warning that it is deprecated.
 
 
 .. _command-line-pion:
@@ -147,6 +154,7 @@ Option                     Effect
 ``min_T=T``                Minimum gas temperature in K.
 ``max_T=T``                Maximum gas temperature in K.
 ``tc_strength=F``          Strength of thermal conduction, from 0 (none) to 1 (full).
+``EP_update_erg=0|1``      Whether heating and cooling change the gas energy (1, the default) or not (0).
 ``wind_radius_N=R``        Radius in cm of the wind-injection region of stellar-wind source N (0 to 9),
                            e.g. ``wind_radius_0=1.2e17``.
 =========================  ==============================================================================
