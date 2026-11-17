@@ -91,6 +91,7 @@ The first command sets up the initial conditions (here using 2 MPI processes) an
   Screenshot of running a 2D bow-shock simulation.
 
 The second command calls ``pion-ng``, running on 4 cores (MPI processes), with the level-0 data snapshot as the command-line argument.
+Both programs take optional arguments, for example to set the number of OpenMP threads or to write the log to a file; see :ref:`command-line`.
 This runs the simulation, and you should see output on screen like in :numref:`pion-wind2d-run`.
 
 The simulation is set to run until :math:`t=3.156\times10^{12}\,\mathrm{s}` (100,000 years), which takes about 184,000 timesteps and 2 hours wall-time to run to completion, saving snapshots every 1024 timesteps.  You should see files start to appear in the current directory, e.g.,
