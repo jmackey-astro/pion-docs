@@ -26,6 +26,7 @@ Guide
   example_sim.rst
   example_cwb.rst
   python.rst
+  command_line.rst
   parameter-file.rst
   modules.rst
   developers_guide.rst
