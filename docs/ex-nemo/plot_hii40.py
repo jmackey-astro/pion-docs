@@ -53,9 +53,16 @@ def ion_fractions(element, nion):
     return stages[:nion]
 
 
-ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
+def ion_label(element, charge):
+    """Label for an ion, e.g. He^{+}, O^{2+}, or H^{0} for the neutral atom."""
+    if charge == 0:
+        return element + r"$^{0}$"
+    if charge == 1:
+        return element + r"$^{+}$"
+    return element + r"$^{%d+}$" % charge
 
-fig, ax = plt.subplots(3, 1, figsize=(6, 9), sharex=True)
+
+fig, ax = plt.subplots(3, 1, figsize=(7, 9), sharex=True)
 
 ax[0].plot(r, get("Temperature"), "k-")
 ax[0].set_ylabel("Temperature (K)")
@@ -63,16 +70,16 @@ ax[0].set_title("NEMO HII region, t = {:.2f} Myr".format(time_myr))
 
 for el, n, style in (("H", 2, "-"), ("He", 3, "--")):
     for i, f in enumerate(ion_fractions(el, n)):
-        ax[1].plot(r, f, style, label="{} {}".format(el, ROMAN[i]))
+        ax[1].plot(r, f, style, label=ion_label(el, i))
 ax[1].set_ylabel("Ion fraction")
-ax[1].legend(fontsize=8, ncol=2, loc="center left")
+ax[1].legend(fontsize=8, loc="center left", bbox_to_anchor=(1.01, 0.5))
 
 for el, n, style in (("O", 4, "-"), ("N", 4, "--")):
     for i, f in enumerate(ion_fractions(el, n)):
-        ax[2].plot(r, f, style, label="{} {}".format(el, ROMAN[i]))
+        ax[2].plot(r, f, style, label=ion_label(el, i))
 ax[2].set_ylabel("Ion fraction")
 ax[2].set_xlabel("Radius (pc)")
-ax[2].legend(fontsize=8, ncol=2, loc="center left")
+ax[2].legend(fontsize=8, loc="center left", bbox_to_anchor=(1.01, 0.5))
 
 for a in ax[1:]:
     a.set_ylim(-0.02, 1.02)

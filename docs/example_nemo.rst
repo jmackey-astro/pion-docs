@@ -160,14 +160,14 @@ The fraction of the fully ionised stage of each element is one minus the sum of 
 
 + The ionised region extends to 4.5 pc, with a sharp ionisation front, where the gas changes from fully ionised to neutral over a few cells.
 + The temperature is 6000–7000 K close to the star and rises to almost 10,000 K near the ionisation front, where the radiation is harder because the softer photons have been absorbed on the way out.  Outside the front the neutral gas, which is only heated by cosmic rays, cools from its initial 600 K to about 460 K.
-+ Helium is singly ionised (He II) almost everywhere in the HII region, and doubly ionised only very close to the star; a 40,000 K star emits few photons that can ionise :math:`\mathrm{He}^+` (above 54.4 eV).
-+ Oxygen is mostly :math:`\mathrm{O}^{2+}` (O III) in the inner part of the HII region, and :math:`\mathrm{O}^{+}` (O II) in the outer part; nitrogen is mostly :math:`\mathrm{N}^{2+}` (N III).
++ Helium is mostly :math:`\mathrm{He}^{+}` almost everywhere in the HII region, and :math:`\mathrm{He}^{2+}` only very close to the star; a 40,000 K star emits few photons that can ionise :math:`\mathrm{He}^+` (above 54.4 eV).
++ Oxygen is mostly :math:`\mathrm{O}^{2+}` in the inner part of the HII region, and :math:`\mathrm{O}^{+}` in the outer part; nitrogen is mostly :math:`\mathrm{N}^{2+}`.
 
 
 Things to try
 -------------
 
 + Change the temperature of the star (``RT_Tstar____0``, and ``RT_strength_0`` to keep the luminosity consistent) to see how the ionisation of He and O depends on the spectrum.
-+ Switch off charge exchange (``EP_charge_exchange 0``) and compare the O II and N II fractions near the ionisation front.
++ Switch off charge exchange (``EP_charge_exchange 0``) and compare the :math:`\mathrm{O}^{+}` and :math:`\mathrm{N}^{+}` fractions near the ionisation front.
 + Switch on the hydrodynamics (``EP_dynamics 1``) and run for longer (a few Myr), to follow the expansion of the HII region as the hot, ionised gas pushes into the neutral gas.
 + For a 2D example with two stars, see the test script ``test/rhd-2d-nemo-2src.sh`` and its parameter file ``test/ci-inputs/params_TwoSrc_NEMO_d2l1n0032.txt``.
