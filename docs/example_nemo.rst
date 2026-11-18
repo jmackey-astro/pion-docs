@@ -1,6 +1,6 @@
 .. _example-nemo:
 
-Example: an HII region with NEMO
+An HII region with NEMO (1D)
 ================================
 
 This example calculates the ionisation and temperature structure of an HII region around a hot star with the NEMO microphysics library (see :ref:`ref-nemo`).

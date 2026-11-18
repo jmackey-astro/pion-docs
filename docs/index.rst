@@ -21,9 +21,7 @@ Guide
   :maxdepth: 3
 
   getting_started.rst
-  example_sim.rst
-  example_cwb.rst
-  example_nemo.rst
+  examples.rst
   python.rst
   command_line.rst
   parallel.rst
