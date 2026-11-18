@@ -74,6 +74,13 @@ checked against the code; the text and the physics were not reviewed.
       `test/rhd-2d-nemo-2src.sh`.
 - [ ] **Stellar winds developer page**: `docs/dev_winds.inc` is a
       one-line stub.
+- [ ] **Troubleshooting**: a page for common problems when running
+      simulations. Include: bugs in boundary conditions and MPI
+      communication can depend on the number of MPI processes and OpenMP
+      threads, so if a result looks suspicious, compare runs with different
+      numbers of processes (e.g. 1, 4 and 16) and threads; incomplete log
+      files when a job is killed (use `maxwalltime`); the nested-grid
+      decomposition errors at startup.
 
 Priority: new pages for command-line options, NEMO setup, and running in
 parallel.
