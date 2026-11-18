@@ -147,10 +147,10 @@ Computational Grid
 The PION computational grid is a uniform rectilinear grid in 1, 2 or 3 spatial dimensions.
 Grid cells must be cubes (squares in 2D): the range divided by the number of cells must be the same along each axis.
 Static mesh-refinement (nested grids) is implemented for the case where each refinement level has the same shape and number of cells as the coarser level above it, but the spatial resolution is a factor of 2 higher and so the grid covers 1/2 of the domain of the coarser grid in each dimension.
-The focus of the nested grid can be at the centre of the domain, the negative boundary or the positive boundary for each dimension.
+The focus of the nested grid must be at the centre of the domain, the negative boundary or the positive boundary for each dimension.
 The number of refinement levels is in principle unlimited, but snapshots can only be written every coarse timestep and this imposes a practical limit: for 10 grid levels there are 512 finest-level timesteps per coarsest-level step, and one may wish to save a snapshot at least this often.
 The coarsest level is denoted ``level 0``, and each refined level has a higher level number.
-For runs with MPI, see also the restrictions on nested grids in :ref:`parallel`.
+See :ref:`nested-grid` for how the levels are set up and used, and :ref:`parallel` for the restrictions on nested grids in runs with MPI.
 
 The parameters are:
 

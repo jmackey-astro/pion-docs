@@ -30,13 +30,13 @@ A simulation can be restarted from a snapshot with a different number of MPI pro
 Nested grids
 ^^^^^^^^^^^^
 
-On nested grids, each sub-domain of a refined level must lie inside the sub-domain of a single process on the next coarser level.
+On nested grids (see :ref:`nested-grid`), each sub-domain of a refined level must lie inside the sub-domain of a single process on the next coarser level.
 PION checks this at startup, and stops with an error message if it is not true.  Two conditions must be met along each axis that is split between processes:
 
 + The number of grid cells of each level, divided by the number of processes along the axis, must be a whole, **even** number.
-+ The edge of each refined level must lie on a sub-domain boundary of the coarser level.  This depends on the refinement centre (``NG_centre_XX``, ``NG_centre_YY``, ``NG_centre_ZZ``) and on the number of processes along the axis.  Because the decomposition always gives 1 or an even number of processes along each axis, this condition is always met if the refinement centre is at the centre of the domain or on a domain boundary.
++ The edge of each refined level must lie on a sub-domain boundary of the coarser level.  This is always true, because the refinement centre must be at the centre of the domain or on a domain boundary, and the decomposition always gives 1 or an even number of processes along each axis.
 
-If a run stops with one of these errors, change the number of grid cells, the refinement centre, or the number of MPI processes.
+If a run stops with one of these errors, change the number of grid cells or the number of MPI processes.
 Note that the number of processes along each axis comes from the shape of the domain, as described above.
 
 
