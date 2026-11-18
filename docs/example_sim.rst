@@ -120,9 +120,9 @@ Looking at the results
 -------------------------------------------------
 
 Now you are running a simulation and want to see how the solution is evolving.
-You have at least two options, using python to read in the data and plotting with e.g. matplotlib, or using `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit>`_, software for visualizing scientific data from LLNL and freely available to download and install (but not included by default in most linux distributions).  
+You have at least two options, using python to read in the data and plotting with e.g. matplotlib, or using `VisIt <https://visit-dav.github.io/visit-website/>`_, software for visualizing scientific data from LLNL and freely available to download and install (but not included by default in most linux distributions).  
 
-We'll describe using VisIt here, but there is more information on reading and plotting snapshots using python in this documentation [ADD LINK!]
+We'll describe using VisIt here, but there is more information on reading and plotting snapshots using python in :ref:`python_usage`.
 Here are the steps for plotting the simulation data with VisIt:
 
 + Open level-0 data using the File->Open dialog.
@@ -141,12 +141,9 @@ A python script that performs these steps can be :download:`downloaded from here
 
 .. code-block:: bash 
 
-  jm@mackey-nuc:~/code/pion/test_problems/Wind2D$ visit -s visit_commands.py 
-  Running: gui3.1.1 -s visit_commands.py
-  Running: viewer3.1.1 -s visit_commands.py -geometry 1379x971+541+56 -borders 31,6,6,6 -shift 6,31 -preshift 0,0 -defer -host mackey-nuc -port 5600
-  Running: mdserver3.1.1 -host 127.0.0.1 -port 5601
-  Running: xterm -geometry 120x40 -title "VisIt cli3.1.1" -e "/usr/local/visit/3.1.1/../bin/visit -cli -v 3.1.1 -reverse_launch -host 127.0.0.1 -port 5600 -key 25ab19f4f78d684151ff"
-  Running: mpirun -np 1 /usr/local/visit/3.1.1/linux-x86_64/bin/engine_par -plugindir /home/jm/.visit/3.1.1/linux-x86_64/plugins:/usr/local/visit/3.1.1/linux-x86_64/plugins -visithome /usr/local/visit/3.1.1 -visitarchhome /usr/local/visit/3.1.1/linux-x86_64 -host mackey-nuc -port 5600
+  $ visit -s visit_commands.py
+
+This starts the VisIt graphical interface, opens the three levels of the snapshots, and sets up the plots as described above.
 
 :numref:`visit-wind2d-t000` shows a screenshot of the gas density in the initial conditions for this simulation, using the above python script for setting the display parameters.  The inner 75% of the wind boundary region is set to a very low density (:math:`10^{-31} \,\mathrm{g\,cm}^{-3}`) and the outer 25% to the values appropriate for a freely expanding flow at the wind terminal velocity.
 The symmetry axis is the :math:`x`-axis, which corresponds to :math:`\hat{z}` in cylindrical coordinates, and the :math:`y`-axis is the radial direction :math:`\hat{R}`.
