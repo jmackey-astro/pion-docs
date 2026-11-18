@@ -29,9 +29,11 @@ Guide
   nested_grid.rst
   parameter-file.rst
   modules.rst
+  tests.rst
   developers_guide.rst
   publications.rst
   usage/license.rst
+  Code reference (Doxygen) <https://jmackey1.pages.git.nrw/pion-dev/>
 
 
 Indices and tables

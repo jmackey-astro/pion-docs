@@ -1,59 +1,45 @@
 .. _ref-dev-coding:
 
-Coding style and guides
+Development workflow
 ================================
 
-PION is written in C++ and developed using `git <https://git-scm.com/>`_ as the version control system.
-The PION development branch is on a DIAS gitlab repo `https://git.dias.ie/compastro/pion <https://git.dias.ie/compastro/pion>`_, and the name of the development branch is ``devel``.
-All active development of new features takes place on ``devel``.
-Once a set of changes are complete and a new version of PION is to be released, ``devel`` will be merged/rebased back to the ``master`` branch and tagged as a release.
-The new ``master`` branch is then pushed to the public PION repository at `https://git.dias.ie/massive-stars-software/pion <https://git.dias.ie/massive-stars-software/pion>`_.
+PION is written in C++14 and uses `git <https://git-scm.com/>`_ for version control.
+The development repository is `https://gitlab.git.nrw/jmackey1/pion-dev <https://gitlab.git.nrw/jmackey1/pion-dev>`_ (ask for access, see :ref:`getting-pion`), and the development branch is ``devel``.
+Releases are published on GitHub at `https://github.com/pion-cfd/PION <https://github.com/pion-cfd/PION>`_.
+
+The NEMO microphysics library (see :ref:`ref-nemo`) is a separate repository, `https://gitlab.git.nrw/jmackey1/nemo <https://gitlab.git.nrw/jmackey1/nemo>`_.
+If a change needs changes in both NEMO and PION, merge the NEMO change first.
 
 
 Developing a new feature
 ----------------------------
 
-Feature branches can be created off ``devel`` as follows, using the gitlab web interface:
+1. Create a branch off ``devel``, e.g. ``git switch -c my-feature origin/devel``.  Optionally, open an issue on GitLab first to describe what you want to do.
+2. Make your changes and commit them, keeping each commit to one logical change.
+3. Format the C++ files you changed (see `Coding conventions`_).
+4. Build PION with the tests switched on, and run the tests (see :ref:`tests`).  If you changed anything to do with boundaries or MPI communication, also test with at least 4 MPI processes and more than one OpenMP thread, because such bugs can depend on the number of processes and threads.
+5. Push the branch with ``git push -o ci.skip -u origin my-feature``.  The ``ci.skip`` option stops GitLab from running the CI pipeline on every push.
+6. Open a merge request into ``devel`` on GitLab.  The CI pipeline then checks the formatting, builds PION in several configurations, and runs the tests (see :ref:`tests-ci`).
+7. When the pipeline passes, merge the branch.  The pipeline on ``devel`` then runs some longer tests, and updates the code documentation (see `Code documentation`_).
 
-1. Create an issue with a short title describing the feature you want to work on.
-
-2. Open the issue page, and there is a dropdown menu for ``create merge request``.  Click the down arrow and choose a name for the new branch (the number automatically chosen is the number of the issue you have created) and select that the source branch should be ``devel``.  Then click ``create merge request``.
-
-3. This brings you to a page for the merge request which is by default marked as ``Draft``.  You don't need to do anything here, just note the name of the branch, e.g. ``2-test-stuff``.
-
-4. Pull the server updates to your local copy of the repo, and checkout the new branch: ``$ git checkout 2-test-stuff``.
-
-5. Then you can work on this branch until you are finished with the new feature and it is time to merge the branch back into devel.  There are at least two checks to make before merging:
-
-    i. run ``$ ./tools/run_format.sh`` to autoformat your changes according to the PION conventions.  Then commit and push changes.
-
-    ii. Pushing to a branch off ``devel`` should trigger the pipeline to run.  This is a series of jobs that are sent to a server and run in a docker container somewhere.  The first checks that the source code is formatted.  The next 4 check that the PION executables compile without errors, and the last runs the Double Mach Reflection test and checks that the result has an L1 error norm of :math:`<10^{-10}` compared with a reference solution (i.e. it checks for consistency with older code versions).
-
-6. Once these steps are completed successfully, navigate to the merge request page on your browser and click ``Mark as ready`` at the top right of the page.Beside the (hopefully green) ``Merge`` button you should select ``delete source branch`` and ``squash commits``.  You can add an informative squash commit message that explains what you did on this branch with all the commits.  Then click ``Merge``.
-
-7. Check that the merged changes now on ``devel`` pass the pipeline checks (this can take up to 20 mins).
+Don't commit build directories, simulation output, or scripts for your own machine.
 
 
 Coding conventions
 ----------------------------
 
-* Set your code editor to use spaces not tabs for indentation (or run ``$ ./tools/run_format.sh`` before each commit).
-* Each indendation block is 2 spaces
-* Try to add comments to your code to explain what it does, including references to papers if possible.
-* Header files should have class and function descriptions in comment blocks denoted with ``///`` so that automatic documentation generators (like doxygen) can parse the comments.
+* **Formatting**: PION uses ``clang-format`` version 19 (``clang-format-19``), and the CI pipeline fails if any file is not formatted.  Format each C++ file you change with ``tools/format.sh <file>``.  Use this script rather than ``clang-format`` directly, because it protects the ``#pragma omp`` lines.  ``tools/run_format.sh`` formats the whole source tree; don't commit unrelated formatting changes.
+* **Errors**: report an error with ``spdlog::error(...)``, and then either call ``exit_pion(code)`` (defined in ``source/constants.h``) for a fatal error, or return a non-zero error code that the calling function checks.  Never call ``exit()``: ``exit_pion()`` flushes the log files and stops all MPI processes with ``MPI_Abort``.
+* **Log messages**: use ``spdlog::warn`` for problems that are not errors, ``spdlog::info`` for information, and ``spdlog::debug`` for debugging output (only written by ``Debug`` builds).  In ``Release`` builds only MPI rank 0 writes log messages, unless PION is compiled with ``-DLOG_ALL_PROCS=ON``.
+* **OpenMP**: the loops over cells in the hydrodynamics, microphysics and ray-tracing run in OpenMP threads.  The microphysics object (including NEMO) is ``threadprivate``, so each thread has its own copy.
+* Keep new code consistent with the style of the file you are editing, and comment it, with references to papers where relevant.
+* Describe classes and functions in the header files with ``///`` comments, so that Doxygen includes them in the code documentation.
 
 
-Generating documentation from source code
+Code documentation
 --------------------------------------------
 
-PION has plenty of in-place documentation that can be generated with `doxygen <https://www.doxygen.nl/index.html>`_.
-Here is how to compile the docs:
+The classes and functions of PION are documented in the source code, and `Doxygen <https://www.doxygen.nl/index.html>`_ makes HTML pages from these comments, including class diagrams and a browsable copy of the source code.
 
-+ On debian/ubuntu systems you can get all the functionality by installing the packages ``doxygen doxygen-latex graphviz``.
-+ Add ``-DPION_BUILD_DOCUMENTATION=ON`` to the list of options in your cmake command (maybe in the build script).
-+ When you build PION this should generate documentation in the directory ``build/doc/doc``, the HTML docs in a subdirectory called ``html`` and the LaTeX docs in ``latex``.
-+ Navigate to this directory and run e.g. ``$ firefox html/index.html``
-+ Use the dropdown menus to explore the class hierarchy and the source code.
-+ To generate a PDF you can navigate to the ``latex`` subdirectory of the generated docs and run ``$ make``; this should generate a PDF called ``refman.pdf``.
-
-
++ The CI pipeline on ``devel`` publishes these pages with GitLab Pages after every merge, at `https://jmackey1.pages.git.nrw/pion-dev/ <https://jmackey1.pages.git.nrw/pion-dev/>`_.  Only members of the PION GitLab project can view them.
++ To build them yourself, install ``doxygen`` and ``graphviz``, and add ``-DPION_BUILD_DOCUMENTATION=ON`` to the ``cmake`` command.  The pages are then made with the rest of the build (or with ``cmake --build build --target doc``) in ``build/doc/doc/html/``; open ``index.html`` in a web browser.
