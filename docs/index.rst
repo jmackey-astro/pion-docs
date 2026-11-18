@@ -30,6 +30,7 @@ Guide
   parameter-file.rst
   modules.rst
   tests.rst
+  troubleshooting.rst
   developers_guide.rst
   publications.rst
   usage/license.rst
