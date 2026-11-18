@@ -34,7 +34,7 @@ On nested grids, each sub-domain of a refined level must lie inside the sub-doma
 PION checks this at startup, and stops with an error message if it is not true.  Two conditions must be met along each axis that is split between processes:
 
 + The number of grid cells of each level, divided by the number of processes along the axis, must be a whole, **even** number.
-+ The edge of each refined level must lie on a sub-domain boundary of the coarser level.  This depends on the refinement centre (``NG_centre_XX``, ``NG_centre_YY``, ``NG_centre_ZZ``) and on the number of processes along the axis.  Putting the centre at the centre of the domain, or on the domain boundary, works when the number of processes along each axis is even.
++ The edge of each refined level must lie on a sub-domain boundary of the coarser level.  This depends on the refinement centre (``NG_centre_XX``, ``NG_centre_YY``, ``NG_centre_ZZ``) and on the number of processes along the axis.  Because the decomposition always gives 1 or an even number of processes along each axis, this condition is always met if the refinement centre is at the centre of the domain or on a domain boundary.
 
 If a run stops with one of these errors, change the number of grid cells, the refinement centre, or the number of MPI processes.
 Note that the number of processes along each axis comes from the shape of the domain, as described above.
@@ -108,6 +108,3 @@ Log files and output
 
 + With ``redirect=PATH`` each MPI process writes its log to ``PATH_<rank>.log``.  In ``Release`` builds only rank 0 writes log messages, unless PION was compiled with ``-DLOG_ALL_PROCS=ON``.  See :ref:`command-line-logs`.
 + Parallel Silo snapshots are written by all processes together into a small number of files for each level and snapshot (one file per about 3×10\ :sup:`7` cells, but at most one per process).  PyPion and VisIt read these directly (see :ref:`python_usage`).
-
-Bugs in boundary conditions and MPI communication can depend on the number of processes and threads.
-If a result looks suspicious, compare runs with different numbers of processes (e.g. 1, 4 and 16) and threads.
