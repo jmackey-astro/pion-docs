@@ -12,11 +12,11 @@ First check that PION itself works on your system by running the tests (see :ref
 Problems at startup
 -------------------
 
-**The run crashes at once with** ``MPI_ERR_COMM: invalid communicator``
+**"The number of MPI processes (...) must be a power of 2"**
 
-  The number of MPI processes must be a power of 2 (1, 2, 4, 8, ...).
-  PION does not check this, and with e.g. 6 processes some of them get no sub-domain, so MPI stops with this error.
+  The number of MPI processes must be 1, 2, 4, 8, ..., because PION splits the domain by repeatedly halving it.
   See :ref:`parallel`.
+  (Older versions of PION did not check this, and crashed with ``MPI_ERR_COMM: invalid communicator``.)
 
 **Nested grid: "NG_centre = ... along axis ... is not allowed"**
 
