@@ -36,15 +36,13 @@ There are two repositories for PION, the publicly released version and the priva
 Public release of PION
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The source code for PION is hosted on the `DIAS <https://www.dias.ie/>`_ gitlab server: `https://git.dias.ie/massive-stars-software/pion <https://git.dias.ie/massive-stars-software/pion>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command from within a terminal window:
+The released version of PION is hosted on GitHub at `https://github.com/pion-cfd/PION <https://github.com/pion-cfd/PION>`_.  You can clone a copy of the source into a new directory called ``pion`` with the following command from within a terminal window:
 
 .. code-block:: bash 
 
-    $ git clone https://git.dias.ie/massive-stars-software/pion.git
+    $ git clone https://github.com/pion-cfd/PION.git pion
 
-Alternatively you can download a zip-file with the source code from `https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip <https://git.dias.ie/massive-stars-software/pion/-/archive/master/pion-master.zip>`_ if you prefer.
-
-The PION git repository is also mirrored on `github <https://www.github.com/>`_ at `https://github.com/jmackey-astro/PION <https://github.com/jmackey-astro/PION>`_.
+Alternatively you can download a zip-file with the source code from the GitHub page (the green "Code" button) if you prefer.
 
 
 Development version of PION
@@ -67,7 +65,7 @@ Getting help
 
 There are a few ways to get more information about PION and help with compiling, setting up and running your own simulations:
 
-+ Look through the documentation at `https://www.pion.ie/ <https://www.pion.ie/>`_.
++ Look through this documentation, or the `PION website <https://www.pion.ie/>`_.
 + Read the :ref:`reference papers <reference-papers>`.
 + Subscribe to the PION mailing list and ask questions at `groups.io <https://groups.io/g/pion>`_.
 + Contact `info@pion.ie <mailto:info@pion.ie>`_ with general queries.
