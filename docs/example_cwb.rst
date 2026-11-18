@@ -1,7 +1,7 @@
 
 .. _example-cwb:
 
-Another Example: colliding winds (2D)
+Colliding winds (2D)
 ==========================================
 
 

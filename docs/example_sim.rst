@@ -1,7 +1,7 @@
 
 .. _example-sim:
 
-Running an example simulation
+Running a simulation: a wind bubble (2D)
 =========================================
 
 Preparation
