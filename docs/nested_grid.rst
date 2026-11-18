@@ -131,6 +131,7 @@ Output and restarts
 -------------------
 
 + Each snapshot is written as one file per level (or several per level, in large parallel runs): ``<OutputFile>_level00_0000.<step>.silo``, ``<OutputFile>_level01_0000.<step>.silo``, etc.
++ Each file has an extra variable ``NG_Mask``: 1 for cells that are not covered by a finer level, and 0 for cells that are (their values are averages of the finer level's cells).  Use it to avoid counting the same region twice when you add up quantities (e.g. mass or energy) over all levels.
 + Snapshots are only written after a level-0 timestep.  With ``OutputCriterion 0``, make ``OutputFrequency`` a multiple of :math:`2^{N-1}` (the number of finest-level steps per level-0 step); otherwise some snapshots are skipped.
 + To start or restart a simulation, give ``pion-ng`` the level-0 file, e.g. ``pion-ng MyRun_level00_0000.00000000.silo``.  It reads the files of the other levels from the same directory.
 + PyPion reads all levels of a snapshot together (see :ref:`python_usage`), and VisIt can open the files of each level.
