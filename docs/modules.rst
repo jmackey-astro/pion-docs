@@ -30,6 +30,7 @@ NEMO.
 -  MPv7
 -  NEMO
 -  MPv8 (LEGACY, not compiled by default)
+-  MPv9 (LEGACY, not compiled by default)
 
 MPv3, MPv5, MPv6, MPv7 and NEMO can be used with more than one ionising
 point source.
@@ -436,8 +437,31 @@ ad-hoc, density-dependent cooling timescale. It offers few advantages
 over MPv7 and is considered to be legacy code: it is only compiled if
 ``LEGACY_CODE`` is defined in the PION source code.
 
-The older classes MPv0, MPv1, MPv2, MPv4 and MPv9 have been removed from
-PION.
+MPv9
+^^^^^^^^^^^^^^^^^^
+
+.. warning::
+
+   MPv9 has not been used since 2014, and would need testing to verify
+   that it still works. It is not compiled by default: it is only compiled
+   if ``EXCLUDE_HD_MODULE`` is not defined (in
+   ``source/defines/functionality_flags.h``), and it needs H. Dhanoa's
+   metal-free chemistry solver (``HD_MetalFree``), which is not part of
+   the PION repository.
+
+Microphysics class for low metallicity gas at high redshift, as
+described in `Dhanoa, Mackey & Yates
+(2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__. This was
+used for studying the chemistry and thermodynamics of metal-free gas in
+the early universe, following the non-equilibrium chemistry of hydrogen,
+helium and deuterium. The chemistry solver was written by Harpreet Dhanoa.
+
+**Publications**
+
+-  `Dhanoa, Mackey & Yates
+   (2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__
+
+The older classes MPv0, MPv1, MPv2 and MPv4 have been removed from PION.
 
 
 .. _ref-boundary-conditions:
