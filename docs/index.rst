@@ -26,6 +26,7 @@ Guide
   python.rst
   command_line.rst
   parallel.rst
+  nested_grid.rst
   parameter-file.rst
   modules.rst
   developers_guide.rst
