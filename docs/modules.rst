@@ -443,11 +443,13 @@ MPv9
 .. warning::
 
    MPv9 has not been used since 2014, and would need testing to verify
-   that it still works. It is not compiled by default: it is only compiled
-   if ``EXCLUDE_HD_MODULE`` is not defined (in
-   ``source/defines/functionality_flags.h``), and it needs H. Dhanoa's
-   metal-free chemistry solver (``HD_MetalFree``), which is not part of
-   the PION repository.
+   that it still works. It is not compiled: it is only compiled if
+   ``EXCLUDE_HD_MODULE`` is not defined (in
+   ``source/defines/functionality_flags.h``), and at present it does not
+   compile. It uses H. Dhanoa's metal-free chemistry solver
+   (``source/contrib/HD_MetalFree*``), which uses the SUNDIALS 2 interface
+   of CVODE, and MPv9 itself uses older PION interfaces. Both need to be
+   updated before MPv9 can be used again.
 
 Microphysics class for low metallicity gas at high redshift, as
 described in `Dhanoa, Mackey & Yates
