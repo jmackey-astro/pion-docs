@@ -138,6 +138,11 @@ Option                     Effect
 Physics
 ^^^^^^^
 
+.. warning::
+
+   Changing these parameters in the middle of a simulation (e.g. when restarting from a snapshot) can have dramatic consequences, including unphysical behaviour.
+   Use them only for testing, and never during a production run.
+
 =========================  ==============================================================================
 Option                     Effect
 =========================  ==============================================================================
@@ -159,7 +164,7 @@ Option                     Effect
                            e.g. ``wind_radius_0=1.2e17``.
 =========================  ==============================================================================
 
-``checkpt_freq=N`` and ``noise=F`` are also accepted, but have no effect in ``pion``.
+``noise=F`` is also accepted, but has no effect in ``pion``.
 Random noise in the initial conditions is set in the parameter file, for the initial-conditions setups that support it.
 
 
