@@ -9,6 +9,7 @@ They are also collected in a public `SciX library <https://scixplorer.org/public
 
 If you use PION in a publication, please cite Mackey et al. (2021), and the papers describing the modules that you used (listed below).
 If you have a paper that used PION and is missing here, please let us know so that we can add it.
+It would be helpful if you could open a PR on `github <https://github.com/jmackey-astro/pion-docs>`_ and add the reference yourself to the list below (most recent at the top).
 
 .. _reference-papers:
 
