@@ -1,0 +1,493 @@
+# Example: HII region with NEMO microphysics (see the PION docs, "NEMO
+# example").  1D spherical HII region around a 40,000 K blackbody star in
+# gas with n_H ~ 100 cm^-3, based on the Lexington HII40 benchmark
+# (Ferland et al. 1995), with 9 elements and all of their ions (99
+# tracers), 15 energy bins for the ionising radiation, and no
+# hydrodynamics.  128 cells, run to 0.1 Myr with a snapshot every 0.01 Myr.
+# The same setup with 32 cells is the PION test hii40-nemo
+# (test/ci-inputs/params_HII40_NEMO_n032.txt).
+#
+## Basic Properties
+ndim 1
+eqn euler
+solver 4
+coordinates spherical
+
+# Which ICs to set up {RadiativeShock, RadiativeShockOutflow
+ics Uniform
+
+# Output FileName Base
+OutputFile HII40_n128
+
+# Type of Boundary Condition
+BC_XN reflecting
+BC_XP outflow
+BC_Ninternal 0
+
+##################################################
+# Number and type of tracers.
+chem_code NEMO
+InitIons LEAVE
+ntracer 99        # Number of tracers
+
+Tracer000 X_H     # H  mass fraction (element)
+Tracer001 X_He
+Tracer002 X_C
+Tracer003 X_N
+Tracer004 X_O
+
+Tracer005 X_Ne
+Tracer006 X_Si
+Tracer007 X_S
+Tracer008 X_Fe
+
+Tracer009 H
+
+Tracer010 He
+Tracer011 He1+
+
+Tracer012 C
+Tracer013 C1+
+Tracer014 C2+
+Tracer015 C3+
+Tracer016 C4+
+Tracer017 C5+
+
+Tracer018 N
+Tracer019 N1+
+Tracer020 N2+
+Tracer021 N3+
+Tracer022 N4+
+Tracer023 N5+
+Tracer024 N6+
+
+Tracer025 O
+Tracer026 O1+
+Tracer027 O2+
+Tracer028 O3+
+Tracer029 O4+
+Tracer030 O5+
+Tracer031 O6+
+Tracer032 O7+
+
+Tracer033 Ne
+Tracer034 Ne1+
+Tracer035 Ne2+
+Tracer036 Ne3+
+Tracer037 Ne4+
+Tracer038 Ne5+
+Tracer039 Ne6+
+Tracer040 Ne7+
+Tracer041 Ne8+
+Tracer042 Ne9+
+
+Tracer043 Si
+Tracer044 Si1+
+Tracer045 Si2+
+Tracer046 Si3+
+Tracer047 Si4+
+Tracer048 Si5+
+Tracer049 Si6+
+Tracer050 Si7+
+Tracer051 Si8+
+Tracer052 Si9+
+Tracer053 Si10+
+Tracer054 Si11+
+Tracer055 Si12+
+Tracer056 Si13+
+
+Tracer057 S
+Tracer058 S1+
+Tracer059 S2+
+Tracer060 S3+
+Tracer061 S4+
+Tracer062 S5+
+Tracer063 S6+
+Tracer064 S7+
+Tracer065 S8+
+Tracer066 S9+
+Tracer067 S10+
+Tracer068 S11+
+Tracer069 S12+
+Tracer070 S13+
+Tracer071 S14+
+Tracer072 S15+
+
+Tracer073 Fe
+Tracer074 Fe1+
+Tracer075 Fe2+
+Tracer076 Fe3+
+Tracer077 Fe4+
+Tracer078 Fe5+
+Tracer079 Fe6+
+Tracer080 Fe7+
+Tracer081 Fe8+
+Tracer082 Fe9+
+Tracer083 Fe10+
+Tracer084 Fe11+
+Tracer085 Fe12+
+Tracer086 Fe13+
+Tracer087 Fe14+
+Tracer088 Fe15+
+Tracer089 Fe16+
+Tracer090 Fe17+
+Tracer091 Fe18+
+Tracer092 Fe19+
+Tracer093 Fe20+
+Tracer094 Fe21+
+Tracer095 Fe22+
+Tracer096 Fe23+
+Tracer097 Fe24+
+Tracer098 Fe25+
+
+
+##################################################
+## Parameters specific for various problems
+
+UNIFORM_radial_slope    0.0
+UNIFORM_radial_velocity 0.0
+UNIFORM_core_radius     0.0
+UNIFORM_core_centre_XX  -1.0e200
+UNIFORM_core_centre_YY  -1.0e200
+UNIFORM_core_centre_ZZ  -1.0e200
+UNIFORM_ambRO 2.359e-22           # ~100.0 per c.c.
+UNIFORM_ambPG 1.0e-11             # ~600K .
+UNIFORM_ambVX 0.0
+UNIFORM_ambVY 0.0
+UNIFORM_ambVZ 0.0
+UNIFORM_ambBX 0.0
+UNIFORM_ambBY 0.0
+UNIFORM_ambBZ 0.0
+
+##################################################
+# This gives the mass fraction of each element and species
+
+UNIFORM_ambTR0    7.0933e-01
+UNIFORM_ambTR1    2.8373e-01
+UNIFORM_ambTR2    1.8725e-03
+UNIFORM_ambTR3    3.9726e-04
+UNIFORM_ambTR4    3.7452e-03
+UNIFORM_ambTR5    7.1647e-04
+UNIFORM_ambTR6    1.9932e-09
+UNIFORM_ambTR7    2.0492e-04
+UNIFORM_ambTR8    3.9581e-09
+UNIFORM_ambTR9    7.0933e-01  # H
+UNIFORM_ambTR10    2.8373e-01  # He
+UNIFORM_ambTR12    1.8725e-03  # C
+UNIFORM_ambTR18    3.9726e-04  # N
+UNIFORM_ambTR25    3.7452e-03  # O
+UNIFORM_ambTR33    7.1647e-04  # Ne
+UNIFORM_ambTR43    1.9932e-09  # Si
+UNIFORM_ambTR57    2.0492e-04  # S
+UNIFORM_ambTR73    3.9581e-09  # Fe
+
+
+UNIFORM_ambTR11  1.00e-18   # Mass fraction of He1+
+
+UNIFORM_ambTR13  1.00e-18  # Mass fraction of C1+
+UNIFORM_ambTR14  1.00e-18  # Mass fraction of C2+
+UNIFORM_ambTR15  1.00e-18  # Mass fraction of C3+
+UNIFORM_ambTR16  1.00e-18  # Mass fraction of C4+
+UNIFORM_ambTR17  1.00e-18  # Mass fraction of C5+
+
+UNIFORM_ambTR19  1.00e-18  # Mass fraction of N2+
+UNIFORM_ambTR20  1.00e-18  # Mass fraction of N3+
+UNIFORM_ambTR21  1.00e-18  # Mass fraction of N4+
+UNIFORM_ambTR22  1.00e-18  # Mass fraction of N5+
+UNIFORM_ambTR23  1.00e-18  # Mass fraction of N6+
+UNIFORM_ambTR24  1.00e-18  # Mass fraction of N7+
+
+UNIFORM_ambTR26  1.00e-18  # Mass fraction of O2+
+UNIFORM_ambTR27  1.00e-18  # Mass fraction of O3+
+UNIFORM_ambTR28  1.00e-18  # Mass fraction of O4+
+UNIFORM_ambTR29  1.00e-18  # Mass fraction of O5+
+UNIFORM_ambTR30  1.00e-18  # Mass fraction of O6+
+UNIFORM_ambTR31  1.00e-18  # Mass fraction of O7+
+UNIFORM_ambTR32  1.00e-18  # Mass fraction of O8+
+
+UNIFORM_ambTR34  1.00e-18  # Mass fraction of Ne2+
+UNIFORM_ambTR35  1.00e-18  # Mass fraction of Ne3+
+UNIFORM_ambTR36  1.00e-18  # Mass fraction of Ne4+
+UNIFORM_ambTR37  1.00e-18  # Mass fraction of Ne5+
+UNIFORM_ambTR38  1.00e-18  # Mass fraction of Ne6+
+UNIFORM_ambTR39  1.00e-18  # Mass fraction of Ne7+
+UNIFORM_ambTR40  1.00e-18  # Mass fraction of Ne8+
+UNIFORM_ambTR41  1.00e-18  # Mass fraction of Ne9+
+UNIFORM_ambTR42  1.00e-18  # Mass fraction of Ne10+
+
+
+UNIFORM_ambTR44  1.00e-18  # Mass fraction of Si2+
+UNIFORM_ambTR45  1.00e-18  # Mass fraction of Si3+
+UNIFORM_ambTR46  1.00e-18  # Mass fraction of Si4+
+UNIFORM_ambTR47  1.00e-18  # Mass fraction of Si5+
+UNIFORM_ambTR48  1.00e-18  # Mass fraction of Si6+
+UNIFORM_ambTR49  1.00e-18  # Mass fraction of Si7+
+UNIFORM_ambTR50  1.00e-18  # Mass fraction of Si8+
+UNIFORM_ambTR51  1.00e-18  # Mass fraction of Si9+
+UNIFORM_ambTR52  1.00e-18  # Mass fraction of Si10+
+UNIFORM_ambTR53  1.00e-18  # Mass fraction of Si11+
+UNIFORM_ambTR54  1.00e-18  # Mass fraction of Si12+
+UNIFORM_ambTR55  1.00e-18  # Mass fraction of Si13+
+UNIFORM_ambTR56  1.00e-18  # Mass fraction of Si14+
+
+UNIFORM_ambTR58  1.00e-18  # Mass fraction of S2+
+UNIFORM_ambTR59  1.00e-18  # Mass fraction of S3+
+UNIFORM_ambTR60  1.00e-18  # Mass fraction of S4+
+UNIFORM_ambTR61  1.00e-18  # Mass fraction of S5+
+UNIFORM_ambTR62  1.00e-18  # Mass fraction of S6+
+UNIFORM_ambTR63  1.00e-18  # Mass fraction of S7+
+UNIFORM_ambTR64  1.00e-18  # Mass fraction of S8+
+UNIFORM_ambTR65  1.00e-18  # Mass fraction of S9+
+UNIFORM_ambTR66  1.00e-18  # Mass fraction of S10+
+UNIFORM_ambTR67  1.00e-18  # Mass fraction of S11+
+UNIFORM_ambTR68  1.00e-18  # Mass fraction of S12+
+UNIFORM_ambTR69  1.00e-18  # Mass fraction of S13+
+UNIFORM_ambTR70  1.00e-18  # Mass fraction of S14+
+UNIFORM_ambTR71  1.00e-18  # Mass fraction of S15+
+UNIFORM_ambTR72  1.00e-18  # Mass fraction of S16+
+
+
+UNIFORM_ambTR74  1.00e-18  # Mass fraction of Fe2+
+UNIFORM_ambTR75  1.00e-18  # Mass fraction of Fe3+
+UNIFORM_ambTR76  1.00e-18  # Mass fraction of Fe4+
+UNIFORM_ambTR77  1.00e-18  # Mass fraction of Fe5+
+UNIFORM_ambTR78  1.00e-18  # Mass fraction of Fe6+
+UNIFORM_ambTR79  1.00e-18  # Mass fraction of Fe7+
+UNIFORM_ambTR80  1.00e-18  # Mass fraction of Fe8+
+UNIFORM_ambTR81  1.00e-18  # Mass fraction of Fe9+
+UNIFORM_ambTR82  1.00e-18  # Mass fraction of Fe10+
+UNIFORM_ambTR83  1.00e-18  # Mass fraction of Fe11+
+UNIFORM_ambTR84  1.00e-18  # Mass fraction of Fe12+
+UNIFORM_ambTR85  1.00e-18  # Mass fraction of Fe13+
+UNIFORM_ambTR86  1.00e-18  # Mass fraction of Fe14+
+UNIFORM_ambTR87  1.00e-18  # Mass fraction of Fe15+
+UNIFORM_ambTR88  1.00e-18  # Mass fraction of Fe16+
+UNIFORM_ambTR89  1.00e-18  # Mass fraction of Fe17+
+UNIFORM_ambTR90  1.00e-18  # Mass fraction of Fe18+
+UNIFORM_ambTR91  1.00e-18  # Mass fraction of Fe19+
+UNIFORM_ambTR92  1.00e-18  # Mass fraction of Fe20+
+UNIFORM_ambTR93  1.00e-18  # Mass fraction of Fe21+
+UNIFORM_ambTR94  1.00e-18  # Mass fraction of Fe22+
+UNIFORM_ambTR95  1.00e-18  # Mass fraction of Fe23+
+UNIFORM_ambTR96  1.00e-18  # Mass fraction of Fe24+
+UNIFORM_ambTR97  1.00e-18  # Mass fraction of Fe25+
+UNIFORM_ambTR98  1.00e-18  # Mass fraction of Fe26+
+
+
+# extra physics
+EP_dynamics     0
+EP_raytracing   1
+EP_phot_ionisation   1
+EP_cooling      1
+EP_chemistry    1
+EP_coll_ionisation   1
+EP_rad_recombination 1
+EP_recombination 1
+EP_charge_exchange 1
+EP_cr_ionisation 1
+EP_onthespot_radiation 0
+EP_nemo_reltol 1.0e-6
+EP_nemo_abstol 1.0e-12
+EP_nemo_minerg 1.0e-20
+EP_update_erg 1
+EP_MP_timestep_limit 1
+EP_Min_Temperature 200.0
+EP_Max_Temperature 1.0e8
+EP_Hydrogen_MassFrac 0.715
+EP_Helium_MassFrac   0.273
+EP_Metal_MassFrac    0.0142
+EP_sat_thermal_cond 0
+EP_tc_strength 0.0
+
+smooth -1
+noise 0
+
+## Grid Parameters
+# Number of gridpoints in each direction (note cells must be cubic!)
+# INT
+NGridX  128
+NGridY  1
+NGridZ  1
+# Boundaries of Simulation box:
+Xmin 0.0
+Ymin 0.0
+Zmin 0.0
+# Max values of x,y,z
+Xmax 1.8e19
+Ymax 0.0
+Zmax 0.0
+
+# Nested grid
+grid_nlevels 1
+NG_centre_XX 0.0e18
+NG_centre_YY 0.0e18
+NG_centre_ZZ 0.0e18
+NG_refine_XX 0
+NG_refine_YY 0
+NG_refine_ZZ 0
+
+
+# Data Output Path
+OutputPath ./
+OutputFileType silo
+OutputFrequency 100000
+OutputCriterion 1
+OPfreqTime 3.156e11
+
+StartTime 0.0
+FinishTime 3.156e+12
+
+OrderOfAccSpace 1
+OrderOfAccTime  1
+GAMMA 1.6666666666666666666666
+CFL 0.4
+ArtificialViscosity 1
+EtaViscosity 0.15
+
+
+RT_Nsources 1
+
+# star
+RT_position_0_0  0.0e18
+RT_position_0_1  0.0e18
+RT_position_0_2  0.0e18
+RT_strength_0    3.07e39   # erg/s for multifrequency source.
+RT_Rstar____0    18.6517       # Radius of star in solar radii.
+RT_Tstar____0    4.0e4      # Stellar effective temperature.
+RT_src_type_0    1          # 1=single src, 2=diffuse-radiation.
+RT_at_infty_0    0          # 0=no, 1=yes.
+RT_update___0    2          # 2=default update scheme.
+RT_effect___0    10         # 7=ATLAS O3V, 8=PoWR WC, 9=PoWR WNE, 10=blackbody
+RT_Tau_var__0    0          # not used for mpv10
+RT_Nbins____0    15         # change this for how many energy bins we have
+RT_EVO_FILE_0    NOFILE
+
+
+
+WIND_NSRC   0
+N_JET       0
+
+
+##################################################
+# Reference Vector
+refvec0 1.0e-23  # ~10 particles /cc
+refvec1 3.0e-12  # T ~ 10^4K
+refvec2 3.0e6    # v ~ 100 km/s = 1.e7 cm/s
+refvec3 3.0e6    # v ~ 100 km/s
+refvec4 3.0e6    # v ~ 100 km/s
+refvec5 1.0e-6
+refvec6 1.0e-6
+refvec7 1.0e-6
+
+refvec8 1.0
+refvec9 1.0
+refvec10 1.0
+refvec11 1.0
+refvec12 1.0
+refvec13 1.0
+refvec14 1.0
+refvec15 1.0
+refvec16 1.0
+refvec17 1.0
+refvec18 1.0
+refvec19 1.0
+refvec20 1.0
+refvec21 1.0
+refvec22 1.0
+refvec23 1.0
+refvec24 1.0
+refvec25 1.0
+refvec26 1.0
+refvec27 1.0
+refvec28 1.0
+refvec29 1.0
+refvec30 1.0
+refvec31 1.0
+refvec32 1.0
+refvec33 1.0
+
+refvec34 1.0
+refvec35 1.0
+refvec36 1.0
+refvec37 1.0
+refvec38 1.0
+refvec39 1.0
+refvec40 1.0
+refvec41 1.0
+refvec42 1.0
+refvec43 1.0
+refvec44 1.0
+refvec45 1.0
+refvec46 1.0
+refvec47 1.0
+refvec48 1.0
+refvec49 1.0
+refvec50 1.0
+refvec51 1.0
+refvec52 1.0
+refvec53 1.0
+refvec54 1.0
+refvec55 1.0
+refvec56 1.0
+refvec57 1.0
+refvec58 1.0
+refvec59 1.0
+refvec60 1.0
+refvec61 1.0
+refvec62 1.0
+refvec63 1.0
+refvec64 1.0
+refvec65 1.0
+refvec66 1.0
+refvec63 1.0
+refvec64 1.0
+refvec65 1.0
+refvec66 1.0
+refvec67 1.0
+refvec68 1.0
+refvec69 1.0
+refvec70 1.0
+
+refvec71 1.0
+refvec72 1.0
+refvec73 1.0
+refvec74 1.0
+refvec75 1.0
+refvec76 1.0
+refvec77 1.0
+refvec78 1.0
+refvec79 1.0
+refvec80 1.0
+refvec81 1.0
+refvec82 1.0
+refvec83 1.0
+refvec84 1.0
+refvec85 1.0
+refvec86 1.0
+refvec87 1.0
+refvec88 1.0
+refvec89 1.0
+refvec90 1.0
+refvec91 1.0
+refvec92 1.0
+refvec93 1.0
+refvec94 1.0
+refvec95 1.0
+refvec96 1.0
+refvec93 1.0
+refvec94 1.0
+refvec95 1.0
+refvec96 1.0
+refvec97 1.0
+refvec98 1.0
+refvec99 1.0
+refvec100 1.0
+refvec101 1.0
+refvec102 1.0
+refvec103 1.0
+refvec104 1.0
+refvec105 1.0
+refvec106 1.0
+
+
+# Anything else?  
