@@ -7,12 +7,10 @@ PION: simulations of nebulae around stars
 
 PION was written to model the evolution of HII regions, photoionized bubbles that form around hot stars, and developed to include stellar wind sources so that both wind bubbles and photoionized bubbles can be simulated at the same time. It is versatile enough to be extended to other applications.
 
-The current version of PION is 2.0.0, available `at the release page <https://git.dias.ie/massive-stars-software/pion/-/releases/pion2.0.0>`_.
+There are two versions of PION, the released version and the development version.  The released version is freely available on GitHub at `https://github.com/pion-cfd/PION <https://github.com/pion-cfd/PION>`_.  If you want to work with the development version you need to request access (see :ref:`getting-pion`).
 
-There are two versions of PION, the released version and development version.  Only the released version is freely available.  If you want to work with the development version you need to request access.
-
-+ Documentation for the released version, 2.0.0: `https://pion.ie/docs/ <https://pion.ie/docs/>`_.
-+ Documentation for the development version: `https://pion.ie/docs/dev/ <https://pion.ie/docs/dev/>`_.
++ Documentation for the released version: `https://pion.ie/docs/ <https://pion.ie/docs/>`_.
++ Documentation for the development version: `https://pion-docs-dev.readthedocs.io/ <https://pion-docs-dev.readthedocs.io/>`_ (this site).
 
 **This documentation is for the development version.**
 
@@ -27,12 +25,12 @@ Guide
   example_cwb.rst
   python.rst
   command_line.rst
+  parallel.rst
   parameter-file.rst
   modules.rst
   developers_guide.rst
   publications.rst
   usage/license.rst
-  usage/readme.rst 
 
 
 Indices and tables
