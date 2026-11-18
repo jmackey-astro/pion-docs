@@ -5,9 +5,6 @@ Started from a review of `docs/` against the PION `devel` source
 
 ## Open
 
-- [ ] **A NEMO example**, e.g. based on `test/hii40_nemo.sh` (1D HII
-      region) or `test/rhd-2d-nemo-2src.sh` (2D, two sources): parameter
-      file, commands, and a plot.
 - [ ] **Stellar winds developer page**: `docs/dev_winds.inc` is a one-line
       stub and is not included in the developer guide. Describe the wind
       classes (`stellar_wind_BC`, `stellar_wind_angle`,
@@ -40,4 +37,6 @@ Started from a review of `docs/` against the PION `devel` source
 - [x] Troubleshooting page; shorter VisIt output in `example_sim.rst`.
 - [x] Power-of-2 check for the number of MPI processes (PION branch
       `nproc-power-of-2`, troubleshooting entry #23).
+- [x] NEMO example: 1D HII region with 9 elements, parameter file,
+      plotting script and figure (`docs/example_nemo.rst`).
 - [x] Jet inflow section: kept, with a warning that it is untested.
