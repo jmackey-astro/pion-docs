@@ -29,6 +29,7 @@ Problem (key value)                Location of source file                  Brie
 ``Advection``                      ``basic_tests.cpp``                      Advection of an overdense clump
 ``AdvectSineWave``                 ``basic_tests.cpp``                      Advection of an overdense clump in a sinusoidal
                                                                             velocity field
+``DivBPeak``                       ``basic_tests.cpp``                      Divergence-cleaning test with a peak in Bx
 ``DoubleMachRef``                  ``basic_tests.cpp``                      Double Mach reflection test
 ``FieldLoop``, ``FieldLoopVz``,    ``basic_tests.cpp``                      Advection of a magnetic field loop
 ``FieldLoopStatic``
@@ -86,8 +87,8 @@ Parameter                Default             Description
 ``ndim``                 required            Number of spatial dimensions: 1, 2 or 3.
 ``coordinates``          ``cartesian``       Coordinate system: ``cartesian`` (or ``cart``), ``cylindrical``
                                              (``cyl``) or ``spherical`` (``sph``).
-``eqn``                  required            Equations to solve: ``euler`` (or ``hd``), ``mhd`` (or
-                                             ``glm-mhd``), or ``i-mhd``; see below.
+``eqn``                  required            Equations to solve: ``euler`` (or ``hd``), ``glm-mhd`` or
+                                             ``i-mhd``; see below.
 ``GAMMA``                required            Adiabatic index of the gas (usually 5/3 = 1.66666666666667).
 ``solver``               ``4``               Flux solver, by number or name; see below.
 ``OrderOfAccSpace``      required            Spatial order of accuracy: 1 = piecewise constant; 2 = piecewise
@@ -108,7 +109,7 @@ Parameter                Default             Description
 There are three types of equations:
 
 + **Euler equations** (``euler``): the inviscid equations of hydrodynamics.
-+ **GLM-MHD equations** (``mhd`` or ``glm-mhd``): ideal magnetohydrodynamics plus the Dedner et al. (2002) divergence-cleaning method for controlling divergence errors in the magnetic field.  Use this for MHD in 2D and 3D.
++ **GLM-MHD equations** (``glm-mhd``): ideal magnetohydrodynamics plus the Dedner et al. (2002) divergence-cleaning method for controlling divergence errors in the magnetic field.  Use this for MHD in 2D and 3D.
 + **Ideal MHD equations** (``i-mhd``): magnetohydrodynamics with no method for controlling divergence errors, so only usable in 1D.
 
 The flux solver can be given by number or by name:
@@ -707,6 +708,15 @@ FieldLoop
 Sets up the field-loop advection test (2D, MHD).  ``FieldLoopVz`` adds a velocity in the z direction, and ``FieldLoopStatic`` has no velocity.  No parameters.
 
 
+DivBPeak
+-------------------------------------------------------------
+
+Sets up the divergence-cleaning test of Dedner et al. (2002): a peak in :math:`B_x` near the origin, which gives :math:`\nabla\cdot\mathbf{B}\neq0`, advected with velocity (1,1) through a uniform medium (2D, MHD, code units).
+The domain must be :math:`[-0.5,1.5]` in x and y, with periodic boundaries.  No parameters.
+An example parameter file is ``source/ics/pfiles/pf_divbpeak.txt``.
+Run it with ``eqn glm-mhd`` to see the divergence errors decay, or with ``eqn i-mhd`` (no divergence cleaning) for comparison.
+
+
 TestCIE and TestMC
 -------------------------------------------------------------
 
@@ -724,7 +734,8 @@ Supernova
 -------------------------------------------------------------
 
 Reads an existing snapshot (``SN-snapshot-file``) and adds the ejecta of a supernova at the origin, with the two-component density profile of Whalen et al. (2008), on the finest grid level.
-The density of each cell of the ejecta is multiplied by a random factor between 0.6 and 1.4.
+The density of each cell of the ejecta is multiplied by a random factor between 0.6 and 1.4, and then the ejecta density is rescaled to give the requested mass.
+The kinetic energy is then only approximately ``SN-energy``, especially if the ejecta cover few cells (e.g. in 1D).
 
 + ``SN-radius-Ncells``: radius of the ejecta, in grid cells of the finest level.
 + ``SN-energy``: kinetic energy of the ejecta (erg).
