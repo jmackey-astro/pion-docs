@@ -133,7 +133,7 @@ Notes:
 
 + The recommended solver for the Euler equations is 9, and for the MHD equations is 7.
 + GAMMA should be in the range (1,2).
-+ Spatial and temporal order of accuracy may both be set to 1 or 2, but they should be the same as each other.  The 2nd-order scheme is better.
++ Spatial and temporal order of accuracy may both be set to 1 or 2, but they should be the same as each other.  The 2nd-order scheme is nearly always more accurate than 1st-order for a given computational expense.
 + The CFL parameter for an unsplit scheme should be <1/ndim.
 + Cartesian coordinates are available in 1D, 2D and 3D, with all equations.
 + Cylindrical coordinates are only available in 2D :math:`(z,R)` with rotational symmetry in the :math:`\theta` direction.  The radial coordinate (``y`` axis) should begin at :math:`R=0` and use an axisymmetric boundary condition.
@@ -174,8 +174,6 @@ Parameter                 Type                Default           Description
 ``NG_refine_ZZ``          integer             1                 Refine in Z direction? (1 = yes)
 ========================  ==================  ================  =================================================================
 
-The parameters ``grid_aspect_ratio_XX``, ``grid_aspect_ratio_YY`` and ``grid_aspect_ratio_ZZ`` are read and stored in snapshots, but they are not used.
-
 
 .. _parameter-output:
 
@@ -202,8 +200,8 @@ Parameter             Type                Default           Description
                                                             continues until it is stopped by other means.
 ====================  ==================  ================  =================================================================
 
-Snapshot file names have the form ``<OutputFile>_<step>.silo`` on uniform grids, and ``<OutputFile>_level<NN>_<step>.silo`` (one file per level) on nested grids, where ``<step>`` is the timestep number, written as ``0000.00000000``.
-Parallel runs may write more than one file per level for large grids.
+Snapshot file names have the form ``<OutputFile>_<filecount>.<step>.silo`` on uniform grids, and ``<OutputFile>_level<NN>_<filecount>.<step>.silo`` (one file per level) on nested grids, where ``<filecount>`` is a 4-digit counter starting at ``0000`` for snapshots where it is more efficient to write multiple files, and ``<step>`` is the timestep number, written with 8 digits ``00000000``.
+Parallel runs may write more than one file per level for large grids in 3D.
 Every snapshot can be used to restart the simulation (see :ref:`command-line-restart`); there are no separate checkpoint files.
 Most of these parameters can be changed when restarting a simulation with the command-line options of ``pion`` (see :ref:`command-line`), e.g. ``opfreq_time=``, ``finishtime=`` or ``outfile=``.
 
@@ -292,7 +290,7 @@ Parameter                   Default      Description
 ``EP_Min_Temperature``      0            Minimum gas temperature (K).
 ``EP_Max_Temperature``      1.0e100      Maximum gas temperature (K).
 ``EP_Hydrogen_MassFrac``    0.7154       Hydrogen mass fraction X, used by some microphysics modules
-                                         (default from Asplund et al. 2009).
+                                         (default from Asplund et al. 2009) but not NEMO.
 ``EP_Helium_MassFrac``      0.2703       Helium mass fraction Y, used by some microphysics modules.
 ``EP_Metal_MassFrac``       0.0142       Metal mass fraction Z, used by some microphysics modules.
 ``EP_coll_ionisation``      0            NEMO: collisional ionisation.
@@ -304,16 +302,16 @@ Parameter                   Default      Description
 ``EP_nemo_reltol``          1.0e-6       NEMO: relative tolerance of the CVODE integration.
 ``EP_nemo_abstol``          1.0e-12      NEMO: absolute tolerance for the mass fractions.
 ``EP_nemo_minerg``          1.0e-20      NEMO: absolute tolerance for the internal energy.
-``EP_sat_thermal_cond``     0            Saturated thermal conduction on (1) or off (0).
+``EP_sat_thermal_cond``     0            Saturated thermal conduction on (1) or off (0) [NOT WORKING!].
 ``EP_tc_strength``          1.0          Strength of thermal conduction, from 0 (none) to 1 (full).
 ``EP_compton_cool``         0            Compton cooling of the gas by the radiation of the stars with
                                          stellar winds (1) or not (0).
 ``EP_wind_acceleration``    0            Allow accelerating winds (``WIND_[i]_acceleration``): 1 = yes.
 ``EP_shocked_tracer``       0            Index of a tracer that is set to 1 in gas that has passed through a
-                                         shock (0 = not used).  Needs ``EP_dust_tracer``.
+                                         shock (0 = not used).  See ``time_integrator.cpp``
 ``EP_dust_tracer``          0            Index of a tracer that is set to 1 in shocked gas that is cool and
                                          dense enough to form dust (0 = not used).  Needs
-                                         ``EP_shocked_tracer``.
+                                         ``EP_shocked_tracer``.  See ``time_integrator.cpp``
 ==========================  ===========  ======================================================================
 
 The NEMO parameters are described in more detail in :ref:`ref-nemo`.
@@ -324,8 +322,6 @@ Units
 
 PION uses CGS units, with magnetic field in Gauss.
 Internally PION solves the MHD equations in units such that factors of :math:`4\pi` do not appear, but these are rescaled by :math:`\sqrt{4\pi}` on reading from and writing to snapshots, and so the snapshots have magnetic field units of Gauss.
-The parameters ``units``, ``rhoval``, ``lenval``, ``velval`` and ``magval`` are read and stored in snapshots, but they have no effect; they can be left out.
-
 
 
 =====================================================
@@ -564,7 +560,7 @@ Sets up a Riemann problem in 1D or 2D (Cartesian or cylindrical coordinates), wi
 + ``STnumber``: number of a built-in test, or 0 to use the states given in the parameter file.  The built-in tests are: 1-5, the tests in Toro's book on Riemann solvers; 6, a near-stationary contact discontinuity; 7-13, MHD tests of Falle et al. (1998), including the Brio & Wu test (7) and an Alfvén wave (8); 15-26, the MHD tests 1a to 5b of Ryu & Jones (1995).  The built-in tests switch off ray-tracing, cooling and chemistry.
 + ``STshockpos``: position of the discontinuity along x (cm), for ``STnumber 0``.
 + ``STangleXY``: angle of the discontinuity in the x-y plane (integer, degrees, 2D only).
-+ For ``STnumber 0``, the state on the left (negative x) side is given by ``STpostvecRO``, ``STpostvecPG``, ``STpostvecVX``, ``STpostvecVY``, ``STpostvecVZ`` (and ``STpostvecBX``, ``STpostvecBY``, ``STpostvecBZ`` for MHD), and the state on the right side by ``STprevec...``.  Magnetic field values are in code units (magnetic pressure :math:`B^2/2`), not Gauss.
++ For ``STnumber 0``, the state on the left (negative x) side is given by ``STpostvecRO``, ``STpostvecPG``, ``STpostvecVX``, ``STpostvecVY``, ``STpostvecVZ`` (and ``STpostvecBX``, ``STpostvecBY``, ``STpostvecBZ`` for MHD), and the state on the right side by ``STprevec...``.  Differently from other types of problem setup, magnetic field values are input in code units (magnetic pressure :math:`B^2/2`), not Gauss.
 + Tracers: ``STprevecTR[n]`` and ``STpostvecTR[n]``.
 
 
@@ -738,10 +734,11 @@ LaserAblationAxi
 
 Sets up a laser-ablation test for high-energy-density physics, in 2D cylindrical coordinates.
 Parameters: ``LASERAB_vel0``, ``LASERAB_rho0``, ``LASERAB_Dratio``, ``LASERAB_Pressure0``, ``LASERAB_Pratio``, ``LASERAB_BX0``.
-
+Note this has never been used for production calculations and should be treated as untested code.
 
 Jet
 -------------------------------------------------------------
 
 Sets up the ambient medium for a jet simulation (see `Jet inflow`_), with ``JETambRO``, ``JETambPG``, ``JETambVX``, ``JETambVY``, ``JETambVZ``, ``JETambBX``, ``JETambBY``, ``JETambBZ`` and ``JETambTR[n]``.
 The jet itself is set by ``JETradius`` (in grid cells), ``JETdensity``, ``JETpressure``, ``JETvelocity``, ``JET_Bax``, ``JET_Btor`` and ``JETjetTR[n]``.
+Note the caveat above, that the Jet initial conditions have not been tested since 2010, and were only used in code testing and development.
