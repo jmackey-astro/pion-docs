@@ -463,7 +463,9 @@ The parameters, with the units they are given in, are:
 +------------------------------+--------------------------------------------+-------------------------------------+
 | ``WIND_[i]_updatefreq``      | How often to update an evolving wind       | years                               |
 +------------------------------+--------------------------------------------+-------------------------------------+
-| ``WIND_[i]_enhance_mdot``    | Ad-hoc flag to increase :math:`\dot{M}`    | Default is 0                        |
+| ``WIND_[i]_enhance_mdot``    | Integer factor to increase :math:`\dot{M}` | Default is 0 (no change)            |
+|                              | of a rapidly rotating star (type 3 only;   |                                     |
+|                              | see below)                                 |                                     |
 +------------------------------+--------------------------------------------+-------------------------------------+
 | ``WIND_[i]_xi``              | Exponent of the latitude dependence of the | Default is -0.43                    |
 |                              | wind (types 2 and 3)                       |                                     |
@@ -484,6 +486,10 @@ The parameters, with the units they are given in, are:
 +------------------------------+--------------------------------------------+-------------------------------------+
 
 The evolving wind file should have all units in CGS.
+
+``WIND_[i]_enhance_mdot`` is an integer :math:`E` (a non-integer value is rounded down).
+If :math:`E>0`, the mass-loss rate of a type-3 wind is multiplied by :math:`1+2E(\Omega-0.5)` wherever :math:`\Omega=v_\mathrm{rot}/v_\mathrm{crit}>0.5`, so that :math:`E=1` doubles :math:`\dot{M}` at critical rotation.
+This is on top of any change of :math:`\dot{M}` with rotation already in the evolution file.
 
 
 Jet inflow
