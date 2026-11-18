@@ -49,7 +49,7 @@ variants, see below)
 ``PhotEvap_RandomClumps``,         ``photoevaporating_random_clumps.cpp``   Photoevaporation of randomly placed clumps
 ``PERC``, ``PERC2``,
 ``PhotEvap_RandomClumps2``
-``PE_MC_FN``, ``PE_MC_FM``         ``photoevaporating_multiclumps.cpp``     Photoevaporation of many random and/or placed
+``PE_MC``                          ``photoevaporating_multiclumps.cpp``     Photoevaporation of many random and/or placed
                                                                             clumps
 ``1Dto2D``                         ``read_1Dto2D.cpp``                      Read a 1D profile and map it onto a 2D or 3D
                                                                             grid
@@ -64,10 +64,10 @@ Magnetic field values are given in Gauss, unless stated otherwise.
 
 Two parameters are common to most of the generators:
 
-+ ``noise``: if greater than zero, random noise with this fractional amplitude is added to the density and pressure (adiabatic noise, or isothermal for the ``PhotoEvaporatingClump`` types).  Not used by ``ShockTube``, ``PE_MC_*``, ``1Dto2D`` and ``Supernova``.
-+ ``InitIons``: if ``EP_chemistry`` is 1, ``icgen`` normally integrates the ion fractions to equilibrium after setting up the grid (``InitIons YES``, the default).  Use ``InitIons LEAVE`` to keep the tracer values set by the generator.
++ ``noise``: if greater than zero, random noise with this fractional amplitude is added to the density and pressure (adiabatic noise, or isothermal for the ``PhotoEvaporatingClump`` types).  Not used by ``ShockTube``, ``PE_MC``, ``1Dto2D`` and ``Supernova``.
++ ``InitIons``: with ``InitIons YES`` (and ``EP_chemistry 1``), ``icgen`` integrates the ion fractions to equilibrium after setting up the grid.  The default, ``InitIons LEAVE``, keeps the tracer values set by the generator.
 
-Some other generators are only compiled with extra compile-time flags (``StarBench_*`` tests, ``ReadBBTurbulence``, ``HD_2D_ShockCloud``), and ``LaserAblation3D`` is not implemented.
+Some other generators are only compiled with extra compile-time flags (``StarBench_*`` tests, ``ReadBBTurbulence``, ``HD_2D_ShockCloud``).
 
 
 =====================================================
@@ -249,10 +249,9 @@ Parameter          Type                Default           Description
                                        > 0)
 ``chem_code``      string              none              Microphysics module, e.g. ``MPv3`` or ``NEMO``; see
                                                          :ref:`ref-microphysics`.  Only used if ``EP_chemistry`` is 1.
-``InitIons``       string              ``YES``           ``icgen`` only.  With ``EP_chemistry 1``, ``icgen`` normally sets
-                                                         the ion fractions to their equilibrium values (``YES``); set
-                                                         ``InitIons LEAVE`` to keep the values set by the initial
-                                                         conditions.
+``InitIons``       string              ``LEAVE``         ``icgen`` only.  ``LEAVE`` keeps the ion fractions set by the
+                                                         initial conditions.  With ``YES`` (and ``EP_chemistry 1``),
+                                                         ``icgen`` sets them to their equilibrium values.
 =================  ==================  ================  =================================================================
 
 The tracer names that each microphysics module expects are described in :ref:`ref-microphysics` (for NEMO, see :ref:`ref-nemo`).
@@ -285,8 +284,8 @@ Parameter                   Default      Description
                                          3 = cooling, recombination and ionisation times (not
                                          working); 4 = recombination time; 5 = also with implicit
                                          ray-tracing (``RT_update 1``).  MPv3, MPv5, MPv6, MPv7 and
-                                         MPv8 always use 1; NEMO uses its own criterion if the value
-                                         is not 0.
+                                         MPv8 ignore this value and always use 1; NEMO uses its own
+                                         criterion if the value is not 0.
 ``EP_Min_Temperature``      0            Minimum gas temperature (K).
 ``EP_Max_Temperature``      1.0e100      Maximum gas temperature (K).
 ``EP_Hydrogen_MassFrac``    0.7154       Hydrogen mass fraction X, used by some microphysics modules
@@ -579,7 +578,7 @@ Sets up a planar shock (at 1/8 of the x range) that will hit a spherical cloud, 
 + ``SCdratio``: density of the cloud relative to the pre-shock medium.
 + ``SCpratio``, ``SCBratio``: pressure and (x-component of) magnetic field of the cloud relative to the pre-shock medium (default 1).
 + ``SCprevecRO``, ``SCprevecPG``, ``SCprevecVX``, ... and ``SCpostvecRO``, ...: pre-shock and post-shock states, as for ``ShockTube``, including ``BX``, ``BY``, ``BZ`` (Gauss) for MHD and ``TR[n]`` for the tracers.
-+ ``SCcloudTR0``, ``SCcloudTR01``: values of tracers 0 and 1 in the cloud (note the name of the second one).
++ ``SCcloudTR00``, ``SCcloudTR01``: values of tracers 0 and 1 in the cloud (default 0).
 
 
 RadiativeShock
@@ -597,7 +596,7 @@ BlastWave
 
 Sets up a blast wave of energy ``BW_energy`` (erg, default :math:`10^{51}`) in a uniform medium, centred at the origin: in 1D spherical, 2D cylindrical, or 2D or 3D Cartesian coordinates.
 
-+ ``BW_nzones``: radius of the region where the energy is injected, in grid cells.
++ ``BW_nzones``: radius of the region where the energy is injected, in grid cells (default 4).
 + ``BWdensity``, ``BWpressure``: density and pressure of the ambient medium.
 + ``BW_blast_dens``: density in the injection region.
 + ``BWmagfieldX``, ``BWmagfieldY``, ``BWmagfieldZ``: magnetic field (Gauss, default 0).
@@ -656,11 +655,11 @@ Sets up a simulation with randomly placed clumps (with Gaussian profiles) in a u
 + ``PhotEvap_RandomClumps2`` or ``PERC2``: a fixed total clump mass ``PERCclump_mass`` (fraction of the ambient mass), with clump masses between ``PERCmin_mass`` and ``PERCmax_mass``; ``PERCempty_xn``, ``PERCempty_xp``, etc. give regions near the boundaries without clumps.
 
 
-PE_MC_FN or PE_MC_FM
+PE_MC
 -------------------------------------------------------------
 
 Sets up a simulation with random clumps and/or clumps at given positions, in an ambient medium that can have a radial or exponential density profile.
-The names ``PE_MC_FN``, ``PE_MC_FM``, ``PhotEvap_MultiClumps_FixNum`` and ``PhotEvap_MultiClumps_FixMass`` all set up the same problem; whether there is a fixed number of clumps or a fixed mass in clumps is set by ``PERC_selection_criterion`` (``Fixed_Number`` or ``Fixed_Mass_Range``).
+Whether there is a fixed number of clumps or a fixed mass in clumps is set by ``PERC_selection_criterion`` (``Fixed_Number`` or ``Fixed_Mass_Range``).
 
 + ``PERC_ambRO``, ``PERC_ambPG``, ... , ``PERC_ambTR[n]``: ambient medium; optionally a second medium for :math:`x<` ``PERC_ALTdivider`` with ``PERC_ALTambRO``, etc.
 + ``PERCradialslope``, ``PERCcloudradius``: power-law density profile outside a core radius (fraction of the y range), around the origin.
@@ -680,7 +679,7 @@ DoubleMachRef
 -------------------------------------------------------------
 
 Sets up the double Mach reflection test problem (2D, Euler equations).
-The parameters ``DMRmach`` and ``DMRtheta`` must be present, but the test always uses Mach 10 and an angle of 60 degrees.
+The shock always has Mach number 10 and an angle of 60 degrees to the x-axis, as the ``DMR`` boundary condition assumes.
 
 
 OrszagTang
@@ -725,7 +724,7 @@ Supernova
 -------------------------------------------------------------
 
 Reads an existing snapshot (``SN-snapshot-file``) and adds the ejecta of a supernova at the origin, with the two-component density profile of Whalen et al. (2008), on the finest grid level.
-Only in parallel (MPI) builds of ``icgen``.
+The density of each cell of the ejecta is multiplied by a random factor between 0.6 and 1.4.
 
 + ``SN-radius-Ncells``: radius of the ejecta, in grid cells of the finest level.
 + ``SN-energy``: kinetic energy of the ejecta (erg).
