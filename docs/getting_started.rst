@@ -148,6 +148,8 @@ To check that the build works, run the test suite (this takes a few minutes):
 
   $ ctest --test-dir build
 
+See :ref:`tests` for what the tests check and how to run them one at a time.
+
 Other Linux distributions (Fedora, Arch, openSUSE, ...) have equivalent packages, usually with similar names.
 
 .. _compile-macos:
