@@ -1,7 +1,7 @@
 # PION docs: TODO list
 
 Started from a review of `docs/` against the PION `devel` source
-(2026-11-17), and updated as the items were done (2026-11-18).
+(2026-11-17), and updated as the items were done (2026-11-19).
 
 ## Open
 
@@ -13,10 +13,6 @@ Started from a review of `docs/` against the PION `devel` source
       classes (`stellar_wind_BC`, `stellar_wind_angle`,
       `stellar_wind_latdep`), evolving wind files, winds attached to stars,
       and winds across level boundaries.
-- [ ] PION does not check that the number of MPI processes is a power of 2;
-      with e.g. 6 processes it crashes with `MPI_ERR_COMM: invalid
-      communicator`. Add a check with a clear error message (code change),
-      then update the troubleshooting page.
 
 ## Done
 
@@ -42,4 +38,6 @@ Started from a review of `docs/` against the PION `devel` source
       pages on GitLab Pages (#21).
 - [x] Tests page: the `ctest` tests, how results are checked, CI (#21).
 - [x] Troubleshooting page; shorter VisIt output in `example_sim.rst`.
+- [x] Power-of-2 check for the number of MPI processes (PION branch
+      `nproc-power-of-2`, troubleshooting entry #23).
 - [x] Jet inflow section: kept, with a warning that it is untested.
