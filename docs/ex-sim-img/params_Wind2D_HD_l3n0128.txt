@@ -59,9 +59,6 @@ Zmax   0.000000e8
 
 # Nested grid
 grid_nlevels 3
-grid_aspect_ratio_XX 1
-grid_aspect_ratio_YY 1
-grid_aspect_ratio_ZZ 1
 NG_centre_XX 1.0e18
 NG_centre_YY 0.0e18
 NG_centre_ZZ 0.0e18
@@ -182,9 +179,4 @@ refvec13 1.0
 refvec14 1.0
 refvec15 1.0
 
-units cgs
-rhoval 1.0
-lenval 1.0
-velval 1.0
-magval 1.0
 
