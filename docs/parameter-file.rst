@@ -408,6 +408,8 @@ Moving stars are moved by an N-body integration of their mutual gravity.
 Parameter files without ``STAR_`` parameters, but with a moving wind source (``WIND_[i]_moving_star 1``), still work: PION creates a star for each moving wind source.
 
 
+.. _parameter-winds:
+
 Stellar Winds
 -------------
 
