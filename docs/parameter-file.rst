@@ -210,15 +210,16 @@ Each source ``i``, numbered from 0, has parameters of the form ``RT_[name]_[i]``
 | ``RT_update___[i]``    | integer   | 1: use C2-ray update (Mellema+2006); 2: use Mackey(2012) update;       |
 |                        |           | 2 is recommended - 1 may be broken.                                    |
 +------------------------+-----------+------------------------------------------------------------------------+
-| ``RT_effect___[i]``    | integer   | 1: UV heating, 2: monochromatic photoionizing field, 3: multifrequency |
-|                        |           | photoionization (switch to 5 in next release UPDATE CODES!).           |
+| ``RT_effect___[i]``    | integer   | 1: UV heating, 4: monochromatic photoionizing field, 5: multifrequency |
+|                        |           | photoionization; for NEMO, 7-10 select the stellar spectrum            |
+|                        |           | (see :ref:`ref-nemo`).                                                 |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_Tau_src__[i]``    | integer   | set to 10 so that the opacity in a cell is calculated by the           |
 |                        |           | microphysics module.  Other options are being deprecated.              |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_Tau_var__[i]``    | integer   | unused if ``RT_Tau_src`` is set to 10.  Other options deprecated.      |
 +------------------------+-----------+------------------------------------------------------------------------+
-| ``RT_Nbins____[i]``    | integer   | Number of energy bins for radiation field (set to 1 unless using MPv10)|
+| ``RT_Nbins____[i]``    | integer   | Number of energy bins for radiation field: 1, or 15 for NEMO.          |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_EVO_FILE_[i]``    | string    | "NONE": constant wind, or name of text file containing time evolution  |
 |                        |           | information.                                                           |

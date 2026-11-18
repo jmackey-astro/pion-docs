@@ -18,24 +18,21 @@ PION implements a number of different microphysics classes, starting
 from simple heating and cooling prescriptions such as the collisional
 ionization equilibrium cooling curves of Sutherland & Dopita (1993),
 Wiersma et al. (2009), or the simplified model of Koyama & Inutsuka
-(2002). More complicated descriptions are also implemented, focussing
-especially on the non-equilibrium ionization of hydrogen.
+(2002). More complicated descriptions are also implemented: the
+non-equilibrium ionization of hydrogen (MPv3, MPv5, MPv6, MPv7), and the
+non-equilibrium ionization of many elements with the external library
+NEMO.
 
 -  mp_only_cooling
--  MPv0 (LEGACY)
--  MPv1 (LEGACY)
--  MPv2 (LEGACY)
 -  MPv3
--  MPv4 (LEGACY)
 -  MPv5
 -  MPv6
 -  MPv7
--  MPv8 (LEGACY)
--  MPv9
+-  NEMO
+-  MPv8 (LEGACY, not compiled by default)
 
-Legacy code should not be used because it is no longer maintained, and
-could be broken by newer code. Also, it is legacy code because it has
-been superseded by better microphysics modules.
+MPv3, MPv5, MPv6, MPv7 and NEMO can be used with more than one ionising
+point source.
 
 --------------
 
@@ -49,7 +46,7 @@ chem_code. Possible options are:
    chem_code MPv5
    chem_code MPv6
    chem_code MPv7
-   chem_code MPv9
+   chem_code NEMO
 
 --------------
 
@@ -269,67 +266,163 @@ metal-rich gas, where thermal equilibrium is a good approximation.
    studying shells around red supergiants.
 -  Also used for the `StarBench project (Bisbas et al., 2015) <https://scixplorer.org/abs/2015MNRAS.453.1324B/abstract>`__, and related work.
 
-MPv9
+.. _ref-nemo:
+
+NEMO
 ^^^^^^^^^^^^^^^^^^
 
+NEMO (Non-Equilibrium Multi-ion mOdule) follows the non-equilibrium
+ionisation of all ionisation stages of H, He, C, N, O, Ne, Si, S and Fe,
+for arbitrary element abundances, together with the heating and cooling
+of the gas. It is described in `Mathew et al. (2025)
+<https://scixplorer.org/abs/2025A%26A...695A..73M/abstract>`__. The
+processes included are collisional ionisation, radiative recombination,
+charge exchange, cosmic-ray ionisation, and photoionisation by ionising
+point sources, using 15 photon-energy bins from 7.9 to 77 eV. The rate
+equations are integrated with CVODE.
 
-Microphysics class for low metallicity gas at high redshift, as
-described in `Dhanoa, Mackey & Yates
-(2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__. This was
-used for studying the chemistry and thermodynamics of metal-free gas in
-the early universe, following the non-equilibrium chemistry of hydrogen,
-helium and deuterium.
+**Installing NEMO**
+
+NEMO is an external library (`gitlab <https://gitlab.git.nrw/jmackey1/nemo>`__,
+`github <https://github.com/jmackey-astro/nemo>`__), and PION needs
+NEMO version 1.3 or later. Install it (e.g. into ``~/.local``), and then
+compile PION with ``-DPION_NEMO=ON``, with the installation directory in
+``CMAKE_PREFIX_PATH``:
+
+.. code-block:: bash
+
+  $ git clone https://github.com/jmackey-astro/nemo.git
+  $ cd nemo
+  $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=mpicxx \
+      -DCMAKE_INSTALL_PREFIX="$HOME/.local"
+  $ cmake --build build -j 4
+  $ cmake --install build
+  $ cd ../pion
+  $ cmake -S . -B build [other options] -DPION_NEMO=ON -DCMAKE_PREFIX_PATH="$HOME/.local"
+
+PION links NEMO as a static library, so after updating NEMO, install it
+again and recompile PION.
+
+**Species (tracers)**
+
+NEMO is selected with ``chem_code NEMO`` and ``EP_chemistry 1``. The
+elements and ions are passive tracers, set in the parameter file with
+``ntracer`` and ``Tracer000``, ``Tracer001``, etc.:
+
+-  Element mass fractions are named ``X_`` followed by the element, e.g.
+   ``X_H``, ``X_He``, ``X_C``.
+-  Ions are named after the element (the neutral atom, e.g. ``H``,
+   ``He``, ``C``), followed by the charge for ionised species: ``He1+``,
+   ``C1+``, ``C2+``, etc.
+-  For each element, list the ions from the neutral atom up to the
+   second-highest ionisation stage. The fully ionised stage (e.g.
+   ``H1+``, ``He2+``) is not a tracer: NEMO calculates it from the
+   element mass fraction and the other ions.
+-  Elements must be listed in order of increasing atomic number, and the
+   ions in order of increasing atomic number and charge.
+-  The element mass fractions must add up to exactly 1, and for each
+   element the ion mass fractions must not add up to more than the
+   element mass fraction.
+-  Other tracers (e.g. a wind tracer) can be included; NEMO ignores
+   tracers whose names are not elements or ions.
+
+For example, a gas of H, He and O (mass fractions 0.70, 0.29 and 0.01),
+fully neutral:
+
+::
+
+   chem_code  NEMO
+   ntracer    15
+   Tracer000  X_H
+   Tracer001  X_He
+   Tracer002  X_O
+   Tracer003  H
+   Tracer004  He
+   Tracer005  He1+
+   Tracer006  O
+   Tracer007  O1+
+   Tracer008  O2+
+   Tracer009  O3+
+   Tracer010  O4+
+   Tracer011  O5+
+   Tracer012  O6+
+   Tracer013  O7+
+   Tracer014  Wind     # not used by NEMO
+
+The initial values of the tracers are set by the initial-conditions
+setup, e.g. ``UNIFORM_ambTR0`` to ``UNIFORM_ambTR14`` for ``ics
+Uniform``, with ``InitIons LEAVE``. Here these would be 0.70, 0.29 and
+0.01 for the elements, the same values for the neutral atoms ``H``,
+``He`` and ``O``, and 0 for all of the ions. For stellar-wind sources the
+tracer values in the wind are set with ``WIND_[i]_TR[n]``. The NEMO
+repository has a program (``examples/wind-ionisation``) that calculates
+equilibrium ion fractions for these from the radiation of the star.
+
+The test problem ``test/ci-inputs/params_HII40_NEMO_n032.txt`` in PION
+is a complete example, with all 9 elements.
+
+**Physics options**
+
+The ``EP_`` parameters switch on the processes in NEMO:
+
+=============================  ===========================================================
+Parameter                      Effect
+=============================  ===========================================================
+``EP_cooling``                 Radiative cooling of the gas (0 or 1).
+``EP_coll_ionisation``         Collisional ionisation (0 or 1).
+``EP_rad_recombination``       Radiative recombination (0 or 1).
+``EP_charge_exchange``         Charge exchange (0 or 1); needs ``EP_coll_ionisation 1``.
+``EP_cr_ionisation``           Cosmic-ray ionisation (0 or 1); needs
+                               ``EP_coll_ionisation 1``.
+``EP_phot_ionisation``         Photoionisation by the radiation sources (0 or 1); needs
+                               ``EP_raytracing 1``.
+``EP_onthespot_radiation``     On-the-spot approximation for the diffuse radiation from
+                               recombinations (0 or 1).
+``EP_update_erg``              Update the gas energy with the heating and cooling rates
+                               (1), or keep the temperature fixed (0).
+``EP_MP_timestep_limit``       How the microphysics limits the timestep.
+``EP_Min_Temperature``         Minimum gas temperature (K).
+``EP_Max_Temperature``         Maximum gas temperature (K).
+``EP_nemo_reltol``             Relative tolerance of the CVODE integration (e.g.
+                               ``1.0e-6``).
+``EP_nemo_abstol``             Absolute tolerance of the CVODE integration for the mass
+                               fractions (e.g. ``1.0e-12``).
+``EP_nemo_minerg``             Absolute tolerance of the CVODE integration for the
+                               internal energy (e.g. ``1.0e-20``).
+=============================  ===========================================================
+
+**Radiation sources**
+
+NEMO uses ionising point sources (``RT_src_type_[i] 1``) whose spectrum
+is calculated from the stellar effective temperature (``RT_Tstar____[i]``)
+and radius (``RT_Rstar____[i]``). The spectrum is chosen with
+``RT_effect___[i]``:
+
+-  ``7``: ATLAS model atmosphere of an O3V star;
+-  ``8``: PoWR model atmosphere of a WC Wolf-Rayet star;
+-  ``9``: PoWR model atmosphere of a WNE Wolf-Rayet star;
+-  ``10``: blackbody.
+
+``RT_Nbins____[i]`` must be ``15``, the number of energy bins in NEMO.
+The effective temperature must be in the range covered by the chosen
+model. If the luminosity ``RT_strength_[i]`` differs by more than 5% from
+:math:`4\pi R^2\sigma T^4`, NEMO uses :math:`4\pi R^2\sigma T^4` instead.
+There can be more than one ionising source: NEMO adds up their
+photoionisation and heating rates.
+
+**Logging**
+
+With ``redirect=PATH`` on the command line (see :ref:`command-line-logs`),
+the messages from the CVODE solver in NEMO are written to separate files,
+``PATH_<rank>_sundials.log``.
 
 **Publications**
 
--  `Dhanoa, Mackey & Yates
-   (2014) <https://scixplorer.org/abs/2014MNRAS.444.2085D/abstract>`__
-
+-  `Mathew et al. (2025) <https://scixplorer.org/abs/2025A%26A...695A..73M/abstract>`__:
+   description of NEMO.
 
 Legacy Modules
 ------------------
-
-MPv0
-^^^^^^^^^^^^^^^^^^
-
-This is the original microphysics class written for PION by J.Mackey,
-but it had some problems (speed, reliability) and was never used for
-research resulting in publications. Will probably be removed in future
-versions of PION. It includes non-equilibrium collisional ionization of
-a number of ions.
-
-MPv1
-^^^^^^^^^^^^^^^^^^
-
-This microphysics class was used in Mackey & Lim
-(`2010 <https://scixplorer.org/abs/2010MNRAS.403..714M/abstract>`__,
-`2011 <https://scixplorer.org/abs/2011MNRAS.412.2079M/abstract>`__) for
-studying the expansion of HII regions and the formation of pillars,
-globules, elephant trunks at the borders of HII regions. It uses an
-implementation of the C2-ray algorithm developed by G.Mellema and
-collaborators (Mellema et al., 2006), but with significant
-modifications. It has since been superseded by updated algorithms that
-scale better on supercomputers (see `Mackey, 2012,
-A&A <https://scixplorer.org/abs/2012A%26A...539A.147M/abstract>`__).
-
-MPv2
-^^^^^^^^^^^^^^^^^^
-
-This class is broken and can no longer be used. It was a fore-runner of
-MPv3, was never used for production work, and has been replaced by MPv3
-and MPv5.
-
-MPv4
-^^^^^^^^^^^^^^^^^^
-
-This class updates the implicit (C2-ray type) integrator of MPv1. It
-uses the same implicit raytracing scheme, so photon transmission through
-the cell is integrated with the rate and energy equations to obtain a
-time-averaged value. The main advantage here is that we can use
-multi-frequency photoionisation rates which depend on the optical depth.
-It was used in `Mackey, (2012,
-A&A) <https://scixplorer.org/abs/2012A%26A...539A.147M/abstract>`__ but found to
-be less efficient than MPv3.
 
 MPv8
 ^^^^^^^^^^^^^^^^^^
@@ -340,7 +433,11 @@ test problems. The class inherits from MPv3, and instead of the Wolfire
 et al. (2003) and Henney et al. (2009) heating/cooling rates, it uses a
 much simpler prescription based on non-equilibrium heating and an
 ad-hoc, density-dependent cooling timescale. It offers few advantages
-over MPv7 and is considered to be legacy code.
+over MPv7 and is considered to be legacy code: it is only compiled if
+``LEGACY_CODE`` is defined in the PION source code.
+
+The older classes MPv0, MPv1, MPv2, MPv4 and MPv9 have been removed from
+PION.
 
 
 .. _ref-boundary-conditions:
