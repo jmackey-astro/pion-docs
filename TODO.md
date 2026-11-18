@@ -5,11 +5,7 @@ Started from a review of `docs/` against the PION `devel` source
 
 ## Open
 
-- [ ] **Stellar winds developer page**: `docs/dev_winds.inc` is a one-line
-      stub and is not included in the developer guide. Describe the wind
-      classes (`stellar_wind_BC`, `stellar_wind_angle`,
-      `stellar_wind_latdep`), evolving wind files, winds attached to stars,
-      and winds across level boundaries.
+Nothing at the moment.
 
 ## Done
 
@@ -34,9 +30,10 @@ Started from a review of `docs/` against the PION `devel` source
       workflow with `ci.skip` and clang-format-19, link to the Doxygen
       pages on GitLab Pages (#21).
 - [x] Tests page: the `ctest` tests, how results are checked, CI (#21).
-- [x] Troubleshooting page; shorter VisIt output in `example_sim.rst`.
+- [x] Troubleshooting page; shorter VisIt output in `example_sim.rst` (#22).
 - [x] Power-of-2 check for the number of MPI processes (PION branch
       `nproc-power-of-2`, troubleshooting entry #23).
 - [x] NEMO example: 1D HII region with 9 elements, parameter file,
-      plotting script and figure (`docs/example_nemo.rst`).
+      plotting script and figure (#24).
+- [x] Stellar winds section of the developer guide (#25).
 - [x] Jet inflow section: kept, with a warning that it is untested.
