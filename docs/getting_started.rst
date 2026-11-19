@@ -116,6 +116,7 @@ Debian 12/13 and Ubuntu 22.04/24.04
 
 All of the required libraries are available as system packages.
 These are the packages used to build and test PION in the continuous-integration pipeline (Debian 13), and they also work on newer releases.
+Close any conda environment or Python venv first (``conda deactivate`` or ``deactivate``, see :ref:`compile-envs`).
 
 .. code-block:: bash
 
@@ -337,6 +338,33 @@ The most common problems in compilation are related to the support libraries.
 The best way to figure out what went wrong is to look in at the text on-screen and find the first error message of the compilation (note that warnings are usually not a problem; only "error: ..." messages are critical problems).
 
 If the compilation failed, then be sure to delete the build directory with `rm -rf build/` before you try again; otherwise some settings from the previous compilation effort may be retained.
+
+.. _compile-envs:
+
+Conda and Python virtual environments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Compile PION, NEMO and the libraries they need with no conda, mamba or Python virtual environment (``venv``) active.
+Activating an environment puts its ``bin/`` directory first in ``PATH``, and cmake also searches the environment for libraries:
+
++ A **conda** environment, including ``base``, usually has its own compilers, MPI, HDF5, Boost and C++ standard library, which cmake can find instead of the system ones and mix with system libraries.
++ A **Python venv** contains only Python and the packages installed in it, so it is less often a problem. But some pip packages bring their own build tools or libraries, e.g. ``cmake`` (a different version of cmake) or ``openmpi`` and ``mpich`` (their own ``mpicc`` and ``mpicxx``).
+
+Then cmake or the compilation fails, the linker reports undefined references, or the program stops when it starts, e.g. with ``version `GLIBCXX_...' not found``.
+To check, look at which programs are found first, e.g. ``which cmake mpicxx g++``: they should be the system ones (e.g. in ``/usr/bin``), or the ones that you installed for PION.
+
+To fix this:
+
+.. code-block:: bash
+
+  $ conda deactivate      # repeat until no conda environment is shown in the prompt
+  $ deactivate            # for a Python venv
+  $ rm -rf build/         # cmake keeps the paths that it found before
+  $ bash compile-pion.sh  # or your cmake command
+
+Run PION without an active environment too, so that it uses the same libraries that it was compiled with.
+To stop conda from activating ``base`` in every new shell, use ``conda config --set auto_activate_base false``.
+Python tools such as PyPion can still be used from a conda environment or venv.
 
 MPI Error
 ^^^^^^^^^^^^^^^^^^^
