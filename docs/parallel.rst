@@ -45,7 +45,14 @@ OpenMP threads
 
 The number of OpenMP threads per MPI process is set on the command line with ``omp-nthreads=N`` (see :ref:`command-line`).
 **Without this option PION uses one thread**, whatever ``OMP_NUM_THREADS`` is set to.
-If ``N`` is larger than the number of threads available (``OMP_NUM_THREADS``, or else the number of cores), it is reduced with a warning.
+``N`` is reduced, with a warning, if it is larger than the number of cores that the process may use (set by the binding options of ``mpirun`` or ``srun``), or than ``OMP_THREAD_LIMIT`` if that is set.
+Older versions of PION instead reduced ``N`` to ``OMP_NUM_THREADS`` without a warning, and did not check ``OMP_THREAD_LIMIT``.
+
+.. note::
+
+  The environment variable ``OMP_THREAD_LIMIT`` is a hard upper limit on the number of OpenMP threads of a program, which the program cannot change.
+  Some HPC systems set it, e.g. to 1 in an interactive job that did not ask for several CPUs per task.
+  If it is set, unset it or set it to at least ``N`` before running PION.
 
 Each thread has its own copy of the microphysics solver (including NEMO), so the microphysics of different cells is calculated independently by the threads.
 
@@ -66,6 +73,17 @@ On a workstation or laptop, start a parallel run with ``mpirun`` (or ``mpiexec``
 
   $ mpirun -np 4 ./icgen-ng params.txt omp-nthreads=2
   $ mpirun -np 4 ./pion-ng MyRun_level00_0000.00000000.silo omp-nthreads=2
+
+With binding, give each process as many cores as it has threads.
+With Open MPI, ``--map-by slot:PE=N --bind-to core`` binds each process to ``N`` cores; ``--bind-to core`` on its own binds each process to a single core, so that all of its threads share one core.
+``--report-bindings`` prints the cores of each process:
+
+.. code-block:: bash
+
+  $ export OMP_PLACES=cores OMP_PROC_BIND=close
+  $ mpirun -np 4 --map-by slot:PE=10 --bind-to core --report-bindings \
+      -x OMP_PLACES -x OMP_PROC_BIND \
+      ./pion-ng MyRun_level00_0000.00000000.silo omp-nthreads=10
 
 
 Batch jobs (Slurm)

@@ -67,6 +67,18 @@ Problems during a run
 
   + Without ``omp-nthreads=N`` on the command line, PION uses **one** OpenMP thread per MPI process, whatever ``OMP_NUM_THREADS`` is set to (see :ref:`command-line`).
   + Check that MPI processes and threads are bound to cores, and that the threads of each process are on one socket (see :ref:`parallel`).
+  + Check (e.g. with ``htop``) that all cores are busy; see the next item.
+
+**PION uses fewer threads than requested with omp-nthreads**
+
+  PION reports e.g. ``n-thread = 10`` at startup, but each process only keeps one core busy, or PION warns that ``omp-nthreads`` was reduced.
+  Check two things:
+
+  + ``OMP_THREAD_LIMIT`` (check with ``env | grep OMP``).  This is a hard limit on the number of OpenMP threads that the program cannot change, and some HPC systems set it, e.g. to 1 in an interactive job (``salloc``) that did not ask for several CPUs per task.  Unset it (``unset OMP_THREAD_LIMIT``) or set it to at least the number of threads.
+  + The binding of the processes to cores.  ``mpirun --bind-to core`` on its own, or ``srun`` without ``--cpus-per-task``, binds each process to one core, so all of its threads share that core.  Use e.g. ``mpirun --map-by slot:PE=N --bind-to core`` or ``srun --cpus-per-task=N``, and check with ``mpirun --report-bindings`` (see :ref:`parallel`).
+
+  Recent versions of PION warn about both: ``omp-nthreads=... but OMP_THREAD_LIMIT=...`` or ``omp-nthreads=... but this process can only use ... cores``.
+  Older versions did not check ``OMP_THREAD_LIMIT``, and could report the requested number of threads while using fewer.
   + Microphysics with many species (e.g. NEMO) can take most of the run time, and the timestep can be limited by the microphysics (``EP_MP_timestep_limit``) rather than by the hydrodynamics.  The log files show the timestep of each step.
 
 **NEMO stops with a CVODE error**
