@@ -4,9 +4,8 @@
 # regions start separate (Stromgren radii 1.0 and 0.67 pc) and expand as
 # D-type ionisation fronts.  Their shells meet at about 0.07 Myr, and the
 # HII regions join along the axis by 0.2 Myr.
-# The microphysics timestep limit (EP_MP_timestep_limit 1) is needed while
-# the gas is first heated; after 0.07 Myr the run can be restarted with
-# limit_timestep=0 on the command line, to go much faster.
+# The timestep is limited by the microphysics (EP_MP_timestep_limit 1):
+# about 21,600 steps to 0.2 Myr.
 # Elements H, He and O, with all ionisation stages of O.
 # Grid: 128 x 64 cells (8 x 4 pc), 0.0625 pc per cell.
 

@@ -42,17 +42,9 @@ Running the simulation
       /path/to/pion/build/pion-ug TwoSrc_n128_0000.00000000.silo omp-nthreads=10 redirect=run
 
 (see :ref:`parallel` for the binding options).
-The first 0.07 Myr take about 8400 timesteps, because the microphysics limits the timestep while the gas is heated: about 20 minutes with 4 MPI processes of 10 threads each.
+This takes about 21,600 timesteps and about 1 hour with 4 MPI processes of 10 threads each.
+The timestep, about 10 years, is set by the microphysics (``EP_MP_timestep_limit 1``), not by the hydrodynamics, which would allow timesteps of almost 1000 years.
 Without this limit the simulation crashes in the first timestep, when the gas around the stars is heated from 600 K to :math:`10^4` K.
-
-Once the ionisation fronts are D-type, the microphysics changes more slowly, and the timestep limit is not needed.
-To finish the run faster, restart from the snapshot at 0.07 Myr with ``limit_timestep=0`` (see :ref:`command-line`); the timestep is then set by the hydrodynamics, and the remaining 0.13 Myr take only about 200 timesteps:
-
-.. code-block:: bash
-
-  $ mpirun -np 4 --map-by slot:PE=10 --bind-to core \
-      /path/to/pion/build/pion-ug TwoSrc_n128_0000.<step>.silo omp-nthreads=10 \
-      limit_timestep=0 redirect=run2
 
 
 Plotting the results
@@ -76,8 +68,8 @@ The script ``plot_twosrc.py`` plots the hydrogen number density in the upper hal
 :numref:`fig-twosrc-nemo` shows:
 
 + At 0.07 Myr each HII region (:math:`n_\mathrm{H}\approx300\,\mathrm{cm}^{-3}`) is surrounded by a shell of swept-up neutral gas, and the two shells have just met on the axis, closer to the fainter star.
-+ The shells collide and form a dense, neutral wall between the HII regions (:math:`n_\mathrm{H}\approx2000\,\mathrm{cm}^{-3}`, a few thousand K), which separates them until about 0.15 Myr.
-+ The radiation of both stars photoevaporates the wall from both sides. By 0.2 Myr the wall has been ionised close to the axis, so that the two HII regions are joined there, while further out the remains of the wall are pushed towards the fainter star by the larger HII region. The larger HII region has reached the edge of the grid at :math:`z=0`.
++ The shells collide and form a dense, neutral wall between the HII regions (:math:`n_\mathrm{H}\approx2000\text{--}4000\,\mathrm{cm}^{-3}`, about 2000 K), which separates them until about 0.16 Myr.
++ The radiation of both stars photoevaporates the wall from both sides. By 0.2 Myr the wall has been ionised out to about 0.7 pc from the axis, so that the two HII regions are joined there, while further out the remains of the wall are pushed towards the fainter star by the larger HII region. The larger HII region has reached the edge of the grid at :math:`z=0`.
 + Oxygen is almost all :math:`\mathrm{O}^{2+}` close to the 40,000 K star. The :math:`\mathrm{O}^{2+}` region of the cooler 35,000 K star is smaller, because it emits fewer photons above the 35 eV needed to ionise :math:`\mathrm{O}^{+}`. In the outer parts of both HII regions oxygen is mostly :math:`\mathrm{O}^{+}`, and in the ionised gas between them it is about half :math:`\mathrm{O}^{+}` and half :math:`\mathrm{O}^{2+}`.
 
 
