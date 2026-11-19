@@ -110,7 +110,32 @@ Each FITS file has:
 + A primary header with the simulation parameters of the snapshot, including the simulation time ``T_SIM`` (s), the timestep ``T_STEP``, the level ``GRID_LEVEL``, and its extent ``LEVEL_XMIN0`` ... ``LEVEL_XMAX2`` (cm).
 + One image extension for each variable, named ``GasDens``, ``GasPres``, ``GasVX``, ``GasVY``, ``GasVZ``, then ``Bx``, ``By``, ``Bz`` (MHD) and ``psi`` (GLM-MHD), the tracers ``Tr0``, ``Tr1``, ..., and ``Temp`` (temperature) if the simulation has microphysics.  The images have the dimensions of the grid level.
 
-``silo2fits`` also writes a text file ``data_<output-file>.txt`` with the extent and number of cells of the grid and the position of the first radiation source.
+``silo2fits`` also writes a text file ``data_<output-file>.txt`` with the extent and number of cells of level 0 of the grid, and a block for each radiation source, one after the other in the order of the parameter file, with its position, strength (``RT_strength_N``) and effective temperature (``RT_Tstar____N``).
+TORUS reads the source positions from this file.
+For example, for a simulation with two sources:
+
+.. code-block:: none
+
+  Text data for simulation MyRun_level00
+
+  ## GRID PROPERTIES ##
+  Xmin 0.000000e+00  cm
+  Xmax 8.000000e+18  cm
+  ...
+  N_Z 1
+  #
+  ## RADIATION SOURCE ##
+  POS_X 3.000000e+18  cm
+  POS_Y 0.000000e+00  cm
+  POS_Z 0.000000e+00  cm
+  Strength 4.000000e+38 erg/s  blackbody source
+  T_star   3.750000e+04 K.   Star's effective T.
+  #
+  ## RADIATION SOURCE ##
+  POS_X 7.000000e+18  cm
+  ...
+
+The units given for ``Strength`` are always ``erg/s``, but the value is ``RT_strength_N`` in whatever units that source uses (e.g. photons/s for a monochromatic source; see :ref:`parameter-file`).
 
 For example, with Python:
 
