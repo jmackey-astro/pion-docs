@@ -9,6 +9,18 @@ If your problem is not here, see :ref:`getting-help`.
 First check that PION itself works on your system by running the tests (see :ref:`tests`): if they pass, the problem is probably in the setup of the simulation.
 
 
+Problems compiling
+------------------
+
+See also :ref:`compilation-issues`.
+
+**cmake or the compilation fails, or PION stops at startup with a library error, and a conda environment or Python venv is active**
+
+  The environment's compilers and libraries (e.g. conda's MPI, HDF5, Boost and C++ standard library, or cmake or MPI installed with pip) can be found instead of the system ones.
+  Run ``conda deactivate`` (or ``deactivate`` for a venv), delete the build directory, and compile again (see :ref:`compile-envs`).
+  This also applies to NEMO.
+
+
 Problems at startup
 -------------------
 
