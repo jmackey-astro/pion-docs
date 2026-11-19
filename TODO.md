@@ -5,7 +5,16 @@ Started from a review of `docs/` against the PION `devel` source
 
 ## Open
 
-Nothing at the moment.
+- [ ] Post-processing with TORUS: a section with example parameter files
+      and run scripts (waiting for notes from JM).  `silo2fits`, which
+      TORUS needs, is documented (#28).
+- [ ] NEMO repository (not this repo): in `examples/minimal/README.md` and
+      `examples/sundials-logger/README.md`, say which directory to run
+      cmake from; add a note on building outside conda/venv environments
+      to the top-level README (as in #27).
+- [ ] After the PION branches `omp-thread-limit` and
+      `analysis-tools-fixes` are merged into `devel`, check that #26 and
+      #28 match what was merged.
 
 ## Done
 
@@ -37,3 +46,14 @@ Nothing at the moment.
       plotting script and figure (#24).
 - [x] Stellar winds section of the developer guide (#25).
 - [x] Jet inflow section: kept, with a warning that it is untested.
+- [x] NEMO example in 2D: two merging HII regions, with parameter file,
+      plotting script and figure (#24).
+- [x] Running in parallel: `OMP_THREAD_LIMIT` and binding each MPI
+      process to several cores (#26, with PION branch `omp-thread-limit`).
+- [x] Compiling outside conda environments and Python venvs (#27).
+- [x] Analysis tools page: `silocompare`, `silo2fits` (with TORUS),
+      `silo2text`, `map-2d-to-3d` (#28, with PION branch
+      `analysis-tools-fixes`, which fixes `silo2fits` and `map-2d-to-3d`
+      and moves broken tools to `analysis/zz_deprecated/`).
+- [x] Boundary conditions: the double Mach reflection boundaries (`DMR`,
+      `DMR2`) are hard-coded, with no parameters.
