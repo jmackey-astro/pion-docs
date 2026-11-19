@@ -1,0 +1,194 @@
+# PION example: NEMO microphysics with two ionising stars on the symmetry
+# axis of a 2D cylindrical grid (needs PION built with -DPION_NEMO=ON).
+# The stars are 3 pc apart in gas with n_H ~ 1100 per cm^3.  Their HII
+# regions start separate (Stromgren radii 1.0 and 0.67 pc) and expand as
+# D-type ionisation fronts.  Their shells meet at about 0.07 Myr, and the
+# HII regions join along the axis by 0.2 Myr.
+# The microphysics timestep limit (EP_MP_timestep_limit 1) is needed while
+# the gas is first heated; after 0.07 Myr the run can be restarted with
+# limit_timestep=0 on the command line, to go much faster.
+# Elements H, He and O, with all ionisation stages of O.
+# Grid: 128 x 64 cells (8 x 4 pc), 0.0625 pc per cell.
+
+## Basic Properties
+ndim 2
+eqn euler
+solver 4
+coordinates cylindrical
+
+ics Uniform
+
+# Output FileName Base
+OutputFile TwoSrc_n128
+
+# Type of Boundary Condition
+BC_XN outflow
+BC_XP outflow
+BC_YN axisymmetric
+BC_YP outflow
+BC_Ninternal 0
+
+##################################################
+# Number and type of tracers.
+chem_code NEMO
+ntracer 14
+Tracer000 X_H
+Tracer001 X_He
+Tracer002 X_O
+Tracer003 H
+Tracer004 He
+Tracer005 He1+
+Tracer006 O
+Tracer007 O1+
+Tracer008 O2+
+Tracer009 O3+
+Tracer010 O4+
+Tracer011 O5+
+Tracer012 O6+
+Tracer013 O7+
+UNIFORM_ambTR0 0.715
+UNIFORM_ambTR1 0.279
+UNIFORM_ambTR2 0.006
+UNIFORM_ambTR3 0.715
+UNIFORM_ambTR4 0.279
+UNIFORM_ambTR5 1.0e-18
+UNIFORM_ambTR6 0.006
+UNIFORM_ambTR7 1.0e-18
+UNIFORM_ambTR8 1.0e-18
+UNIFORM_ambTR9 1.0e-18
+UNIFORM_ambTR10 1.0e-18
+UNIFORM_ambTR11 1.0e-18
+UNIFORM_ambTR12 1.0e-18
+UNIFORM_ambTR13 1.0e-18
+InitIons LEAVE
+
+
+##################################################
+UNIFORM_radial_slope    0.0
+UNIFORM_radial_velocity 0.0
+UNIFORM_core_radius     0.0
+UNIFORM_core_centre_XX  -1.0e200
+UNIFORM_core_centre_YY  -1.0e200
+UNIFORM_core_centre_ZZ  -1.0e200
+UNIFORM_ambRO 2.6e-21             # ~1100 per c.c.
+UNIFORM_ambPG 1.0e-10             # ~600K
+UNIFORM_ambVX 0.0
+UNIFORM_ambVY 0.0
+UNIFORM_ambVZ 0.0
+UNIFORM_ambBX 0.0
+UNIFORM_ambBY 0.0
+UNIFORM_ambBZ 0.0
+
+# extra physics
+EP_dynamics     1
+EP_raytracing   1
+EP_phot_ionisation   1
+EP_cooling      1
+EP_chemistry    1
+EP_coll_ionisation   1
+EP_rad_recombination 1
+EP_recombination 1
+EP_charge_exchange 1
+EP_cr_ionisation 1
+EP_onthespot_radiation 0
+EP_nemo_reltol 1.0e-6
+EP_nemo_abstol 1.0e-12
+EP_nemo_minerg 1.0e-20
+EP_update_erg 1
+EP_MP_timestep_limit 1
+EP_Min_Temperature 200.0
+EP_Max_Temperature 1.0e8
+EP_Hydrogen_MassFrac 0.72
+EP_Helium_MassFrac   0.28
+EP_Metal_MassFrac    0.0142
+EP_sat_thermal_cond 0
+EP_tc_strength 0.0
+
+smooth -1
+noise 0
+
+## Grid Parameters
+NGridX  128
+NGridY  64
+NGridZ  1
+Xmin 0.0
+Ymin 0.0
+Zmin 0.0
+Xmax 2.4688e19   # 8 pc
+Ymax 1.2344e19   # 4 pc
+Zmax 1.2344e19
+
+# Nested grid
+grid_nlevels 1
+NG_centre_XX 0.0e18
+NG_centre_YY 0.0e18
+NG_centre_ZZ 0.0e18
+NG_refine_XX 0
+NG_refine_YY 0
+NG_refine_ZZ 0
+
+# Data Output Path
+OutputPath ./
+OutputFileType silo
+OutputFrequency 100000
+OutputCriterion 1
+OPfreqTime 3.156e11    # 0.01 Myr
+
+StartTime 0.0
+FinishTime 6.312e12    # 0.2 Myr
+
+OrderOfAccSpace 2
+OrderOfAccTime  2
+GAMMA 1.6666666666666666666666
+CFL 0.3
+ArtificialViscosity 1
+EtaViscosity 0.15
+
+RT_Nsources 2
+
+# star 0: 40,000 K blackbody at z = 2.5 pc
+RT_position_0_0  7.715e18
+RT_position_0_1  0.0e18
+RT_position_0_2  0.0e18
+RT_strength_0    3.07e39    # erg/s
+RT_Rstar____0    18.6517    # Radius of star in solar radii.
+RT_Tstar____0    4.0e4      # Stellar effective temperature.
+RT_src_type_0    1          # 1=single src, 2=diffuse-radiation.
+RT_at_infty_0    0          # 0=no, 1=yes.
+RT_update___0    2          # 2=default update scheme.
+RT_effect___0    10         # 7=ATLAS O3V, 8=PoWR WC, 9=PoWR WNE, 10=blackbody
+RT_Tau_var__0    0          # not used for NEMO
+RT_Nbins____0    15         # number of energy bins in NEMO
+RT_EVO_FILE_0    NOFILE
+
+# star 1: 35,000 K blackbody at z = 5.5 pc
+RT_position_1_0  1.6973e19
+RT_position_1_1  0.0e18
+RT_position_1_2  0.0e18
+RT_strength_1    1.1638e39  # erg/s (4 pi R^2 sigma T^4)
+RT_Rstar____1    15.0       # Radius of star in solar radii.
+RT_Tstar____1    3.5e4      # Stellar effective temperature.
+RT_src_type_1    1
+RT_at_infty_1    0
+RT_update___1    2
+RT_effect___1    10
+RT_Tau_var__1    0
+RT_Nbins____1    15
+RT_EVO_FILE_1    NOFILE
+
+WIND_NSRC   0
+N_JET       0
+
+##################################################
+# Reference Vector
+refvec0 1.0e-23  # ~10 particles /cc
+refvec1 3.0e-12  # T ~ 10^4K
+refvec2 3.0e6    # v ~ 30 km/s
+refvec3 3.0e6
+refvec4 3.0e6
+refvec5 1.0
+refvec6 1.0
+refvec7 1.0
+refvec8 1.0
+refvec9 1.0
+

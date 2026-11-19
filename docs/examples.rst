@@ -12,3 +12,4 @@ The first one describes each step in detail, so start there if you are new to PI
   example_sim.rst
   example_cwb.rst
   example_nemo.rst
+  example_nemo2d.rst

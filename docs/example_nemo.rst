@@ -170,4 +170,4 @@ Things to try
 + Change the temperature of the star (``RT_Tstar____0``, and ``RT_strength_0`` to keep the luminosity consistent) to see how the ionisation of He and O depends on the spectrum.
 + Switch off charge exchange (``EP_charge_exchange 0``) and compare the :math:`\mathrm{O}^{+}` and :math:`\mathrm{N}^{+}` fractions near the ionisation front.
 + Switch on the hydrodynamics (``EP_dynamics 1``) and run for longer (a few Myr), to follow the expansion of the HII region as the hot, ionised gas pushes into the neutral gas.
-+ For a 2D example with two stars, see the test script ``test/rhd-2d-nemo-2src.sh`` and its parameter file ``test/ci-inputs/params_TwoSrc_NEMO_d2l1n0032.txt``.
++ For a 2D example with two stars and hydrodynamics, see :ref:`example-nemo-2d`.
