@@ -23,6 +23,7 @@ Guide
   getting_started.rst
   examples.rst
   python.rst
+  analysis_tools.rst
   command_line.rst
   parallel.rst
   nested_grid.rst

@@ -122,5 +122,5 @@ Results that look wrong
 
   The results should not depend on the number of MPI processes or OpenMP threads, to round-off error (and, for some microphysics, the tolerance of the integration).
   Bugs in boundary conditions and MPI communication often appear only with some numbers of processes, e.g. where a sub-domain boundary meets a refined level, a wind source, or a radiation source.
-  If a result looks suspicious, run the same simulation (or a smaller version of it) with different numbers of processes, e.g. 1, 4 and 16, and with 1 and several threads, and compare the snapshots, e.g. with ``silocompare`` (see :ref:`tests`).
+  If a result looks suspicious, run the same simulation (or a smaller version of it) with different numbers of processes, e.g. 1, 4 and 16, and with 1 and several threads, and compare the snapshots, e.g. with ``silocompare`` (see :ref:`silocompare`).
   If the results differ, please report it (see :ref:`getting-help`), with the parameter file and the numbers of processes and threads.

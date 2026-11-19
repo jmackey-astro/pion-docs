@@ -258,7 +258,7 @@ Running the build script should create some executable files in the directory ``
   + ``build/pion-ng``  : PION executable for nested-grid simulations
 
 The executables have the same names for serial (``-DPION_PARALLEL=OFF``) and parallel builds.
-With ``-DPION_TOOLS=ON``, analysis programs (e.g. ``silocompare``, ``silo2text``) are also built in ``build/``.
+With ``-DPION_TOOLS=ON``, analysis programs (e.g. ``silocompare``, and ``silo2fits`` if FITS is enabled) are also built in ``build/`` (see :ref:`analysis-tools`).
 
 If you do not see these files, then probably the compilation process threw a lot of errors at you, and you can try to resolve these by looking at :ref:`compilation-issues`.
 
