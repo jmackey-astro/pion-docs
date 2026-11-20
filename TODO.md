@@ -1,7 +1,7 @@
 # PION docs: TODO list
 
 Started from a review of `docs/` against the PION `devel` source
-(2026-11-17), and updated as the items were done (2026-11-19).
+(2026-11-17), and updated as the items were done (2026-11-20).
 
 ## Open
 
@@ -12,9 +12,6 @@ Started from a review of `docs/` against the PION `devel` source
       `examples/sundials-logger/README.md`, say which directory to run
       cmake from; add a note on building outside conda/venv environments
       to the top-level README (as in #27).
-- [ ] After the PION branches `omp-thread-limit` and
-      `analysis-tools-fixes` are merged into `devel`, check that #26 and
-      #28 match what was merged.
 
 ## Done
 
@@ -57,3 +54,7 @@ Started from a review of `docs/` against the PION `devel` source
       and moves broken tools to `analysis/zz_deprecated/`).
 - [x] Boundary conditions: the double Mach reflection boundaries (`DMR`,
       `DMR2`) are hard-coded, with no parameters.
+- [x] Checked #26 and #28 against PION `devel` after the branches
+      `omp-thread-limit` and `analysis-tools-fixes` were merged
+      (2026-11-20): warnings, `silo2fits` arguments and text file, and the
+      list of built tools match.
