@@ -672,10 +672,21 @@ conditions are not going to be useful anyway.
 Double Mach Reflection test: “DMR” and “DMR2”
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-These are for the double Mach reflection test problem. DMR is the upper
-boundary where the shock is inflowing. DMR2 is the lower boundary at
-x<1/6, where we ignore the reflecting boundary condition and just
-enforce the post-shock state at the grid cells adjacent to the boundary.
+These are for the double Mach reflection test problem (Woodward & Colella
+1984), set up with ``ics DMR`` (see :ref:`parameter-file`). DMR is the
+upper boundary where the shock is inflowing: cells ahead of the moving
+shock get the pre-shock state, and cells behind it the post-shock state.
+DMR2 is the lower boundary at x<1/6, where we ignore the reflecting
+boundary condition and just enforce the post-shock state at the grid
+cells adjacent to the boundary.
+
+These boundary conditions have no parameters: the test problem is
+hard-coded. The shock has Mach number 10 and an angle of 60 degrees to
+the x-axis, and starts at x=1/6 on the lower boundary; the pre-shock
+state is :math:`\rho=1.4`, :math:`p=1`, :math:`v=0`, and the post-shock
+state is :math:`\rho=8`, :math:`p=116.5`,
+:math:`(v_x,v_y)=(7.1447,-4.125)`, with :math:`\gamma=1.4`. They only
+work with the Euler equations, in 2D.
 
 StarBench test problems: “SB1”
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
