@@ -35,9 +35,9 @@ published at https://pion-docs-dev.readthedocs.io from the `dev` branch.
 ## Building
 
 ```bash
-python3 -m venv /tmp/sphvenv
-/tmp/sphvenv/bin/pip install -r docs/requirements.txt
-cd docs && /tmp/sphvenv/bin/sphinx-build -q -b html . /tmp/pion-docs-html
+python3 -m venv /mnt/scratch/claude/sphvenv
+/mnt/scratch/claude/sphvenv/bin/pip install -r docs/requirements.txt
+cd docs && /mnt/scratch/claude/sphvenv/bin/sphinx-build -q -b html . /mnt/scratch/claude/pion-docs-html
 ```
 
 - Read the Docs builds with `docs/requirements.txt` (`docs/requirements.in`

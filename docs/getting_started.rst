@@ -151,6 +151,11 @@ To check that the build works, run the test suite (this takes a few minutes):
 
 See :ref:`tests` for what the tests check and how to run them one at a time.
 
+.. warning::
+
+   The SUNDIALS package of Debian 13 (``libsundials-dev``, version 7.1.1) is compiled without optimisation, and makes the microphysics, in particular NEMO, 3 to 5 times slower than an optimised SUNDIALS library.
+   Before using PION for production runs, build SUNDIALS from source and compare (see :ref:`compile-sundials`).
+
 Other Linux distributions (Fedora, Arch, openSUSE, ...) have equivalent packages, usually with similar names.
 
 .. _compile-macos:
@@ -232,6 +237,47 @@ Load or install what is available, and compile the missing libraries with the sc
 Each script lists its options (installation directory and library version) at the top of the file, and contains settings for some HPC systems that you can use as examples.
 Then add the installation directories to ``CMAKE_PREFIX_PATH`` when you run cmake, for example ``-DCMAKE_PREFIX_PATH="$HOME/.local"``.
 The ``scripts/`` directory has compile scripts for some HPC systems that can be adapted for others.
+
+
+.. _compile-sundials:
+
+Speed of the SUNDIALS library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The CVODE solver from SUNDIALS does most of the work in microphysics with many species, such as NEMO, so the run time depends on how SUNDIALS was compiled.
+SUNDIALS from a Linux distribution or an HPC module can be compiled without optimisation: the Debian 13 package ``libsundials-dev`` (SUNDIALS 7.1.1) is.
+CVODE then takes exactly the same steps, but its dense matrix operations (LU decomposition and solve) need about 3 times as many instructions.
+Don't use a system SUNDIALS library for production runs without first comparing it with a SUNDIALS library compiled from source.
+
+Run times of NEMO's tests on one thread (NEMO 1.5 development version, one workstation):
+
+=====================================================  ==========  ============  =============================
+SUNDIALS library                                        CIE test    HII40 test    photoionisation equilibrium
+=====================================================  ==========  ============  =============================
+Debian 13 package, 7.1.1                                24.7 s      9.5 s         8.8 s
+7.1.1 from source, ``-O2``                              8.2 s       4.5 s         --
+7.1.1 from source, ``-O3``                              5.8 s       4.0 s         3.1 s
+7.1.1 from source, ``-O3 -march=native``                5.4 s       2.9 s         3.3 s
+=====================================================  ==========  ============  =============================
+
+To get an optimised library:
+
++ Build SUNDIALS from source with ``extra_libraries/install_sundials7.sh``, which compiles with ``-O3`` (set the installation directory, ``PREFIX``, at the top of the script), or with SUNDIALS' own cmake and ``-DCMAKE_BUILD_TYPE=Release``.
+  ``-march=native`` can make full NEMO runs up to about 1.4 times faster, but the library then only runs on the same type of CPU.
++ Point cmake to it with ``-DCMAKE_PREFIX_PATH`` (searched before the system directories), when you build NEMO and when you build PION, and check which library the PION executables use, e.g. ``ldd build/pion-ng | grep sundials`` (with a shared SUNDIALS library).
++ Linking SUNDIALS with LAPACK or OpenBLAS does not make an optimised build faster.
+
+To check a SUNDIALS library, time a NEMO test with it and with a library built from source, or disassemble the dense LU decomposition:
+
+.. code-block:: bash
+
+  $ objdump -d /usr/lib/x86_64-linux-gnu/libsundials_core.so | \
+      awk '/<SUNDlsMat_denseGETRF(@@Base)?>:/,/^$/' | less
+
+Unoptimised code loads and stores almost every variable on the stack (many ``(%rbp)`` and ``(%rsp)`` operands), and starts by copying its arguments to the stack.
+In the Debian package 88 of the 215 instructions of this function access the stack; with ``-O2`` it is 14 of 152.
+
+The NEMO Python package (``nemo-astro``) is not affected: its wheels include SUNDIALS 7.9.0 compiled with ``CMAKE_BUILD_TYPE=Release``.
 
 
 .. _compile-scripts-outcomes:
