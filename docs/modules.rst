@@ -381,7 +381,11 @@ Parameter                      Effect
                                recombinations (0 or 1).
 ``EP_update_erg``              Update the gas energy with the heating and cooling rates
                                (1), or keep the temperature fixed (0).
-``EP_MP_timestep_limit``       How the microphysics limits the timestep.
+``EP_MP_timestep_limit``       How NEMO limits the timestep.  Required, with no
+                               default: 0 = no limit; 1 = the fraction of every ion in
+                               its element may change by at most 0.1 in a step; 5 = the
+                               newer criterion of NEMO 1.5 (see the NEMO
+                               documentation).  Other values stop PION with an error.
 ``EP_Min_Temperature``         Minimum gas temperature (K).
 ``EP_Max_Temperature``         Maximum gas temperature (K).
 ``EP_nemo_reltol``             Relative tolerance of the CVODE integration (e.g.
