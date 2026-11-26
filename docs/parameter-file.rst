@@ -358,25 +358,29 @@ Ray-tracing must also be switched on with ``EP_raytracing 1``.
 |                        |           | recommended.  Required.                                                |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_effect___[i]``    | integer   | 1: UV heating, 4: monochromatic photoionizing field, 5: multifrequency |
-|                        |           | photoionization; for NEMO, 7-10 select the stellar spectrum            |
-|                        |           | (see :ref:`ref-nemo`).  Required.                                      |
+|                        |           | photoionization; for NEMO, 7-12 select the stellar spectrum            |
+|                        |           | (see :ref:`ref-nemo`), which the SED column of an evolving star's      |
+|                        |           | table can change (see :ref:`evolving-stars`).  Required.               |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_Tau_var__[i]``    | integer   | Set to 0 (only used for a special diagnostic source type).  Required.  |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_Nbins____[i]``    | integer   | Number of energy bins for the radiation field: 1, or 15 for NEMO.      |
 |                        |           | Required.                                                              |
 +------------------------+-----------+------------------------------------------------------------------------+
-| ``RT_EVO_FILE_[i]``    | string    | ``NOFILE`` for a source that does not change, or the name of a text    |
-|                        |           | file with the time evolution of the source.  Required.                 |
+| ``RT_EVO_FILE_[i]``    | string    | Deprecated: attach the source to a star with an evolution table        |
+|                        |           | instead (see :ref:`evolving-stars`).  The name of a text file with the |
+|                        |           | time evolution of the source, which PION turns into a star's table.    |
+|                        |           | Default ``NOFILE``.                                                    |
 +------------------------+-----------+------------------------------------------------------------------------+
 | ``RT_strength_[i]``    | double    | Luminosity in erg/s for a multi-frequency source,                      |
 |                        |           | or in photons/s for a monochromatic source. For a source at infinity   |
 |                        |           | this is the incident flux (erg/cm2/s or photons/cm2/s).                |
-|                        |           | Not used for an evolving source.  Required.                            |
+|                        |           | Replaced by the table of an evolving star.  Required.                  |
 +------------------------+-----------+------------------------------------------------------------------------+
-| ``RT_Rstar____[i]``    | double    | Stellar radius in ``R_sun``.  Not used for evolving source.            |
+| ``RT_Rstar____[i]``    | double    | Stellar radius in ``R_sun``.  Replaced by an evolving star's table.    |
 +------------------------+-----------+------------------------------------------------------------------------+
-| ``RT_Tstar____[i]``    | double    | Stellar effective temperature in K. Not used for evolving source.      |
+| ``RT_Tstar____[i]``    | double    | Stellar effective temperature in K.  Replaced by an evolving star's    |
+|                        |           | table.                                                                 |
 +------------------------+-----------+------------------------------------------------------------------------+
 
 The microphysics module calculates the opacity of the gas for the radiation; the old parameter ``RT_Tau_src__[i]`` is no longer used.
@@ -405,8 +409,12 @@ Moving stars are moved by an N-body integration of their mutual gravity.
 +---------------------------+--------------------------------------------+-------------------------------------+
 | ``STAR_[i]_moving``       | Does the star move? (1 = yes, 0 = no)      | Default 0                           |
 +---------------------------+--------------------------------------------+-------------------------------------+
+| ``STAR_[i]_evo_file``,    | Evolution table of the star, and how it is | See :ref:`evolving-stars-params`    |
+| ``STAR_[i]_evo_*``        | used                                       | (default ``NOFILE``: no table)      |
++---------------------------+--------------------------------------------+-------------------------------------+
 
 Parameter files without ``STAR_`` parameters, but with a moving wind source (``WIND_[i]_moving_star 1``), still work: PION creates a star for each moving wind source.
+A star with an evolution table drives the properties of its winds and radiation sources in time, see :ref:`evolving-stars`.
 
 
 .. _parameter-winds:
@@ -420,7 +428,7 @@ These are implemented as a spherical boundary region in which the fluid quantiti
 There are four types of stellar wind (``WIND_[i]_type``):
 
 + 0: spherically symmetric wind, constant in time;
-+ 1: spherically symmetric wind that evolves in time, read from a file (``WIND_[i]_evofile``);
++ 1: spherically symmetric wind that evolves in time, from the evolution table of the star it is attached to (see :ref:`evolving-stars`);
 + 2: latitude-dependent wind of a rotating star (Langer et al. 1999 model), evolving in time;
 + 3: latitude-dependent wind of a rotating star (modified version of the Langer et al. 1999 model), evolving in time.
 
@@ -456,15 +464,18 @@ The parameters, with the units they are given in, are:
 | ``WIND_[i]_TR[n]``           | Value of tracer :math:`n` in wind          | Usually :math:`\in [0,1]`           |
 |                              |                                            | (required for each tracer)          |
 +------------------------------+--------------------------------------------+-------------------------------------+
-| ``WIND_[i]_evofile``         | Text file with data for evolving wind      | Default is NOFILE                   |
+| ``WIND_[i]_evofile``         | Deprecated (use the star's evolution       | Default is NOFILE                   |
+|                              | table): text file with data for evolving   |                                     |
+|                              | wind, turned into a star's table           |                                     |
 +------------------------------+--------------------------------------------+-------------------------------------+
 | ``WIND_[i]_t_offset``        | Offset of simulation time from the time in | years                               |
-|                              | the evolution file                         |                                     |
+|                              | ``WIND_[i]_evofile`` (deprecated)          |                                     |
 +------------------------------+--------------------------------------------+-------------------------------------+
 | ``WIND_[i]_t_scalefac``      | Factor to scale simulation time to the     | Default is 1.0                      |
-|                              | time in the evolution file                 |                                     |
+|                              | time in ``WIND_[i]_evofile`` (deprecated)  |                                     |
 +------------------------------+--------------------------------------------+-------------------------------------+
-| ``WIND_[i]_updatefreq``      | How often to update an evolving wind       | years                               |
+| ``WIND_[i]_updatefreq``      | Not used (evolving winds are updated every | years                               |
+|                              | timestep)                                  |                                     |
 +------------------------------+--------------------------------------------+-------------------------------------+
 | ``WIND_[i]_enhance_mdot``    | Integer factor to increase :math:`\dot{M}` | Default is 0 (no change)            |
 |                              | of a rapidly rotating star (type 3 only;   |                                     |
@@ -487,8 +498,11 @@ The parameters, with the units they are given in, are:
 | ``WIND_[i]_acceleration``    | Is the wind accelerated? yes = 1, no = 0   | Default is 0 (inject at v_inf);     |
 |                              |                                            | needs ``EP_wind_acceleration 1``    |
 +------------------------------+--------------------------------------------+-------------------------------------+
+| ``WIND_[i]_equilibrium``     | Set the wind's ion fractions to their      | Default is 0; NEMO only (see        |
+|                              | equilibrium in the star's radiation        | :ref:`ref-nemo`)                    |
++------------------------------+--------------------------------------------+-------------------------------------+
 
-The evolving wind file should have all units in CGS.
+An evolving wind takes its properties from the evolution table of its star (see :ref:`evolving-stars`), in CGS units; the wind parameters above that the table provides are replaced by the table's values.
 
 ``WIND_[i]_enhance_mdot`` is an integer :math:`E` (a non-integer value is rounded down).
 If :math:`E>0`, the mass-loss rate of a type-3 wind is multiplied by :math:`1+2E(\Omega-0.5)` wherever :math:`\Omega=v_\mathrm{rot}/v_\mathrm{crit}>0.5`, so that :math:`E=1` doubles :math:`\dot{M}` at critical rotation.
