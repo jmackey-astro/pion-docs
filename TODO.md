@@ -63,7 +63,7 @@ Started from a review of `docs/` against the PION `devel` source
       later): recommended in modules.rst, parameter-file.rst,
       command_line.rst and troubleshooting.rst; both NEMO examples rerun
       with it (1D: 1720 instead of 2870 steps; 2D: 2150 instead of 21,600,
-      same results), new figures.
+      same results), new figures (#33).
 - [x] Checked #26 and #28 against PION `devel` after the branches
       `omp-thread-limit` and `analysis-tools-fixes` were merged
       (2026-11-20): warnings, `silo2fits` arguments and text file, and the
