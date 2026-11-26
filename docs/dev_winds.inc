@@ -48,16 +48,10 @@ Updating the wind every timestep
 ``BC_update_STWIND()`` is called by ``TimeUpdateInternalBCs()`` for each level, at the half step and at the full step of each timestep (see `Control Flow`_).
 For each source it calls ``set_cell_values()``, which copies the reference state into every cell of the wind region.
 
-For an evolving wind (``stellar_wind_evolution``), ``set_cell_values()`` first checks whether it is time to update the source (every ``WIND_[i]_updatefreq``).
-If so, ``update_source()`` interpolates the stellar properties (:math:`\dot{M}`, :math:`v_\infty`, :math:`T_\mathrm{eff}`, :math:`R_\star`, element abundances) from the table at the current time, and recalculates the reference state of every cell.
-The table is read from ``WIND_[i]_evofile`` by ``read_evolution_file()``.  It has two header lines, and then one line per time with the columns
-
-.. code-block:: none
-
-  time  mass  luminosity  T_eff  Mdot  v_rot  v_crit  v_inf  X_H  X_He  X_C  X_N  X_O  X_Z  X_D
-
-all in CGS units.  The times are shifted by ``WIND_[i]_t_offset`` and divided by ``WIND_[i]_t_scalefac``, so that a stellar model can be started at any age and run faster than real time.
-A source only switches on when the simulation reaches the first time in the table, and when the simulation passes the last time (the end of the star's life), ``set_cell_values()`` returns -1 and PION finishes the simulation.
+For an evolving wind (``stellar_wind_evolution``), ``set_cell_values()`` first updates the source at every timestep: ``update_source()`` gets the star's state at the current time from its evolution table (class ``stellar_evolution``, ``state_at()``), sets the wind properties (:math:`\dot{M}`, :math:`v_\infty`, :math:`v_\mathrm{rot}`, :math:`T_\mathrm{eff}`, :math:`R_\star`, tracers) with ``set_wind_properties()``, and recalculates the reference state of every cell.
+The table belongs to the star (``STAR_[i]_evo_file``), is read once per MPI process by ``SimParams::star_evolution()``, and is shared (``std::shared_ptr<const stellar_evolution>``) by all the objects that use it: the wind objects of every level and the radiation-source update in ``setup_fixed_grid::update_evolving_RT_sources()``.
+Before the star's first row the wind is off; after its last row it depends on ``STAR_[i]_evo_end`` (see :ref:`evolving-stars`).
+The rotating-wind classes (types 2 and 3) derive from ``stellar_wind_evolution`` and change only virtual functions (``set_wind_properties()``, ``add_wind()``, ...).
 
 For rotating stars (types 2 and 3) the density and velocity also depend on the polar angle, through ``WIND_[i]_xi`` and the ratio of the rotation velocity to the critical velocity; ``WIND_[i]_enhance_mdot`` can increase the mass-loss rate of a type-3 wind close to critical rotation.
 
@@ -77,5 +71,5 @@ Winds on nested grids and in parallel
 
 + Each level has its own wind object, and sets the wind in its own cells.  A wind region that crosses the boundary of a refined level is set on both levels; the coarse cells under the fine level are then replaced by averages of the fine cells as usual (see :ref:`ref-dev-ng-boundaries`).
 + Because the radius of the wind region depends on the coarsest level it overlaps, the same source has the same wind radius on every level.
-+ ``add_cell()`` flags the wind cells as boundary data (``isbd = true``, ``isdomain = false``), because their state is set by the wind class rather than by the solver.  They are still used in the timestep calculation (``timestep = true``), except for cells inside the star.
++ ``add_cell()`` flags the wind cells as boundary data (``isbd = true``, ``isdomain = false``), because their state is set by the wind class rather than by the solver.  The CFL condition of ``calc_dynamics_dt()`` only uses cells with ``isdomain`` and without ``isbd``, so the wind cells are not in it; instead, ``calc_timestep::calc_wind_dt()`` limits the timestep of each level to :math:`\mathrm{CFL}\,\Delta x/v_\mathrm{wind}`, with :math:`v_\mathrm{wind}` the largest signal speed in the wind cells during the coming level-0 step (``stellar_wind::max_wind_speed()``).
 + On a parallel run each process only has the wind cells of its own sub-domain.  A wind region on the boundary between sub-domains, or at the edge of a refined level, is a common place for bugs that depend on the number of processes: the tests ``windrt1d-ng`` and ``windrt2d-ng`` check this (see :ref:`tests`).

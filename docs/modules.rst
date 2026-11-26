@@ -394,7 +394,23 @@ Parameter                      Effect
                                fractions (e.g. ``1.0e-12``).
 ``EP_nemo_minerg``             Absolute tolerance of the CVODE integration for the
                                internal energy (e.g. ``1.0e-20``).
+``EP_MP_init_equilibrium``     1: at the start of a simulation (not a restart), bring
+                               every cell to its equilibrium ionisation in the radiation
+                               field, at fixed pressure, alternating with ray-tracing
+                               until no ion fraction changes by more than 1e-5 (the
+                               first pass is optically thin).  Default 0.  NEMO only
+                               (NEMO 1.6 or later).
 =============================  ===========================================================
+
+**Equilibrium ion fractions in winds.**
+``WIND_[i]_equilibrium 1`` sets the ion fractions of a stellar wind
+(the wind's ion tracers, not its element abundances) to their equilibrium
+values just outside the wind region, at the wind's density and pressure
+there, in the unattenuated radiation of the radiation sources attached to
+the same star (see :ref:`parameter-winds`).  They are recalculated when
+the wind or the star's radiation changes, e.g. for an evolving star
+(see :ref:`evolving-stars`).  Without it, the ion fractions are the
+``WIND_[i]_TR[n]`` values.  NEMO only.
 
 **Radiation sources**
 
@@ -403,14 +419,22 @@ is calculated from the stellar effective temperature (``RT_Tstar____[i]``)
 and radius (``RT_Rstar____[i]``). The spectrum is chosen with
 ``RT_effect___[i]``:
 
--  ``7``: ATLAS model atmosphere of an O3V star;
--  ``8``: PoWR model atmosphere of a WC Wolf-Rayet star;
--  ``9``: PoWR model atmosphere of a WNE Wolf-Rayet star;
--  ``10``: blackbody.
+-  ``7``: ATLAS model atmospheres (3.5 – 49 kK);
+-  ``8``: PoWR model atmospheres of WC Wolf-Rayet stars (40 – 200 kK);
+-  ``9``: PoWR model atmospheres of WNE Wolf-Rayet stars (32 – 200 kK);
+-  ``10``: blackbody (3.5 – 100 kK);
+-  ``11``: PoWR model atmospheres of WNL Wolf-Rayet stars with surface
+   hydrogen mass fraction 0.5 (25 – 100 kK);
+-  ``12``: PoWR model atmospheres of WNL Wolf-Rayet stars with surface
+   hydrogen mass fraction 0.2 (25 – 100 kK).
 
 ``RT_Nbins____[i]`` must be ``15``, the number of energy bins in NEMO.
-The effective temperature must be in the range covered by the chosen
-model. If the luminosity ``RT_strength_[i]`` differs by more than 5% from
+An effective temperature outside the range of the chosen table is
+clamped to the table's edge, with a warning.
+For a source attached to a star with an evolution table, the luminosity,
+temperature and radius follow the table, and its SED column changes the
+spectrum, e.g. from an O star to a Wolf-Rayet star
+(see :ref:`evolving-stars`). If the luminosity ``RT_strength_[i]`` differs by more than 5% from
 :math:`4\pi R^2\sigma T^4`, NEMO uses :math:`4\pi R^2\sigma T^4` instead.
 There can be more than one ionising source: NEMO adds up their
 photoionisation and heating rates.

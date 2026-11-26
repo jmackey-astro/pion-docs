@@ -29,6 +29,7 @@ Guide
   nested_grid.rst
   parameter-file.rst
   modules.rst
+  evolving_stars.rst
   tests.rst
   troubleshooting.rst
   developers_guide.rst
