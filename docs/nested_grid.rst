@@ -25,6 +25,14 @@ The refinement centre must be either at the centre of the domain, or on its lowe
 Along an axis where the centre is in the middle of the domain, every level is centred on the domain.
 Where the centre is on a boundary, every level has one side on that boundary.
 
+Along an axis with periodic boundary conditions, the refinement centre must be at the centre of the domain.
+A level that ends at a periodic boundary would need data from the other side of the domain, which is only on a coarser level, and this gives errors along that boundary (in a GLM-MHD test, a large spurious :math:`\psi`).
+Because the domain is periodic, you can always shift it so that the region you want to refine is at its centre.
+``icgen-ng`` and ``pion-ng`` stop with an error if the refinement centre is on a periodic boundary.
+
+.. versionchanged:: 3.0.0-dev.2
+   The check for periodic boundaries; earlier versions ran such simulations.
+
 For example, the 2D cylindrical simulation in :ref:`example-sim` has these grid parameters:
 
 .. code-block:: none
