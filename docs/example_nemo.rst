@@ -77,7 +77,7 @@ With ``InitIons LEAVE``, ``icgen`` keeps these values.
   ...
 
 **Physical processes**: photoionisation by the star (which needs ray-tracing), collisional ionisation, radiative recombination, charge exchange, cosmic-ray ionisation, and heating and cooling of the gas.
-The microphysics limits the timestep (``EP_MP_timestep_limit 1``).
+The microphysics limits the timestep with NEMO's recommended criterion (``EP_MP_timestep_limit 5``, see :ref:`ref-nemo`).
 
 .. code-block:: none
 
@@ -89,7 +89,7 @@ The microphysics limits the timestep (``EP_MP_timestep_limit 1``).
   EP_charge_exchange 1
   EP_cr_ionisation 1
   EP_update_erg 1
-  EP_MP_timestep_limit 1
+  EP_MP_timestep_limit 5
   EP_nemo_reltol 1.0e-6
   EP_nemo_abstol 1.0e-12
 
@@ -127,10 +127,11 @@ Make the initial conditions, and then run the simulation, here with 4 MPI proces
   $ mpirun -np 1 /path/to/pion/build/icgen-ug params_HII40_NEMO_n128.txt redirect=ic
   $ mpirun -np 4 /path/to/pion/build/pion-ug HII40_n128_0000.00000000.silo omp-nthreads=2 redirect=run
 
-This takes about 10 minutes on a desktop computer (about 2900 timesteps).
+This takes about 30 seconds on a desktop computer (about 1700 timesteps).
+With ``EP_MP_timestep_limit 1`` it takes about 2900 timesteps, and gives the same result (the ion fractions agree to :math:`10^{-9}`).
 Almost all of the timesteps are in the first 0.01 Myr, while the ionisation front moves out from the star and the gas heats up; after that the gas is close to equilibrium and the timesteps are much longer.
 The recombination time of hydrogen at this density is about 1000 years, so the HII region reaches equilibrium long before 0.1 Myr.
-The 32-cell version takes about 2 minutes.
+The 32-cell version takes a few seconds.
 
 The log files ``run_0.log``, etc., show the progress (see :ref:`command-line-logs`), and the snapshots are ``HII40_n128_0000.<step>.silo``.
 
@@ -144,7 +145,7 @@ The fraction of the fully ionised stage of each element is one minus the sum of 
 
 .. code-block:: bash
 
-  $ python3 plot_hii40.py params_HII40_NEMO_n128.txt HII40_n128_0000.00002864.silo hii40_nemo.png
+  $ python3 plot_hii40.py params_HII40_NEMO_n128.txt HII40_n128_0000.00001723.silo hii40_nemo.png
 
 (the step number of the last snapshot may be different on your computer).
 

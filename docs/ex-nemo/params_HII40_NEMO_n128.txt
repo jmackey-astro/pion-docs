@@ -290,7 +290,7 @@ EP_nemo_reltol 1.0e-6
 EP_nemo_abstol 1.0e-12
 EP_nemo_minerg 1.0e-20
 EP_update_erg 1
-EP_MP_timestep_limit 1
+EP_MP_timestep_limit 5
 EP_Min_Temperature 200.0
 EP_Max_Temperature 1.0e8
 EP_Hydrogen_MassFrac 0.715

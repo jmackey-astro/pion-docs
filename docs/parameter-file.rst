@@ -286,8 +286,9 @@ Parameter                   Default      Description
                                          working); 4 = recombination time; 5 = also with implicit
                                          ray-tracing (``RT_update 1``).  MPv3, MPv5, MPv6, MPv7 and
                                          MPv8 ignore this value and always use 1.  With NEMO the
-                                         parameter is required (no default) and must be 0, 1 or 5
-                                         (see :ref:`ref-microphysics`).
+                                         parameter is required (no default) and must be 0, 1 or 5,
+                                         with its own meaning for each; 5 is recommended (see
+                                         :ref:`ref-nemo`).
 ``EP_Min_Temperature``      0            Minimum gas temperature (K).
 ``EP_Max_Temperature``      1.0e100      Maximum gas temperature (K).
 ``EP_Hydrogen_MassFrac``    0.7154       Hydrogen mass fraction X, used by some microphysics modules

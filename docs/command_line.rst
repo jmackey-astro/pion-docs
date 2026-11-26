@@ -154,7 +154,7 @@ Option                     Effect
                            ``NEMO`` (see :ref:`ref-microphysics`).
 ``cooling=N``              Cooling function: 0 for no cooling, or one of the cases described for
                            ``mp_only_cooling`` in :ref:`ref-microphysics`.
-``limit_timestep=N``       How the microphysics limits the timestep (``EP_MP_timestep_limit``, 0 to 5; with NEMO 0, 1 or 5).
+``limit_timestep=N``       How the microphysics limits the timestep (``EP_MP_timestep_limit``, 0 to 5; with NEMO 0, 1 or 5, and 5 is recommended).
 ``min_timestep=T``         Minimum timestep in seconds.
 ``min_T=T``                Minimum gas temperature in K.
 ``max_T=T``                Maximum gas temperature in K.
