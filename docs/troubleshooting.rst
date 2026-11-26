@@ -35,6 +35,12 @@ Problems at startup
   The refinement centre (``NG_centre_XX``, etc.) must be at the centre of the domain or on its lower or upper boundary, along each refined axis.
   See :ref:`nested-grid`.
 
+**Nested grid: "NG_centre = ... along axis ... is on the domain boundary, which is periodic along this axis"**
+
+  With periodic boundaries along an axis, the refinement centre must be at the centre of the domain along that axis.
+  Shift the domain (``Xmin``, ``Xmax``, etc.) so that the region to refine is at its centre.
+  See :ref:`nested-grid`.
+
 **Nested grid: "level ... has ... cells along axis ... The number of cells per process must be a whole, even number"**
 
   With MPI, the number of cells of each level along each axis, divided by the number of processes along that axis, must be a whole, even number.
