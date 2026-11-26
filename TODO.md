@@ -59,6 +59,11 @@ Started from a review of `docs/` against the PION `devel` source
       types 11 and 12; `EP_MP_init_equilibrium` and
       `WIND_[i]_equilibrium`; developer guide: evolving winds and the wind
       timestep limit (#32; `mesa2pion.py` v2 is PION !45).
+- [x] NEMO's timestep criterion `EP_MP_timestep_limit 5` (NEMO 1.5 or
+      later): recommended in modules.rst, parameter-file.rst,
+      command_line.rst and troubleshooting.rst; both NEMO examples rerun
+      with it (1D: 1720 instead of 2870 steps; 2D: 2150 instead of 21,600,
+      same results), new figures.
 - [x] Checked #26 and #28 against PION `devel` after the branches
       `omp-thread-limit` and `analysis-tools-fixes` were merged
       (2026-11-20): warnings, `silo2fits` arguments and text file, and the

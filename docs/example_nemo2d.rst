@@ -24,7 +24,7 @@ The setup
 + **Grid**: 2D cylindrical coordinates (:math:`z`, :math:`R`), with 128 × 64 cells over 8 × 4 pc (0.0625 pc per cell). The :math:`z`-axis is the symmetry axis.
 + **Gas**: uniform, neutral gas at 600 K with a hydrogen number density :math:`n_\mathrm{H}\approx1100\,\mathrm{cm}^{-3}`. The elements are H, He and O, with tracers for all ionisation stages of O (14 tracers).
 + **Stars**: two blackbody point sources on the axis, at :math:`z=2.5` pc (40,000 K, the star of the 1D example) and :math:`z=5.5` pc (35,000 K, :math:`15\,R_\odot`). The radiation of both stars is ray-traced, and NEMO adds up the photoionisation and heating rates from both.
-+ **Physics**: hydrodynamics (``EP_dynamics 1``) together with all of the microphysics of the 1D example, and the microphysics timestep limit (``EP_MP_timestep_limit 1``).
++ **Physics**: hydrodynamics (``EP_dynamics 1``) together with all of the microphysics of the 1D example, and NEMO's recommended microphysics timestep limit (``EP_MP_timestep_limit 5``).
 + **Output**: a snapshot every 0.01 Myr until 0.2 Myr.
 
 The Strömgren radii of the two stars are 1.0 and 0.67 pc, so the HII regions are at first separated by more than a parsec of neutral gas.
@@ -38,12 +38,13 @@ Running the simulation
 .. code-block:: bash
 
   $ mpirun -np 1 /path/to/pion/build/icgen-ug params_TwoSrc_NEMO_n128.txt redirect=ic
-  $ mpirun -np 4 --map-by slot:PE=10 --bind-to core \
-      /path/to/pion/build/pion-ug TwoSrc_n128_0000.00000000.silo omp-nthreads=10 redirect=run
+  $ mpirun -np 4 --map-by slot:PE=5 --bind-to core \
+      /path/to/pion/build/pion-ug TwoSrc_n128_0000.00000000.silo omp-nthreads=5 redirect=run
 
 (see :ref:`parallel` for the binding options).
-This takes about 21,600 timesteps and about 1 hour with 4 MPI processes of 10 threads each.
-The timestep, about 10 years, is set by the microphysics (``EP_MP_timestep_limit 1``), not by the hydrodynamics, which would allow timesteps of almost 1000 years.
+This takes about 2150 timesteps and about 5 minutes with 4 MPI processes of 5 threads each.
+The timestep, typically about 80 years, is set by the microphysics, not by the hydrodynamics, which would allow timesteps of almost 1000 years.
+With ``EP_MP_timestep_limit 1`` the timestep is about 10 years: the run takes 21,600 timesteps and 30 minutes, and gives the same result to within 1% (density and pressure to 0.3%).
 Without this limit the simulation crashes in the first timestep, when the gas around the stars is heated from 600 K to :math:`10^4` K.
 
 

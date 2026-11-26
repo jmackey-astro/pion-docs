@@ -4,8 +4,8 @@
 # regions start separate (Stromgren radii 1.0 and 0.67 pc) and expand as
 # D-type ionisation fronts.  Their shells meet at about 0.07 Myr, and the
 # HII regions join along the axis by 0.2 Myr.
-# The timestep is limited by the microphysics (EP_MP_timestep_limit 1):
-# about 21,600 steps to 0.2 Myr.
+# The timestep is limited by the microphysics (EP_MP_timestep_limit 5):
+# about 2150 steps to 0.2 Myr (21,600 with EP_MP_timestep_limit 1).
 # Elements H, He and O, with all ionisation stages of O.
 # Grid: 128 x 64 cells (8 x 4 pc), 0.0625 pc per cell.
 
@@ -94,7 +94,7 @@ EP_nemo_reltol 1.0e-6
 EP_nemo_abstol 1.0e-12
 EP_nemo_minerg 1.0e-20
 EP_update_erg 1
-EP_MP_timestep_limit 1
+EP_MP_timestep_limit 5
 EP_Min_Temperature 200.0
 EP_Max_Temperature 1.0e8
 EP_Hydrogen_MassFrac 0.72

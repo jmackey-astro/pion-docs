@@ -91,7 +91,7 @@ Problems during a run
 
   Recent versions of PION warn about both: ``omp-nthreads=... but OMP_THREAD_LIMIT=...`` or ``omp-nthreads=... but this process can only use ... cores``.
   Older versions did not check ``OMP_THREAD_LIMIT``, and could report the requested number of threads while using fewer.
-  + Microphysics with many species (e.g. NEMO) can take most of the run time, and the timestep can be limited by the microphysics (``EP_MP_timestep_limit``) rather than by the hydrodynamics.  The log files show the timestep of each step.
+  + Microphysics with many species (e.g. NEMO) can take most of the run time, and the timestep can be limited by the microphysics (``EP_MP_timestep_limit``) rather than by the hydrodynamics.  The log files show the timestep of each step.  With NEMO, use ``EP_MP_timestep_limit 5``: with 1, the timestep is often set by trace elements and is much shorter.
 
 **NEMO stops with a CVODE error**
 
