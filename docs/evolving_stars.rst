@@ -10,6 +10,11 @@ One table drives both, so wind and radiation always describe the same star.
 
 This page describes the table, the parameters, what PION does with the table, and how to make a table from a MESA model.
 
+.. versionadded:: 3.0.0-dev.1
+   Evolution tables of stars (``STAR_[i]_evo_*``), SED switching with NEMO (which needs NEMO 1.7), the timestep limits, and ``mesa2pion.py`` version 2.
+   Before, evolving winds and radiation sources each read their own file (``WIND_[i]_evofile``, ``RT_EVO_FILE_[i]``).
+   For the version numbers, see :ref:`pion-versions`.
+
 .. _evolving-stars-params:
 
 Parameters

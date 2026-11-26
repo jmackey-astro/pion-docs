@@ -56,6 +56,17 @@ The source code for the development version of PION is hosted in a private repos
     $ cd pion
     $ git checkout devel
 
+.. _pion-versions:
+
+Versions
+^^^^^^^^
+
+The last public release is PION 2.0.
+Development versions are tagged on the ``devel`` branch as pre-releases of the next release: ``v3.0.0-dev.1``, ``v3.0.0-dev.2``, and so on.
+This documentation says since which development version a feature is there ("New in version 3.0.0-dev.1"), which also means that it will be in 3.0.
+
+``pion`` and ``icgen`` write their version at the start of the log, e.g. ``v3.0.0-dev.1-12-gabc1234``: 12 commits after the tag ``v3.0.0-dev.1``, at commit ``abc1234`` (with ``-dirty`` if the source had uncommitted changes).
+Every snapshot records the version that wrote it, in the header parameter ``pion_version`` (``unknown`` in snapshots from older versions).
 
 
 .. _getting-help:
@@ -89,7 +100,7 @@ You need:
 + `Silo <https://github.com/LLNL/Silo>`_ (version 4.11 or 4.12) for data I/O.  Silo is the recommended file format, and is required for parallel runs on HPC systems.
 + Optional: `CFITSIO <https://heasarc.gsfc.nasa.gov/fitsio/>`_, if you want FITS output (``-DPION_USE_FITS=ON``).  The parallel FITS I/O in PION is not efficient and should not be used on HPC systems.
 + Optional: the GNU ``readline`` library, which is needed for ``Debug`` builds.
-+ Optional: the multi-ion non-equilibrium microphysics library `NEMO <https://gitlab.git.nrw/jmackey1/nemo>`_ (``-DPION_NEMO=ON``), version 1.5 or later.  NEMO is installed separately (see its README), usually into ``~/.local``.  Until NEMO 1.5 is released, use NEMO's ``dev`` branch.
++ Optional: the multi-ion non-equilibrium microphysics library `NEMO <https://gitlab.git.nrw/jmackey1/nemo>`_ (``-DPION_NEMO=ON``), version 1.7 or later.  NEMO is installed separately (see its README), usually into ``~/.local``.
 
 On recent Linux distributions and on macOS (Homebrew) all of these, except Silo on macOS, can be installed with the package manager.
 On older systems or HPC clusters, the scripts in the ``extra_libraries/`` directory of the PION source code download, compile and install Boost, SUNDIALS, Silo and spdlog (see :ref:`compile-other`).
@@ -317,7 +328,7 @@ Enabling/Disabling Features of Pion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Note that the NEMO multi-ion module is disabled by default.
-To use it, install the `NEMO library <https://gitlab.git.nrw/jmackey1/nemo>`_ (version 1.5 or later; until it is released, the ``dev`` branch), add its installation directory to ``CMAKE_PREFIX_PATH``, and compile PION with ``-DPION_NEMO=ON``.
+To use it, install the `NEMO library <https://gitlab.git.nrw/jmackey1/nemo>`_ (version 1.7 or later), add its installation directory to ``CMAKE_PREFIX_PATH``, and compile PION with ``-DPION_NEMO=ON``.
 
 ====================================  ===================================================================================
  Option                               Effect
