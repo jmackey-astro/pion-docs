@@ -132,7 +132,9 @@ Option                     Effect
 ``gamma=G``                Adiabatic index of the gas (:math:`>1`).
 ``coordsys=NAME``          Coordinate system: ``cartesian``, ``cylindrical`` or ``spherical``.  Only for
                            testing: the grid and data in the snapshot are not changed.
-``nlevels=N``              Number of nested-grid levels.
+``nlevels=N``              Number of nested-grid levels: fewer than in the snapshot (the finest levels are
+                           left out), or one more (a new finest level is interpolated from the level
+                           above it, see :ref:`nested-grid-change-levels`).
 =========================  ==============================================================================
 
 Physics

@@ -108,6 +108,11 @@ Where the edge of a refined level is inside the simulation domain, the level get
 
 + **Coarse-to-fine**: the ghost cells around the fine level are filled by interpolating the coarse-level data, with a linear reconstruction that conserves mass, momentum and energy.
   This is done once per coarse-level step; the ghost cells are then updated by the fine level's hydrodynamics and microphysics, like the other cells, for the two fine-level steps.
+
+  .. versionchanged:: 3.0.0-dev.2
+     The interpolation conserves mass, momentum and energy exactly.
+     Earlier versions corrected only part of the difference between the coarse cell and the fine cells (1/2, 1/4 or 1/8 of it in 1D, 2D or 3D), so nested-grid results differ slightly from those of earlier versions.
+
 + **Fine-to-coarse**: after the fine level has taken its two steps, every coarse cell that is covered by the fine level is replaced by the volume-weighted average of the fine cells inside it.
 + **Flux correction**: the fluxes across the boundary of a fine level are used to correct the fluxes of the neighbouring coarse cells (Berger & Colella 1989), so that the total mass, momentum and energy are conserved.
 
@@ -143,3 +148,38 @@ Output and restarts
 + Snapshots are only written after a level-0 timestep.  With ``OutputCriterion 0``, make ``OutputFrequency`` a multiple of :math:`2^{N-1}` (the number of finest-level steps per level-0 step); otherwise some snapshots are skipped.
 + To start or restart a simulation, give ``pion-ng`` the level-0 file, e.g. ``pion-ng MyRun_level00_0000.00000000.silo``.  It reads the files of the other levels from the same directory.
 + PyPion reads all levels of a snapshot together (see :ref:`python_usage`), and VisIt can open the files of each level.
+
+
+.. _nested-grid-change-levels:
+
+Changing the number of levels on a restart
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The command-line option ``nlevels=N`` (see :ref:`command-line`) restarts a simulation with a different number of levels than the snapshot has.
+The new number of levels is written to the snapshots, so later restarts keep it.
+
++ **Fewer levels:** ``pion-ng`` reads only the coarsest :math:`N` levels, and the finer levels in the snapshot are left out.
+  The cells of level :math:`N-1` that were covered by the finer levels keep their values, which are averages of the finer levels.
++ **One more level:** with a snapshot of :math:`N` levels and ``nlevels=N+1``, ``pion-ng`` adds a new finest level :math:`N`, with half the cell size of level :math:`N-1`, placed as described in `Grid levels`_.
+  Its cells are interpolated from level :math:`N-1` in the same way as the coarse-to-fine boundaries (see `Boundaries between levels`_), so the new level has exactly the mass, momentum and energy of the cells of level :math:`N-1` that it covers.
+  Only one level can be added at a time; to add more, restart again from a later snapshot.
+
+For example, to restart a simulation with 2 levels from its snapshot at step 90 with a third level:
+
+.. code-block:: bash
+
+  mpirun -np 4 pion-ng BW2D_level00_0000.00000090.silo nlevels=3 omp-nthreads=2
+
+The log then has the warning ``Adding refined level 2 to the snapshot's 2 levels, interpolated from level 1; timestep counter 90 -> 92``, and the next snapshots have three files, ``BW2D_level00_0000.<step>.silo`` to ``BW2D_level02_0000.<step>.silo``.
+
+Things to know when adding a level:
+
++ The interpolated data have no structure on scales smaller than the cells of level :math:`N-1`, and the linear interpolation has errors at sharp features such as shocks and contact discontinuities.
+  These produce small waves when the simulation starts again, which travel away and decay; the small-scale structure that the new level can resolve develops over time.
++ The timestep counter counts timesteps of the finest level, and must be a multiple of :math:`2^{N}` with :math:`N+1` levels, so that all levels are at the same time.
+  ``pion-ng`` rounds it up to the next multiple of :math:`2^{N}`, so the step numbers in the snapshot names can jump by a few steps at the restart.
++ The finest level takes the smallest timesteps, so with one more level a level-0 step needs twice as many finest-level steps, and the simulation costs about twice as much per unit of simulation time (see `Choosing the number of levels`_).
++ With MPI, the new level must meet the same conditions on the numbers of cells and processes as the other levels (see :ref:`parallel`); ``pion-ng`` stops with an error otherwise.
+
+.. versionadded:: 3.0.0-dev.2
+   Adding a level on a restart.  Earlier versions could only restart with fewer levels.
