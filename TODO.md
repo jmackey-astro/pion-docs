@@ -58,7 +58,7 @@ Started from a review of `docs/` against the PION `devel` source
       SED switching with NEMO, timestep limits, `mesa2pion.py`; NEMO SED
       types 11 and 12; `EP_MP_init_equilibrium` and
       `WIND_[i]_equilibrium`; developer guide: evolving winds and the wind
-      timestep limit (PR to come; `mesa2pion.py` v2 is PION !45).
+      timestep limit (#32; `mesa2pion.py` v2 is PION !45).
 - [x] Checked #26 and #28 against PION `devel` after the branches
       `omp-thread-limit` and `analysis-tools-fixes` were merged
       (2026-11-20): warnings, `silo2fits` arguments and text file, and the
